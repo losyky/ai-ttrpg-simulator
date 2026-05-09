@@ -293,7 +293,9 @@ async def run_graph(
             while not token_queue.empty():
                 try:
                     token = token_queue.get_nowait()
-                    if isinstance(token, str):
+                    if isinstance(token, dict) and "__thinking__" in token:
+                        yield ChatResponseChunk(type="thinking", thinking_step=token["__thinking__"])
+                    elif isinstance(token, str):
                         narrator_tokens_streamed = True
                         yield ChatResponseChunk(type="text", content=token)
                 except asyncio.QueueEmpty:
@@ -310,7 +312,9 @@ async def run_graph(
                 while not token_queue.empty():
                     try:
                         token = token_queue.get_nowait()
-                        if isinstance(token, str):
+                        if isinstance(token, dict) and "__thinking__" in token:
+                            yield ChatResponseChunk(type="thinking", thinking_step=token["__thinking__"])
+                        elif isinstance(token, str):
                             narrator_tokens_streamed = True
                             yield ChatResponseChunk(type="text", content=token)
                     except asyncio.QueueEmpty:
@@ -368,7 +372,9 @@ async def run_graph(
                     while not token_queue.empty():
                         try:
                             token = token_queue.get_nowait()
-                            if isinstance(token, str):
+                            if isinstance(token, dict) and "__thinking__" in token:
+                                yield ChatResponseChunk(type="thinking", thinking_step=token["__thinking__"])
+                            elif isinstance(token, str):
                                 narrator_tokens_streamed = True
                                 yield ChatResponseChunk(type="text", content=token)
                         except asyncio.QueueEmpty:
@@ -398,11 +404,24 @@ async def run_graph(
                         except Exception:
                             pass
 
+                    for elem in node_output.get("interactive_elements", []):
+                        try:
+                            ie_obj = InteractiveElement(**(elem if isinstance(elem, dict) else elem.model_dump()))
+                            if ie_obj.id not in yielded_interactive_ids:
+                                yield ChatResponseChunk(type="interactive", interactive=ie_obj)
+                                yielded_interactive_ids.add(ie_obj.id)
+                            all_interactive_dicts.append(ie_obj.model_dump())
+                        except Exception:
+                            pass
+
                     if narrator_text:
                         history_entry: dict = {"role": "narrator", "content": narrator_text}
                         if all_interactive_dicts:
                             history_entry["interactive"] = all_interactive_dicts
                         append_history(session_id, history_entry)
+
+                    if all_interactive_dicts:
+                        yield ChatResponseChunk(type="thinking", thinking_step="整理中...")
     finally:
         unregister_narrator_queue(session_id)
         if not task.done():
@@ -501,7 +520,9 @@ async def resume_graph(
             while not token_queue.empty():
                 try:
                     token = token_queue.get_nowait()
-                    if isinstance(token, str):
+                    if isinstance(token, dict) and "__thinking__" in token:
+                        yield ChatResponseChunk(type="thinking", thinking_step=token["__thinking__"])
+                    elif isinstance(token, str):
                         narrator_tokens_streamed = True
                         yield ChatResponseChunk(type="text", content=token)
                 except asyncio.QueueEmpty:
@@ -518,7 +539,9 @@ async def resume_graph(
                 while not token_queue.empty():
                     try:
                         token = token_queue.get_nowait()
-                        if isinstance(token, str):
+                        if isinstance(token, dict) and "__thinking__" in token:
+                            yield ChatResponseChunk(type="thinking", thinking_step=token["__thinking__"])
+                        elif isinstance(token, str):
                             narrator_tokens_streamed = True
                             yield ChatResponseChunk(type="text", content=token)
                     except asyncio.QueueEmpty:
@@ -557,7 +580,9 @@ async def resume_graph(
                     while not token_queue.empty():
                         try:
                             token = token_queue.get_nowait()
-                            if isinstance(token, str):
+                            if isinstance(token, dict) and "__thinking__" in token:
+                                yield ChatResponseChunk(type="thinking", thinking_step=token["__thinking__"])
+                            elif isinstance(token, str):
                                 narrator_tokens_streamed = True
                                 yield ChatResponseChunk(type="text", content=token)
                         except asyncio.QueueEmpty:
@@ -577,11 +602,23 @@ async def resume_graph(
                                 all_interactive_resume.append(ie_obj.model_dump())
                             except Exception:
                                 pass
-                        if narrator_text:
-                            history_entry: dict = {"role": "narrator", "content": narrator_text}
-                            if all_interactive_resume:
-                                history_entry["interactive"] = all_interactive_resume
-                            append_history(session_id, history_entry)
+
+                    for elem in node_output.get("interactive_elements", []):
+                        try:
+                            ie_obj = InteractiveElement(**(elem if isinstance(elem, dict) else elem.model_dump()))
+                            yield ChatResponseChunk(type="interactive", interactive=ie_obj)
+                            all_interactive_resume.append(ie_obj.model_dump())
+                        except Exception:
+                            pass
+
+                    if narrator_text:
+                        history_entry: dict = {"role": "narrator", "content": narrator_text}
+                        if all_interactive_resume:
+                            history_entry["interactive"] = all_interactive_resume
+                        append_history(session_id, history_entry)
+
+                    if all_interactive_resume:
+                        yield ChatResponseChunk(type="thinking", thinking_step="整理中...")
     finally:
         unregister_narrator_queue(session_id)
         if not task.done():

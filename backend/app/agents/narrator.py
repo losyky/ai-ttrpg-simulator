@@ -310,7 +310,7 @@ async def narrate(state: AgentState) -> dict[str, Any]:
         "present_choices", "request_dice_roll", "request_player_input",
         "request_duality_roll",
     }
-    DISPLAY_ONLY_TOOLS = {"announce_token_change"}
+    BLOCKING_ELEMENT_TYPES = {"choices", "dice_request", "input_prompt", "duality_dice_request"}
 
     async def _push_token(token: str) -> None:
         if queue:
@@ -356,7 +356,11 @@ async def narrate(state: AgentState) -> dict[str, Any]:
             break
 
         for tc in tool_calls:
-            if tc["name"] in INTERACTIVE_TOOL_NAMES and interactive_elements:
+            has_existing_blocking = any(
+                e.get("element_type") in BLOCKING_ELEMENT_TYPES
+                for e in interactive_elements
+            )
+            if tc["name"] in INTERACTIVE_TOOL_NAMES and has_existing_blocking:
                 msgs.append(ToolMessage(
                     content="已有一个交互元素，每次回复只允许一个交互操作。请在叙事文本中自然收尾。",
                     tool_call_id=tc["id"],
@@ -387,6 +391,11 @@ async def narrate(state: AgentState) -> dict[str, Any]:
 
     # Phase 2: Stream the final narrative text token-by-token (no tools)
     if needs_final_stream:
+        if queue:
+            try:
+                queue.put_nowait({"__thinking__": "生成中..."})
+            except asyncio.QueueFull:
+                pass
         try:
             stream_content = ""
             async for chunk in llm.astream(msgs):
