@@ -1,0 +1,352 @@
+[
+  {
+    "slug": "full-fortified-armor",
+    "name": "Full Fortified Armor",
+    "fvtt_id": "7emTSt6nhZuTlvt5",
+    "img": "icons/equipment/chest/breastplate-layered-steel.webp",
+    "description": "",
+    "tier": 4,
+    "base_score": 4,
+    "name_cn": "全面强化护甲"
+  },
+  {
+    "slug": "savior-chainmail",
+    "name": "Savior Chainmail",
+    "fvtt_id": "8X16lJQ3xltTwynm",
+    "img": "icons/equipment/chest/breastplate-layered-leather-green.webp",
+    "description": "",
+    "tier": 4,
+    "base_score": 8,
+    "name_cn": "救世主链甲"
+  },
+  {
+    "slug": "improved-full-plate-armor",
+    "name": "Improved Full Plate Armor",
+    "fvtt_id": "9f7RozpPTqrzJS1m",
+    "img": "icons/equipment/chest/breastplate-cuirass-steel-grey.webp",
+    "description": "",
+    "tier": 2,
+    "base_score": 5,
+    "name_cn": "改良全板甲"
+  },
+  {
+    "slug": "monett's-cloak",
+    "name": "Monett's Cloak",
+    "fvtt_id": "AQzU2RsqS5V5bd1v",
+    "img": "icons/equipment/chest/coat-collared-red.webp",
+    "description": "",
+    "tier": 3,
+    "base_score": 6,
+    "name_cn": "莫奈特的斗篷"
+  },
+  {
+    "slug": "legendary-chainmail-armor",
+    "name": "Legendary Chainmail Armor",
+    "fvtt_id": "EsIN5OLKe9ZYFNXZ",
+    "img": "icons/equipment/chest/breastplate-banded-blue.webp",
+    "description": "",
+    "tier": 4,
+    "base_score": 7,
+    "name_cn": "传奇链甲"
+  },
+  {
+    "slug": "bare-bones",
+    "name": "Bare Bones",
+    "fvtt_id": "ITAjcigTcUw5pMCN",
+    "img": "icons/magic/control/buff-strength-muscle-damage.webp",
+    "description": "When you choose not to equip armor, you have a base Armor Score of 3 + your Strength and use the following as your base damage thresholds:Tier 1: 9/19Tier 2: 11/24Tier 3: 13/31Tier 4: 15/38",
+    "tier": 1,
+    "base_score": 3,
+    "name_cn": "赤膊"
+  },
+  {
+    "slug": "improved-chainmail-armor",
+    "name": "Improved Chainmail Armor",
+    "fvtt_id": "K5WkjS0NGqHYmhU3",
+    "img": "icons/equipment/chest/breastplate-metal-scaled-grey.webp",
+    "description": "",
+    "tier": 2,
+    "base_score": 5,
+    "name_cn": "改良链甲"
+  },
+  {
+    "slug": "advanced-chainmail-armor",
+    "name": "Advanced Chainmail Armor",
+    "fvtt_id": "LzLOJ9EVaHWAjoq9",
+    "img": "icons/equipment/chest/breastplate-banded-steel-gold.webp",
+    "description": "",
+    "tier": 3,
+    "base_score": 6,
+    "name_cn": "高级链甲"
+  },
+  {
+    "slug": "veritas-opal-armor",
+    "name": "Veritas Opal Armor",
+    "fvtt_id": "OvzgUTYy2RCN85vV",
+    "img": "icons/equipment/chest/breastplate-collared-steel-green.webp",
+    "description": "",
+    "tier": 4,
+    "base_score": 6,
+    "name_cn": "诚实蛋白石护甲"
+  },
+  {
+    "slug": "runes-of-fortification",
+    "name": "Runes of Fortification",
+    "fvtt_id": "P4qAEDJUoNLgVRsA",
+    "img": "icons/magic/symbols/rune-sigil-red-orange.webp",
+    "description": "",
+    "tier": 3,
+    "base_score": 6,
+    "name_cn": "强化符文"
+  },
+  {
+    "slug": "tyris-soft-armor",
+    "name": "Tyris Soft Armor",
+    "fvtt_id": "PSW3BxCGmtLeWOxM",
+    "img": "icons/equipment/chest/robe-layered-purple.webp",
+    "description": "",
+    "tier": 2,
+    "base_score": 5,
+    "name_cn": "泰瑞斯软甲"
+  },
+  {
+    "slug": "elundrian-chain-armor",
+    "name": "Elundrian Chain Armor",
+    "fvtt_id": "Q6LxmtFetDDkoZVZ",
+    "img": "icons/equipment/chest/breastplate-sculpted-green.webp",
+    "description": "",
+    "tier": 2,
+    "base_score": 4,
+    "name_cn": "埃伦德里安链甲"
+  },
+  {
+    "slug": "spiked-plate-armor",
+    "name": "Spiked Plate Armor",
+    "fvtt_id": "QjwsIhXKqnlvRBMv",
+    "img": "icons/equipment/chest/breastplate-banded-steel-studded.webp",
+    "description": "",
+    "tier": 3,
+    "base_score": 5,
+    "name_cn": "尖刺护甲"
+  },
+  {
+    "slug": "legendary-full-plate-armor",
+    "name": "Legendary Full Plate Armor",
+    "fvtt_id": "SXWjUR2aUR6bYvdl",
+    "img": "icons/equipment/chest/breastplate-layered-steel-blue-gold.webp",
+    "description": "",
+    "tier": 4,
+    "base_score": 7,
+    "name_cn": "传奇全板甲"
+  },
+  {
+    "slug": "legendary-leather-armor",
+    "name": "Legendary Leather Armor",
+    "fvtt_id": "Tptgl5WOj76TyFn7",
+    "img": "icons/equipment/chest/breastplate-layered-gilded-black.webp",
+    "description": "",
+    "tier": 4,
+    "base_score": 6,
+    "name_cn": "传奇皮甲"
+  },
+  {
+    "slug": "full-plate-armor",
+    "name": "Full Plate Armor",
+    "fvtt_id": "UdUJNa31WxFW2noa",
+    "img": "icons/equipment/chest/breastplate-collared-steel.webp",
+    "description": "",
+    "tier": 1,
+    "base_score": 4,
+    "name_cn": "全板甲"
+  },
+  {
+    "slug": "bellamoi-fine-armor",
+    "name": "Bellamoi Fine Armor",
+    "fvtt_id": "WuoVwZA53XRAIt6d",
+    "img": "icons/equipment/chest/breastplate-layered-gold.webp",
+    "description": "",
+    "tier": 3,
+    "base_score": 5,
+    "name_cn": "贝拉莫伊精致护甲"
+  },
+  {
+    "slug": "emberwoven-armor",
+    "name": "Emberwoven Armor",
+    "fvtt_id": "bcQUh4QG3qFX0Vx6",
+    "img": "icons/equipment/chest/breastplate-layered-gilded-orange.webp",
+    "description": "",
+    "tier": 4,
+    "base_score": 6,
+    "name_cn": "织烬护甲"
+  },
+  {
+    "slug": "legendary-gambeson-armor",
+    "name": "Legendary Gambeson Armor",
+    "fvtt_id": "c6tMXz4rPf9ioQrf",
+    "img": "icons/equipment/chest/breastplate-layered-leather-blue-gold.webp",
+    "description": "",
+    "tier": 4,
+    "base_score": 6,
+    "name_cn": "传奇填充布甲"
+  },
+  {
+    "slug": "advanced-full-plate-armor",
+    "name": "Advanced Full Plate Armor",
+    "fvtt_id": "crIbCb9NZ4K0VpoU",
+    "img": "icons/equipment/chest/breastplate-layered-steel-grey.webp",
+    "description": "",
+    "tier": 3,
+    "base_score": 6,
+    "name_cn": "高级全板甲"
+  },
+  {
+    "slug": "harrowbone-armor",
+    "name": "Harrowbone Armor",
+    "fvtt_id": "dvyQeUVRLc9y6rnt",
+    "img": "icons/equipment/chest/breastplate-gorget-steel.webp",
+    "description": "",
+    "tier": 2,
+    "base_score": 4,
+    "name_cn": "掠骸护甲"
+  },
+  {
+    "slug": "advanced-gambeson-armor",
+    "name": "Advanced Gambeson Armor",
+    "fvtt_id": "epkAmlZVk7HOfUUT",
+    "img": "icons/equipment/chest/breastplate-purple.webp",
+    "description": "",
+    "tier": 3,
+    "base_score": 5,
+    "name_cn": "高级填充布甲"
+  },
+  {
+    "slug": "dunamis-silkchain",
+    "name": "Dunamis Silkchain",
+    "fvtt_id": "hAY6UgdGT7dj22Pr",
+    "img": "icons/equipment/chest/robe-layered-red.webp",
+    "description": "",
+    "tier": 4,
+    "base_score": 7,
+    "name_cn": "威能丝甲"
+  },
+  {
+    "slug": "chainmail-armor",
+    "name": "Chainmail Armor",
+    "fvtt_id": "haULhuEg37zUUvhb",
+    "img": "icons/equipment/chest/breastplate-scale-grey.webp",
+    "description": "",
+    "tier": 1,
+    "base_score": 4,
+    "name_cn": "链甲"
+  },
+  {
+    "slug": "advanced-leather-armor",
+    "name": "Advanced Leather Armor",
+    "fvtt_id": "itSOp2GCyem0f7oM",
+    "img": "icons/equipment/chest/breastplate-layered-leather-blue.webp",
+    "description": "",
+    "tier": 3,
+    "base_score": 5,
+    "name_cn": "高级皮甲"
+  },
+  {
+    "slug": "improved-gambeson-armor",
+    "name": "Improved Gambeson Armor",
+    "fvtt_id": "jphnMZjnS2FkOH3s",
+    "img": "icons/equipment/chest/breastplate-quilted-brown.webp",
+    "description": "",
+    "tier": 2,
+    "base_score": 4,
+    "name_cn": "改良填充布甲"
+  },
+  {
+    "slug": "bladefare-armor",
+    "name": "Bladefare Armor",
+    "fvtt_id": "mNN6pvcsS10ChrWF",
+    "img": "icons/equipment/chest/breastplate-collared-steel-grey.webp",
+    "description": "",
+    "tier": 3,
+    "base_score": 6,
+    "name_cn": "剑刃护甲"
+  },
+  {
+    "slug": "dragonscale-armor",
+    "name": "Dragonscale Armor",
+    "fvtt_id": "mdQ69eFHyAQUDmE7",
+    "img": "icons/equipment/chest/breastplate-rivited-red.webp",
+    "description": "",
+    "tier": 3,
+    "base_score": 5,
+    "name_cn": "龙鳞护甲"
+  },
+  {
+    "slug": "leather-armor",
+    "name": "Leather Armor",
+    "fvtt_id": "nibfdNtp2PtxvbVz",
+    "img": "icons/equipment/chest/breastplate-layered-leather-brown.webp",
+    "description": "",
+    "tier": 1,
+    "base_score": 3,
+    "name_cn": "皮甲"
+  },
+  {
+    "slug": "improved-leather-armor",
+    "name": "Improved Leather Armor",
+    "fvtt_id": "t91M61pSCMKStTNt",
+    "img": "icons/equipment/chest/breastplate-banded-simple-leather-brown.webp",
+    "description": "",
+    "tier": 2,
+    "base_score": 4,
+    "name_cn": "改良皮甲"
+  },
+  {
+    "slug": "runetan-floating-armor",
+    "name": "Runetan Floating Armor",
+    "fvtt_id": "tHlBUDQC24YMZqd6",
+    "img": "icons/equipment/chest/breastplate-layered-leather-black.webp",
+    "description": "",
+    "tier": 2,
+    "base_score": 4,
+    "name_cn": "符文浮甲"
+  },
+  {
+    "slug": "rosewild-armor",
+    "name": "Rosewild Armor",
+    "fvtt_id": "tN8kAeBvNKM3EBFo",
+    "img": "icons/equipment/chest/breastplate-banded-leather-purple.webp",
+    "description": "",
+    "tier": 2,
+    "base_score": 5,
+    "name_cn": "蔷薇野甲"
+  },
+  {
+    "slug": "irontree-breastplate-armor",
+    "name": "Irontree Breastplate Armor",
+    "fvtt_id": "tzZntboNtHL5C6VM",
+    "img": "icons/equipment/chest/breastplate-layered-leather-brown-silver.webp",
+    "description": "",
+    "tier": 2,
+    "base_score": 4,
+    "name_cn": "铁木胸甲"
+  },
+  {
+    "slug": "channeling-armor",
+    "name": "Channeling Armor",
+    "fvtt_id": "vMJxEWz1srfwMsoj",
+    "img": "icons/equipment/chest/robe-collared-blue.webp",
+    "description": "",
+    "tier": 4,
+    "base_score": 5,
+    "name_cn": "引导护甲"
+  },
+  {
+    "slug": "gambeson-armor",
+    "name": "Gambeson Armor",
+    "fvtt_id": "yJFp1bfpecDcStVK",
+    "img": "icons/equipment/chest/vest-leather-tattered-white.webp",
+    "description": "",
+    "tier": 1,
+    "base_score": 3,
+    "name_cn": "填充布甲"
+  }
+]

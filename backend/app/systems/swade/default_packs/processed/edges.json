@@ -1,0 +1,1342 @@
+[
+  {
+    "slug": "improved-block",
+    "name": "Improved Block",
+    "name_cn": "",
+    "fvtt_id": "14Xa4uL8WIzyzSte",
+    "description": "See SWADE p.40",
+    "category": "Combat",
+    "rank": 2,
+    "is_arcane": false
+  },
+  {
+    "slug": "fervor",
+    "name": "Fervor",
+    "name_cn": "",
+    "fvtt_id": "1FrveMNRNF0PyUEg",
+    "description": "See SWADE p.45",
+    "category": "Leadership",
+    "rank": 2,
+    "is_arcane": false
+  },
+  {
+    "slug": "ambidextrous",
+    "name": "Ambidextrous",
+    "name_cn": "",
+    "fvtt_id": "2I7TLD0s6zwke1dJ",
+    "description": "See SWADE p.37",
+    "category": "Background",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "liquid-courage",
+    "name": "Liquid Courage",
+    "name_cn": "",
+    "fvtt_id": "3QOqVrBOINlRp68G",
+    "description": "See SWADE p.52",
+    "category": "Weird",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "tactician",
+    "name": "Tactician",
+    "name_cn": "",
+    "fvtt_id": "3eZvIyucYDRLkELj",
+    "description": "See SWADE p.45",
+    "category": "Leadership",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "improvisational-fighter",
+    "name": "Improvisational Fighter",
+    "name_cn": "",
+    "fvtt_id": "3qSSNcecKPL2Z3DV",
+    "description": "See SWADE p.42",
+    "category": "Combat",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "martial-warrior",
+    "name": "Martial Warrior",
+    "name_cn": "",
+    "fvtt_id": "48v35yxOTNqRU6kU",
+    "description": "See SWADE p.43",
+    "category": "Combat",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "improved-arcane-resistance",
+    "name": "Improved Arcane Resistance",
+    "name_cn": "",
+    "fvtt_id": "4hpFVXB1wur6AQPe",
+    "description": "See SWADE p.37",
+    "category": "Background",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "woodsman",
+    "name": "Woodsman",
+    "name_cn": "",
+    "fvtt_id": "5GB04eUZkDox4J5N",
+    "description": "See SWADE p.50",
+    "category": "Professional",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "mcgyver",
+    "name": "McGyver",
+    "name_cn": "",
+    "fvtt_id": "5TAJiBx0yOKRwff9",
+    "description": "See SWADE p.49",
+    "category": "Professional",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "two-gun-kid",
+    "name": "Two-Gun Kid",
+    "name_cn": "",
+    "fvtt_id": "5TNj72rhyEQT3wHi",
+    "description": "See SWADE p.44",
+    "category": "Combat",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "arcane-resistance",
+    "name": "Arcane Resistance",
+    "name_cn": "",
+    "fvtt_id": "6NbMCcDR3BbvTKsR",
+    "description": "See SWADE p.37",
+    "category": "Background",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "new-powers",
+    "name": "New Powers",
+    "name_cn": "",
+    "fvtt_id": "70aQwQyCulKbf0YL",
+    "description": "See SWADE p.47",
+    "category": "Power",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "steady-hands",
+    "name": "Steady Hands",
+    "name_cn": "",
+    "fvtt_id": "7AUYurMlzGm6hM6m",
+    "description": "See SWADE p.44",
+    "category": "Combat",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "champion",
+    "name": "Champion",
+    "name_cn": "",
+    "fvtt_id": "7LnuROeBpHBDXHMh",
+    "description": "See SWADE p.52",
+    "category": "Weird",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "killer-instinct",
+    "name": "Killer Instinct",
+    "name_cn": "",
+    "fvtt_id": "8I39dPwClC7IhceZ",
+    "description": "See SWADE p.43",
+    "category": "Combat",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "work-the-room",
+    "name": "Work The Room",
+    "name_cn": "",
+    "fvtt_id": "8YDP7od899xkc9y8",
+    "description": "See SWADE p.51",
+    "category": "Social",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "power-surge",
+    "name": "Power Surge",
+    "name_cn": "",
+    "fvtt_id": "8y2m6D81ny77VC5E",
+    "description": "See SWADE p.47",
+    "category": "Power",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "improved-frenzy",
+    "name": "Improved Frenzy",
+    "name_cn": "",
+    "fvtt_id": "9KSuMWGVKMDeirtp",
+    "description": "See SWADE p.42",
+    "category": "Combat",
+    "rank": 2,
+    "is_arcane": false
+  },
+  {
+    "slug": "combat-acrobat",
+    "name": "Combat Acrobat",
+    "name_cn": "",
+    "fvtt_id": "9xuTYfH872dQNGMd",
+    "description": "See SWADE p.48",
+    "category": "Professional",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "brute",
+    "name": "Brute",
+    "name_cn": "",
+    "fvtt_id": "AQF6xQFtx2OQ2SWW",
+    "description": "See SWADE p.38",
+    "category": "Background",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "assasin",
+    "name": "Assasin",
+    "name_cn": "",
+    "fvtt_id": "AvousZWUhSIeTJnF",
+    "description": "See SWADE p.48",
+    "category": "Professional",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "beast-bond",
+    "name": "Beast Bond",
+    "name_cn": "",
+    "fvtt_id": "AwhyXRZMWM1uBgd1",
+    "description": "See SWADE p.51",
+    "category": "Weird",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "fame",
+    "name": "Fame",
+    "name_cn": "",
+    "fvtt_id": "AyYBakBGpHHmvaLE",
+    "description": "See SWADE p.39",
+    "category": "Background",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "acrobat",
+    "name": "Acrobat",
+    "name_cn": "",
+    "fvtt_id": "CEMtXfpz4Ye2LojG",
+    "description": "See SWADE p.48",
+    "category": "Professional",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "jack-of-all-trades",
+    "name": "Jack-of-all-Trades",
+    "name_cn": "",
+    "fvtt_id": "CSnEzUYyjWr8EfE7",
+    "description": "See SWADE p.48",
+    "category": "Professional",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "improved-extraction",
+    "name": "Improved Extraction",
+    "name_cn": "",
+    "fvtt_id": "D9fjRKG5pWWSdqhM",
+    "description": "See SWADE p.42",
+    "category": "Combat",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "aristocrat",
+    "name": "Aristocrat",
+    "name_cn": "",
+    "fvtt_id": "DwKH8MDsTUEJ4sHy",
+    "description": "See SWADE p.37",
+    "category": "Background",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "martial-artist",
+    "name": "Martial Artist",
+    "name_cn": "",
+    "fvtt_id": "DyA6f3HAu6iSBTli",
+    "description": "See SWADE p.43",
+    "category": "Combat",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "improved-counterattack",
+    "name": "Improved Counterattack",
+    "name_cn": "",
+    "fvtt_id": "Dzt9blHDQQKl4Pbi",
+    "description": "See SWADE p.41",
+    "category": "Combat",
+    "rank": 2,
+    "is_arcane": false
+  },
+  {
+    "slug": "followers",
+    "name": "Followers",
+    "name_cn": "",
+    "fvtt_id": "E9AUh5IX1crHzndn",
+    "description": "See SWADE p.53",
+    "category": "Legendary",
+    "rank": 4,
+    "is_arcane": false
+  },
+  {
+    "slug": "frenzy",
+    "name": "Frenzy",
+    "name_cn": "",
+    "fvtt_id": "HDzMCXoB8MLYEQZg",
+    "description": "See SWADE p.42",
+    "category": "Combat",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "great-luck",
+    "name": "Great Luck",
+    "name_cn": "",
+    "fvtt_id": "HOuOHY9r8mXgdU8I",
+    "description": "See SWADE p.40",
+    "category": "Background",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "streetwise",
+    "name": "Streetwise",
+    "name_cn": "",
+    "fvtt_id": "HkC3WhWpAql8IP74",
+    "description": "See SWADE p.51",
+    "category": "Social",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "rapid-recharge",
+    "name": "Rapid Recharge",
+    "name_cn": "",
+    "fvtt_id": "IUeHFMD7BOEXCjeF",
+    "description": "See SWADE p.47",
+    "category": "Power",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "healer",
+    "name": "Healer",
+    "name_cn": "",
+    "fvtt_id": "IeW9r2cIxHVop1xN",
+    "description": "See SWADE p.52",
+    "category": "Weird",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "menacing",
+    "name": "Menacing",
+    "name_cn": "",
+    "fvtt_id": "Iz7HYoFmQWZG5Tio",
+    "description": "See SWADE p.50",
+    "category": "Social",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "rapid-fire",
+    "name": "Rapid Fire",
+    "name_cn": "",
+    "fvtt_id": "JLVExKvFdbTbkNXR",
+    "description": "See SWADE p.43",
+    "category": "Combat",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "improved-level-headed",
+    "name": "Improved Level Headed",
+    "name_cn": "",
+    "fvtt_id": "JLp0hRkcmI72nOxG",
+    "description": "See SWADE p.43",
+    "category": "Combat",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "improved-trademark-weapon",
+    "name": "Improved Trademark Weapon",
+    "name_cn": "",
+    "fvtt_id": "JgxaFINybjrz0NBh",
+    "description": "See SWADE p.44",
+    "category": "Combat",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "brawler",
+    "name": "Brawler",
+    "name_cn": "",
+    "fvtt_id": "JkEKMtgtY2jdQZyF",
+    "description": "See SWADE p.41",
+    "category": "Combat",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "tougher-than-nails",
+    "name": "Tougher Than Nails",
+    "name_cn": "",
+    "fvtt_id": "Jm3zwAHGntnNGBVf",
+    "description": "See SWADE p.53",
+    "category": "Legendary",
+    "rank": 4,
+    "is_arcane": false
+  },
+  {
+    "slug": "retort",
+    "name": "Retort",
+    "name_cn": "",
+    "fvtt_id": "JqUqJ8jOSFj4rwLe",
+    "description": "See SWADE p.51",
+    "category": "Social",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "command",
+    "name": "Command",
+    "name_cn": "",
+    "fvtt_id": "JuaJU4KamMH3qzz4",
+    "description": "See SWADE p.45",
+    "category": "Leadership",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "weapon-master",
+    "name": "Weapon Master",
+    "name_cn": "",
+    "fvtt_id": "KFZVhNibIFzbwReK",
+    "description": "See SWADE p.53",
+    "category": "Legendary",
+    "rank": 4,
+    "is_arcane": false
+  },
+  {
+    "slug": "ace",
+    "name": "Ace",
+    "name_cn": "",
+    "fvtt_id": "KM9KRxlQg8jcpOIL",
+    "description": "See SWADE p.47",
+    "category": "Professional",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "soldier",
+    "name": "Soldier",
+    "name_cn": "",
+    "fvtt_id": "KXVnO2AM5UwswyPb",
+    "description": "See SWADE p.49",
+    "category": "Professional",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "nerves-of-steel",
+    "name": "Nerves of Steel",
+    "name_cn": "",
+    "fvtt_id": "KoYi1s9UbMCGpZ0I",
+    "description": "See SWADE p.43",
+    "category": "Combat",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "arcane-background",
+    "name": "Arcane Background",
+    "name_cn": "",
+    "fvtt_id": "L49mbkWLHi6sppmV",
+    "description": "See SWADE p.37",
+    "category": "Background",
+    "rank": 0,
+    "is_arcane": true
+  },
+  {
+    "slug": "calculating",
+    "name": "Calculating",
+    "name_cn": "",
+    "fvtt_id": "LfxPAXTIatn0tzva",
+    "description": "See SWADE p.41",
+    "category": "Combat",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "improved-first-strike",
+    "name": "Improved First Strike",
+    "name_cn": "",
+    "fvtt_id": "LkuMsGtVvgKNUBup",
+    "description": "See SWADE p.42",
+    "category": "Combat",
+    "rank": 3,
+    "is_arcane": false
+  },
+  {
+    "slug": "inspire",
+    "name": "Inspire",
+    "name_cn": "",
+    "fvtt_id": "MdbK5u02uohckvgV",
+    "description": "See SWADE p.45",
+    "category": "Leadership",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "natural-leader",
+    "name": "Natural Leader",
+    "name_cn": "",
+    "fvtt_id": "Mg0DUyPl2oAJe48E",
+    "description": "See SWADE p.45",
+    "category": "Leadership",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "rich",
+    "name": "Rich",
+    "name_cn": "",
+    "fvtt_id": "MmVbaAWVF7dga1pK",
+    "description": "See SWADE p.40",
+    "category": "Background",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "double-tap",
+    "name": "Double Tap",
+    "name_cn": "",
+    "fvtt_id": "NILelwu2m35wHvIf",
+    "description": "See SWADE p.41",
+    "category": "Combat",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "improved-nerves-of-steel",
+    "name": "Improved Nerves of Steel",
+    "name_cn": "",
+    "fvtt_id": "Nt2ZgbxwnaprzxPu",
+    "description": "See SWADE p.43",
+    "category": "Combat",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "danger-sense",
+    "name": "Danger Sense",
+    "name_cn": "",
+    "fvtt_id": "Q3aaddCAoW7fr6qo",
+    "description": "See SWADE p.52",
+    "category": "Weird",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "reliable",
+    "name": "Reliable",
+    "name_cn": "",
+    "fvtt_id": "QgLNH4cghmmiu6R7",
+    "description": "See SWADE p.51",
+    "category": "Social",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "gadgeteer",
+    "name": "Gadgeteer",
+    "name_cn": "",
+    "fvtt_id": "R6yiWznsOFlt9y9u",
+    "description": "See SWADE p.46",
+    "category": "Power",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "berserk",
+    "name": "Berserk",
+    "name_cn": "",
+    "fvtt_id": "ToHp6JXATc13Mii6",
+    "description": "See SWADE p.38",
+    "category": "Background",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "wizard",
+    "name": "Wizard",
+    "name_cn": "",
+    "fvtt_id": "UrvUcvqGNZbWpbR7",
+    "description": "See SWADE p.47",
+    "category": "Power",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "scholar",
+    "name": "Scholar",
+    "name_cn": "",
+    "fvtt_id": "VqLJh0YkUZHg7yiF",
+    "description": "See SWADE p.49",
+    "category": "Professional",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "soul-drain",
+    "name": "Soul Drain",
+    "name_cn": "",
+    "fvtt_id": "VzAXbHrA47JrhwQB",
+    "description": "See SWADE p.47",
+    "category": "Power",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "charismatic",
+    "name": "Charismatic",
+    "name_cn": "",
+    "fvtt_id": "WVQXAbbA8zjjYaB5",
+    "description": "See SWADE p.38",
+    "category": "Background",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "scavenger",
+    "name": "Scavenger",
+    "name_cn": "",
+    "fvtt_id": "XWRheezuqKCPpJaw",
+    "description": "See SWADE p.52",
+    "category": "Weird",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "iron-jaw",
+    "name": "Iron Jaw",
+    "name_cn": "",
+    "fvtt_id": "YFUW8u5fKmRMdsG3",
+    "description": "See SWADE p.42",
+    "category": "Combat",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "no-mercy",
+    "name": "No Mercy",
+    "name_cn": "",
+    "fvtt_id": "YjjTY92F5kC6rVoN",
+    "description": "See SWADE p.43",
+    "category": "Combat",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "rabble-rouser",
+    "name": "Rabble-Rouser",
+    "name_cn": "",
+    "fvtt_id": "Z3LcXSJQAWzcsEya",
+    "description": "See SWADE p.50",
+    "category": "Social",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "humiliate",
+    "name": "Humiliate",
+    "name_cn": "",
+    "fvtt_id": "ZCgAn1PUfqiXpYie",
+    "description": "See SWADE p.50",
+    "category": "Social",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "work-the-crowd",
+    "name": "Work The Crowd",
+    "name_cn": "",
+    "fvtt_id": "ZJOIX7lBRsODyp0g",
+    "description": "See SWADE p.51",
+    "category": "Social",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "linguist",
+    "name": "Linguist",
+    "name_cn": "",
+    "fvtt_id": "aE7et1UGpJHIBgDr",
+    "description": "See SWADE p.40",
+    "category": "Background",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "sweep",
+    "name": "Sweep",
+    "name_cn": "",
+    "fvtt_id": "aSMYqacvT1aXqCMX",
+    "description": "See SWADE p.44",
+    "category": "Combat",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "chi",
+    "name": "Chi",
+    "name_cn": "",
+    "fvtt_id": "aUIjGlelBc3W5XfW",
+    "description": "See SWADE p.52",
+    "category": "Weird",
+    "rank": 2,
+    "is_arcane": false
+  },
+  {
+    "slug": "holyunholy-warrior",
+    "name": "Holy/Unholy Warrior",
+    "name_cn": "",
+    "fvtt_id": "akXjz1v55WskCfZp",
+    "description": "See SWADE p.46",
+    "category": "Power",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "improved-sweep",
+    "name": "Improved Sweep",
+    "name_cn": "",
+    "fvtt_id": "baBKwMvNu3ckN003",
+    "description": "See SWADE p.44",
+    "category": "Combat",
+    "rank": 2,
+    "is_arcane": false
+  },
+  {
+    "slug": "quick",
+    "name": "Quick",
+    "name_cn": "",
+    "fvtt_id": "bwrQALNRb4zQycAS",
+    "description": "See SWADE p.40",
+    "category": "Background",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "provoke",
+    "name": "Provoke",
+    "name_cn": "",
+    "fvtt_id": "cgzKEGjFGo2Vqbyy",
+    "description": "See SWADE p.50",
+    "category": "Social",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "counterattack",
+    "name": "Counterattack",
+    "name_cn": "",
+    "fvtt_id": "cpOZqcnWk9okpVLg",
+    "description": "See SWADE p.41",
+    "category": "Combat",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "channeling",
+    "name": "Channeling",
+    "name_cn": "",
+    "fvtt_id": "dR7d0zHcnHj69V4d",
+    "description": "See SWADE p.46",
+    "category": "Power",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "master",
+    "name": "Master",
+    "name_cn": "",
+    "fvtt_id": "e5uF480iFwRHK1Hi",
+    "description": "See SWADE p.53",
+    "category": "Legendary",
+    "rank": 4,
+    "is_arcane": false
+  },
+  {
+    "slug": "extraction",
+    "name": "Extraction",
+    "name_cn": "",
+    "fvtt_id": "e7s8cHjURFcoRU6s",
+    "description": "See SWADE p.41",
+    "category": "Combat",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "concentration",
+    "name": "Concentration",
+    "name_cn": "",
+    "fvtt_id": "fHvWX6Ws2ySLpBvJ",
+    "description": "See SWADE p.46",
+    "category": "Power",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "mentalist",
+    "name": "Mentalist",
+    "name_cn": "",
+    "fvtt_id": "fkycpj1gLtHREAKp",
+    "description": "See SWADE p.46",
+    "category": "Power",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "very-attractive",
+    "name": "Very Attractive",
+    "name_cn": "",
+    "fvtt_id": "fnL5ErP8ga7NZTV0",
+    "description": "See SWADE p.38",
+    "category": "Background",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "expert",
+    "name": "Expert",
+    "name_cn": "",
+    "fvtt_id": "gMPvTYj0jfTx7hun",
+    "description": "See SWADE p.53",
+    "category": "Legendary",
+    "rank": 4,
+    "is_arcane": false
+  },
+  {
+    "slug": "master-tactician",
+    "name": "Master Tactician",
+    "name_cn": "",
+    "fvtt_id": "gVsfVKyC2Lia6aT0",
+    "description": "See SWADE p.45",
+    "category": "Leadership",
+    "rank": 2,
+    "is_arcane": false
+  },
+  {
+    "slug": "dead-shot",
+    "name": "Dead Shot",
+    "name_cn": "",
+    "fvtt_id": "gc6usjdFDje8BSLN",
+    "description": "See SWADE p.41",
+    "category": "Combat",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "fleet-footed",
+    "name": "Fleet-Footed",
+    "name_cn": "",
+    "fvtt_id": "gsB4leyQAqErFMLD",
+    "description": "See SWADE p.39",
+    "category": "Background",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "hold-the-line",
+    "name": "Hold The Line!",
+    "name_cn": "",
+    "fvtt_id": "hnSI9z4Fbw3RxDUK",
+    "description": "See SWADE p.45",
+    "category": "Leadership",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "artificer",
+    "name": "Artificer",
+    "name_cn": "",
+    "fvtt_id": "i8KrOswQM77bjAQH",
+    "description": "See SWADE p.45",
+    "category": "Power",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "master-of-arms",
+    "name": "Master of Arms",
+    "name_cn": "",
+    "fvtt_id": "jTKF1YeM1TBQsIfe",
+    "description": "See SWADE p.53",
+    "category": "Legendary",
+    "rank": 4,
+    "is_arcane": false
+  },
+  {
+    "slug": "sidekick",
+    "name": "Sidekick",
+    "name_cn": "",
+    "fvtt_id": "jXGavG8g3U9syJrl",
+    "description": "See SWADE p.53",
+    "category": "Legendary",
+    "rank": 4,
+    "is_arcane": false
+  },
+  {
+    "slug": "dodge",
+    "name": "Dodge",
+    "name_cn": "",
+    "fvtt_id": "jkM1n3cSRvlsKC6J",
+    "description": "See SWADE p.41",
+    "category": "Combat",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "improved-dodge",
+    "name": "Improved Dodge",
+    "name_cn": "",
+    "fvtt_id": "lK69M0JSkl6vTc68",
+    "description": "See SWADE p.41",
+    "category": "Combat",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "elan",
+    "name": "Elan",
+    "name_cn": "",
+    "fvtt_id": "lKI2h2vceVTeQAMD",
+    "description": "See SWADE p.39",
+    "category": "Background",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "common-bond",
+    "name": "Common Bond",
+    "name_cn": "",
+    "fvtt_id": "lNeCoKmLJjdeVMiv",
+    "description": "See SWADE p.50",
+    "category": "Social",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "giant-killer",
+    "name": "Giant Killer",
+    "name_cn": "",
+    "fvtt_id": "lUlcviBCXkO3Fc8X",
+    "description": "See SWADE p.42",
+    "category": "Combat",
+    "rank": 2,
+    "is_arcane": false
+  },
+  {
+    "slug": "investigator",
+    "name": "Investigator",
+    "name_cn": "",
+    "fvtt_id": "loGLU96MOTdGTBV6",
+    "description": "See SWADE p.48",
+    "category": "Professional",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "attractive",
+    "name": "Attractive",
+    "name_cn": "",
+    "fvtt_id": "lsbTO04lbFdxOyUc",
+    "description": "See SWADE p.38",
+    "category": "Background",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "improved-rapid-fire",
+    "name": "Improved Rapid Fire",
+    "name_cn": "",
+    "fvtt_id": "mMLmL98Ew9qJyi5m",
+    "description": "See SWADE p.43",
+    "category": "Combat",
+    "rank": 2,
+    "is_arcane": false
+  },
+  {
+    "slug": "bolster",
+    "name": "Bolster",
+    "name_cn": "",
+    "fvtt_id": "n2GEMeFGy8KsfcCA",
+    "description": "See SWADE p.50",
+    "category": "Social",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "level-headed",
+    "name": "Level Headed",
+    "name_cn": "",
+    "fvtt_id": "n6S8M4EksxrIMxL4",
+    "description": "See SWADE p.43",
+    "category": "Combat",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "mr-fix-it",
+    "name": "Mr. Fix It",
+    "name_cn": "",
+    "fvtt_id": "nvOZHihW5aX97aOX",
+    "description": "See SWADE p.49",
+    "category": "Professional",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "marksman",
+    "name": "Marksman",
+    "name_cn": "",
+    "fvtt_id": "oiB4NuoF8sU11s80",
+    "description": "See SWADE p.43",
+    "category": "Combat",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "iron-will",
+    "name": "Iron Will",
+    "name_cn": "",
+    "fvtt_id": "pLJPsKqYSKNG93U4",
+    "description": "See SWADE p.51",
+    "category": "Social",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "beast-master",
+    "name": "Beast Master",
+    "name_cn": "",
+    "fvtt_id": "pe8xWrwJLk0noETh",
+    "description": "See SWADE p.51",
+    "category": "Weird",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "free-runner",
+    "name": "Free Runner",
+    "name_cn": "",
+    "fvtt_id": "q78bcx8UspcT5kLd",
+    "description": "See SWADE p.42",
+    "category": "Combat",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "mighty-blow",
+    "name": "Mighty Blow",
+    "name_cn": "",
+    "fvtt_id": "qkLj1k3hkvTFWDQk",
+    "description": "See SWADE p.43",
+    "category": "Combat",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "filthy-rich",
+    "name": "Filthy Rich",
+    "name_cn": "",
+    "fvtt_id": "rGahHLPo02a4GGro",
+    "description": "See SWADE p.40",
+    "category": "Background",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "power-points",
+    "name": "Power Points",
+    "name_cn": "",
+    "fvtt_id": "rTU6py1nxs4v6eNs",
+    "description": "See SWADE p.47",
+    "category": "Power",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "block",
+    "name": "Block",
+    "name_cn": "",
+    "fvtt_id": "rgEpKqzhUxZ8mfJK",
+    "description": "See SWADE p.40",
+    "category": "Combat",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "tough-as-nails",
+    "name": "Tough As Nails",
+    "name_cn": "",
+    "fvtt_id": "rguPpe5hjyhWzTH9",
+    "description": "See SWADE p.53",
+    "category": "Legendary",
+    "rank": 4,
+    "is_arcane": false
+  },
+  {
+    "slug": "feint",
+    "name": "Feint",
+    "name_cn": "",
+    "fvtt_id": "svYEr6zuu6cWDRrG",
+    "description": "See SWADE p.42",
+    "category": "Combat",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "strong-willed",
+    "name": "Strong Willed",
+    "name_cn": "",
+    "fvtt_id": "ttlD4Gy7Dlq8yzD1",
+    "description": "See SWADE p.51",
+    "category": "Social",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "brave",
+    "name": "Brave",
+    "name_cn": "",
+    "fvtt_id": "tws3tAWoN0OmbeK5",
+    "description": "See SWADE p.38",
+    "category": "Background",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "bruiser",
+    "name": "Bruiser",
+    "name_cn": "",
+    "fvtt_id": "u8D9mLJaXLAwuA0Y",
+    "description": "See SWADE p.41",
+    "category": "Combat",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "luck",
+    "name": "Luck",
+    "name_cn": "",
+    "fvtt_id": "uFeDa4usELM9L1Ff",
+    "description": "See SWADE p.40",
+    "category": "Background",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "professional",
+    "name": "Professional",
+    "name_cn": "",
+    "fvtt_id": "uGMRoljFsFxMSwW2",
+    "description": "See SWADE p.53",
+    "category": "Legendary",
+    "rank": 4,
+    "is_arcane": false
+  },
+  {
+    "slug": "combat-reflexes",
+    "name": "Combat Reflexes",
+    "name_cn": "",
+    "fvtt_id": "uysJCqbmYfIBkOnB",
+    "description": "See SWADE p.41",
+    "category": "Combat",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "improved-rapid-recharge",
+    "name": "Improved Rapid Recharge",
+    "name_cn": "",
+    "fvtt_id": "vDj5WCTpJRuy8IpT",
+    "description": "See SWADE p.47",
+    "category": "Power",
+    "rank": 2,
+    "is_arcane": false
+  },
+  {
+    "slug": "thief",
+    "name": "Thief",
+    "name_cn": "",
+    "fvtt_id": "w25dvnRhqvvcorSr",
+    "description": "See SWADE p.49",
+    "category": "Professional",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "harder-to-kill",
+    "name": "Harder To Kill",
+    "name_cn": "",
+    "fvtt_id": "wKFWtJGe33XsycWk",
+    "description": "See SWADE p.42",
+    "category": "Combat",
+    "rank": 2,
+    "is_arcane": false
+  },
+  {
+    "slug": "command-presence",
+    "name": "Command Presence",
+    "name_cn": "",
+    "fvtt_id": "wPV36Yg6Rgqr0Gqk",
+    "description": "See SWADE p.45",
+    "category": "Leadership",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "alertness",
+    "name": "Alertness",
+    "name_cn": "",
+    "fvtt_id": "wt8cEbuBnau5jgrS",
+    "description": "See SWADE p.37",
+    "category": "Background",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "connections",
+    "name": "Connections",
+    "name_cn": "",
+    "fvtt_id": "xD0N1i5ee6RvHvay",
+    "description": "See SWADE p.50",
+    "category": "Social",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "extra-effort",
+    "name": "Extra Effort",
+    "name_cn": "",
+    "fvtt_id": "xyh9KEOSmoEaWVOU",
+    "description": "See SWADE p.46",
+    "category": "Power",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "hard-to-kill",
+    "name": "Hard To Kill",
+    "name_cn": "",
+    "fvtt_id": "y121MplUuusnZSOB",
+    "description": "See SWADE p.42",
+    "category": "Combat",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "brawny",
+    "name": "Brawny",
+    "name_cn": "",
+    "fvtt_id": "yERZfQnHTuZ6mJOA",
+    "description": "See SWADE p.38",
+    "category": "Background",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "first-strike",
+    "name": "First Strike",
+    "name_cn": "",
+    "fvtt_id": "yTusuLTNvS4ueJha",
+    "description": "See SWADE p.42",
+    "category": "Combat",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "trademark-weapon",
+    "name": "Trademark Weapon",
+    "name_cn": "",
+    "fvtt_id": "yfwCUfctQNkKzeTw",
+    "description": "See SWADE p.44",
+    "category": "Combat",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "two-fisted",
+    "name": "Two-Fisted",
+    "name_cn": "",
+    "fvtt_id": "zMZm58HdhDzZ1HOA",
+    "description": "See SWADE p.44",
+    "category": "Combat",
+    "rank": 0,
+    "is_arcane": false
+  },
+  {
+    "slug": "famous",
+    "name": "Famous",
+    "name_cn": "",
+    "fvtt_id": "zfJzmCMKIgzpcEUe",
+    "description": "See SWADE p.39",
+    "category": "Background",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "rock-and-roll",
+    "name": "Rock and Roll!",
+    "name_cn": "",
+    "fvtt_id": "znkrz8gcPKNr2m5W",
+    "description": "See SWADE p.44",
+    "category": "Combat",
+    "rank": 1,
+    "is_arcane": false
+  },
+  {
+    "slug": "fast-healer",
+    "name": "Fast Healer",
+    "name_cn": "",
+    "fvtt_id": "zxcKZ2EAmVn2Sz3L",
+    "description": "See SWADE p.39",
+    "category": "Background",
+    "rank": 0,
+    "is_arcane": false
+  }
+]

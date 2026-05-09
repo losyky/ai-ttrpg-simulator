@@ -1,0 +1,182 @@
+[
+  {
+    "slug": "school-of-war",
+    "name": "School Of War",
+    "fvtt_id": "4y9Ph7RsCIAbkwTk",
+    "img": "icons/magic/fire/dagger-rune-enchant-flame-strong-blue.webp",
+    "description": "Play the School of War if you want to utilize trained magic for violence.",
+    "spellcasting_trait": "knowledge",
+    "linked_class": "Compendium.daggerheart.classes.Item.5LwX4m8ziY3F1ZGC",
+    "name_cn": "战争学派"
+  },
+  {
+    "slug": "syndicate",
+    "name": "Syndicate",
+    "fvtt_id": "95QxNZwgyEm1LqdG",
+    "img": "icons/environment/settlement/city-hall.webp",
+    "description": "You wish to have a web of contacts everywhere you go",
+    "spellcasting_trait": "finesse",
+    "linked_class": "Compendium.daggerheart.classes.Item.CvHlkHZfpMiCz5uT",
+    "name_cn": "辛迪加"
+  },
+  {
+    "slug": "primal-origin",
+    "name": "Primal Origin",
+    "fvtt_id": "GLpRVxnY5E82khxH",
+    "img": "icons/magic/fire/flame-burning-hand-purple.webp",
+    "description": "Play the Primal Origin if you want to extend the versatility of your spells in powerful ways.",
+    "spellcasting_trait": "instinct",
+    "linked_class": "Compendium.daggerheart.classes.Item.DchOzHcWIJE9FKcR",
+    "name_cn": "原始起源"
+  },
+  {
+    "slug": "divine-wielder",
+    "name": "Divine Wielder",
+    "fvtt_id": "M5mpGoAj8LRkylrY",
+    "img": "icons/weapons/swords/sword-gold-holy.webp",
+    "description": "Play the Divine Wielder if you want to dominate the battlefield with a legendary weapon.",
+    "spellcasting_trait": "strength",
+    "linked_class": "Compendium.daggerheart.classes.Item.5ZnlJ5bEoyOTkUJv",
+    "name_cn": "神圣执行者"
+  },
+  {
+    "slug": "call-of-the-brave",
+    "name": "Call Of The Brave",
+    "fvtt_id": "NAFU9roaVG7f3RNJ",
+    "img": "icons/magic/life/heart-cross-strong-flame-purple-orange.webp",
+    "description": "Play the Call of the Brave if you want to use the might of your enemies to fuel your own power.",
+    "spellcasting_trait": null,
+    "linked_class": "Compendium.daggerheart.classes.Item.xCUWwJz4WSthvLfy",
+    "name_cn": "勇者的呼唤"
+  },
+  {
+    "slug": "vengeance",
+    "name": "Vengeance",
+    "fvtt_id": "SUo8NPBPO8aN193u",
+    "img": "icons/magic/unholy/silhouette-evil-horned-giant.webp",
+    "description": "You wish to strike down enemies who harm you or your allies.",
+    "spellcasting_trait": null,
+    "linked_class": "Compendium.daggerheart.classes.Item.nRAyoC0fOzXPDa4z",
+    "name_cn": "复仇"
+  },
+  {
+    "slug": "beastbound",
+    "name": "Beastbound",
+    "fvtt_id": "TIUsIlTS1WkK5vr2",
+    "img": "icons/creatures/mammals/elk-moose-marked-green.webp",
+    "description": "You wish to form a deep bond with an animal ally.",
+    "spellcasting_trait": "agility",
+    "linked_class": "Compendium.daggerheart.classes.Item.BTyfve69LKqoOi9S",
+    "name_cn": "兽缚者"
+  },
+  {
+    "slug": "warden-of-the-elements",
+    "name": "Warden of the Elements",
+    "fvtt_id": "W9hs5kxOWeY7eA4Q",
+    "img": "icons/magic/nature/root-vines-face-glow-green.webp",
+    "description": "You wish to embody the natural elements of the wild.",
+    "spellcasting_trait": "instinct",
+    "linked_class": "Compendium.daggerheart.classes.Item.ZNwUTCyGCEcidZFv",
+    "name_cn": "元素守望者"
+  },
+  {
+    "slug": "wordsmith",
+    "name": "Wordsmith",
+    "fvtt_id": "XTSODVM8st75Os8M",
+    "img": "icons/tools/scribal/ink-quill-red.webp",
+    "description": "You wish to use clever wordplay and captivate crowds.",
+    "spellcasting_trait": "presence",
+    "linked_class": "Compendium.daggerheart.classes.Item.vegl3bFOq3pcFTWT",
+    "name_cn": "咏言师"
+  },
+  {
+    "slug": "call-of-the-slayer",
+    "name": "Call Of The Slayer",
+    "fvtt_id": "bcNe5qP3o6CKadhK",
+    "img": "icons/skills/melee/weapons-crossed-swords-yellow.webp",
+    "description": "Play the Call of the Slayer if you want to strike down adversaries with immense force.",
+    "spellcasting_trait": null,
+    "linked_class": "Compendium.daggerheart.classes.Item.xCUWwJz4WSthvLfy",
+    "name_cn": "杀戮者的呼唤"
+  },
+  {
+    "slug": "nightwalker",
+    "name": "Nightwalker",
+    "fvtt_id": "h161OSIK24Up4qNd",
+    "img": "icons/magic/control/buff-flight-wings-blue.webp",
+    "description": "You wish to manipulate shadows to maneuver through the environment.",
+    "spellcasting_trait": "finesse",
+    "linked_class": "Compendium.daggerheart.classes.Item.CvHlkHZfpMiCz5uT",
+    "name_cn": "夜行者"
+  },
+  {
+    "slug": "troubadour",
+    "name": "Troubadour",
+    "fvtt_id": "ld8MIvk0xVJydSBz",
+    "img": "icons/tools/instruments/harp-gold-glowing.webp",
+    "description": "You wish to play music to bolster your allies.",
+    "spellcasting_trait": "presence",
+    "linked_class": "Compendium.daggerheart.classes.Item.vegl3bFOq3pcFTWT",
+    "name_cn": "游吟诗人"
+  },
+  {
+    "slug": "school-of-knowledge",
+    "name": "School Of Knowledge",
+    "fvtt_id": "qqQlgCqhOivUFoQn",
+    "img": "icons/sundries/books/book-tooled-blue-yellow.webp",
+    "description": "Play the School of Knowledge if you want a keen understanding of the world around you.",
+    "spellcasting_trait": "knowledge",
+    "linked_class": "Compendium.daggerheart.classes.Item.5LwX4m8ziY3F1ZGC",
+    "name_cn": "知识学派"
+  },
+  {
+    "slug": "stalwart",
+    "name": "Stalwart",
+    "fvtt_id": "rKRxFBlkbh9cDK8K",
+    "img": "icons/magic/holy/barrier-shield-winged-blue.webp",
+    "description": "You wish to take heavy blows and keep fighting",
+    "spellcasting_trait": null,
+    "linked_class": "Compendium.daggerheart.classes.Item.nRAyoC0fOzXPDa4z",
+    "name_cn": "坚毅"
+  },
+  {
+    "slug": "elemental-origin",
+    "name": "Elemental Origin",
+    "fvtt_id": "wg1H0hROc2acHwZh",
+    "img": "icons/magic/water/orb-water-ice-pink.webp",
+    "description": "Play the Elemental Origin if you want to channel raw magic totake the shape of a particular element",
+    "spellcasting_trait": "instinct",
+    "linked_class": "Compendium.daggerheart.classes.Item.DchOzHcWIJE9FKcR",
+    "name_cn": "元素起源"
+  },
+  {
+    "slug": "warden-of-renewal",
+    "name": "Warden of Renewal",
+    "fvtt_id": "xp0XMjYT85Q7E90o",
+    "img": "icons/magic/nature/leaf-juggle-humanoid-green.webp",
+    "description": "You wish to use powerful magic to heal your party.",
+    "spellcasting_trait": "instinct",
+    "linked_class": "Compendium.daggerheart.classes.Item.ZNwUTCyGCEcidZFv",
+    "name_cn": "新生守望者"
+  },
+  {
+    "slug": "winged-sentinel",
+    "name": "Winged Sentinel",
+    "fvtt_id": "y7ERWRIpJsdP9Re4",
+    "img": "icons/magic/holy/angel-winged-humanoid-blue.webp",
+    "description": "Play the Winged Sentinel if you want to take flight and strike crushing blows from the sky.",
+    "spellcasting_trait": "strength",
+    "linked_class": "Compendium.daggerheart.classes.Item.5ZnlJ5bEoyOTkUJv",
+    "name_cn": "翼卫"
+  },
+  {
+    "slug": "wayfinder",
+    "name": "Wayfinder",
+    "fvtt_id": "zsUglcU4NgZ8tNgZ",
+    "img": "icons/environment/wilderness/mine-interior-dungeon-door.webp",
+    "description": "You wish to hunt your prey and strike with deadly force.",
+    "spellcasting_trait": "agility",
+    "linked_class": "Compendium.daggerheart.classes.Item.BTyfve69LKqoOi9S",
+    "name_cn": "寻路者"
+  }
+]

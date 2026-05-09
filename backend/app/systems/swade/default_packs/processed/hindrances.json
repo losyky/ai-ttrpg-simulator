@@ -1,0 +1,458 @@
+[
+  {
+    "slug": "poverty",
+    "name": "Poverty",
+    "name_cn": "",
+    "fvtt_id": "03T9MDXpouOD9nVJ",
+    "description": "See SWADE p.26",
+    "major": false
+  },
+  {
+    "slug": "impulsive",
+    "name": "Impulsive",
+    "name_cn": "",
+    "fvtt_id": "1jxBLA9u7nWVe4Ra",
+    "description": "See SWADE p.25",
+    "major": true
+  },
+  {
+    "slug": "thin-skinned",
+    "name": "Thin Skinned",
+    "name_cn": "",
+    "fvtt_id": "1xW9Dg9afUc25yJX",
+    "description": "See SWADE p.28",
+    "major": false
+  },
+  {
+    "slug": "obligation",
+    "name": "Obligation",
+    "name_cn": "",
+    "fvtt_id": "6VzKthWZN5ccWagO",
+    "description": "See SWADE p.25",
+    "major": false
+  },
+  {
+    "slug": "illiterate",
+    "name": "Illiterate",
+    "name_cn": "",
+    "fvtt_id": "8S2h3R7DpYOrbamK",
+    "description": "See SWADE p.25",
+    "major": false
+  },
+  {
+    "slug": "tongue-tied",
+    "name": "Tongue-Tied",
+    "name_cn": "",
+    "fvtt_id": "8r9xcVt45bY5dZei",
+    "description": "See SWADE p.28",
+    "major": true
+  },
+  {
+    "slug": "bad-luck",
+    "name": "Bad Luck",
+    "name_cn": "",
+    "fvtt_id": "AMpyeiCryPW8TaRi",
+    "description": "See SWADE p.22",
+    "major": true
+  },
+  {
+    "slug": "cant-swim",
+    "name": "Can't Swim",
+    "name_cn": "",
+    "fvtt_id": "B6ah3ofwV6d5X3vL",
+    "description": "See SWADE p.23",
+    "major": false
+  },
+  {
+    "slug": "jealous",
+    "name": "Jealous",
+    "name_cn": "",
+    "fvtt_id": "Cni6omJrDuCLH2kq",
+    "description": "See SWADE p.25",
+    "major": false
+  },
+  {
+    "slug": "clumsy",
+    "name": "Clumsy",
+    "name_cn": "",
+    "fvtt_id": "EAeof88s5i82wL79",
+    "description": "See SWADE p.23",
+    "major": true
+  },
+  {
+    "slug": "wanted",
+    "name": "Wanted",
+    "name_cn": "",
+    "fvtt_id": "EHlHhgruCReM9vok",
+    "description": "See SWADE p.28",
+    "major": false
+  },
+  {
+    "slug": "vow",
+    "name": "Vow",
+    "name_cn": "",
+    "fvtt_id": "F1NNtrENqKgXJfLI",
+    "description": "See SWADE p.28",
+    "major": false
+  },
+  {
+    "slug": "hard-of-hearing",
+    "name": "Hard of Hearing",
+    "name_cn": "",
+    "fvtt_id": "FA8imBNVG1tHDPz0",
+    "description": "See SWADE p.24",
+    "major": false
+  },
+  {
+    "slug": "anemic",
+    "name": "Anemic",
+    "name_cn": "",
+    "fvtt_id": "GYxUhwJEZYGvwTYK",
+    "description": "See SWADE p.22",
+    "major": false
+  },
+  {
+    "slug": "driven",
+    "name": "Driven",
+    "name_cn": "",
+    "fvtt_id": "I2fywaBASbCCh5Xm",
+    "description": "See SWADE p.24",
+    "major": false
+  },
+  {
+    "slug": "suspicious",
+    "name": "Suspicious",
+    "name_cn": "",
+    "fvtt_id": "IsbksAQ5DqGyEKNT",
+    "description": "See SWADE p.28",
+    "major": false
+  },
+  {
+    "slug": "ruthless",
+    "name": "Ruthless",
+    "name_cn": "",
+    "fvtt_id": "JpYvaLBOnBVT1tLB",
+    "description": "See SWADE p.26",
+    "major": false
+  },
+  {
+    "slug": "blind",
+    "name": "Blind",
+    "name_cn": "",
+    "fvtt_id": "Jq5287PaO2bGc14z",
+    "description": "See SWADE p.23",
+    "major": true
+  },
+  {
+    "slug": "secret",
+    "name": "Secret",
+    "name_cn": "",
+    "fvtt_id": "KmTfimbqSZG083Ve",
+    "description": "See SWADE p.26",
+    "major": false
+  },
+  {
+    "slug": "curious",
+    "name": "Curious",
+    "name_cn": "",
+    "fvtt_id": "KrA9Uf1jNxe5xJkY",
+    "description": "See SWADE p.23",
+    "major": true
+  },
+  {
+    "slug": "bad-eyes",
+    "name": "Bad Eyes",
+    "name_cn": "",
+    "fvtt_id": "LqOoGcwBmfCnsNHU",
+    "description": "See SWADE p.22",
+    "major": false
+  },
+  {
+    "slug": "arrogant",
+    "name": "Arrogant",
+    "name_cn": "",
+    "fvtt_id": "MHT53wLklMhwkiws",
+    "description": "See SWADE p.22",
+    "major": true
+  },
+  {
+    "slug": "overconfident",
+    "name": "Overconfident",
+    "name_cn": "",
+    "fvtt_id": "Me6tiiqVGCG28Rgp",
+    "description": "See SWADE p.26",
+    "major": true
+  },
+  {
+    "slug": "outsider",
+    "name": "Outsider",
+    "name_cn": "",
+    "fvtt_id": "PJXEZiSCew4xyBU5",
+    "description": "See SWADE p.26",
+    "major": false
+  },
+  {
+    "slug": "mute",
+    "name": "Mute",
+    "name_cn": "",
+    "fvtt_id": "QJ4oazaS04Bibbgd",
+    "description": "See SWADE p.25",
+    "major": true
+  },
+  {
+    "slug": "enemy",
+    "name": "Enemy",
+    "name_cn": "",
+    "fvtt_id": "SW8Z2uQA9YAE1UZ4",
+    "description": "See SWADE p.24",
+    "major": false
+  },
+  {
+    "slug": "one-eye",
+    "name": "One Eye",
+    "name_cn": "",
+    "fvtt_id": "SauXBE06XI73Nj1c",
+    "description": "See SWADE p.26",
+    "major": true
+  },
+  {
+    "slug": "greedy",
+    "name": "Greedy",
+    "name_cn": "",
+    "fvtt_id": "U1KA94e4WSx1ovcm",
+    "description": "See SWADE p.24",
+    "major": false
+  },
+  {
+    "slug": "delusional",
+    "name": "Delusional",
+    "name_cn": "",
+    "fvtt_id": "VmR6ud0C3RF5ZkKl",
+    "description": "See SWADE p.23",
+    "major": false
+  },
+  {
+    "slug": "clueless",
+    "name": "Clueless",
+    "name_cn": "",
+    "fvtt_id": "WWq38yfl88BVHnqH",
+    "description": "See SWADE p.23",
+    "major": true
+  },
+  {
+    "slug": "shamed",
+    "name": "Shamed",
+    "name_cn": "",
+    "fvtt_id": "XGNQDi1KOhp5qFoR",
+    "description": "See SWADE p.27",
+    "major": false
+  },
+  {
+    "slug": "heroic",
+    "name": "Heroic",
+    "name_cn": "",
+    "fvtt_id": "YZedN0QdDO3JUdX6",
+    "description": "See SWADE p.24",
+    "major": true
+  },
+  {
+    "slug": "mean",
+    "name": "Mean",
+    "name_cn": "",
+    "fvtt_id": "aQtAzIrvZqvo3J78",
+    "description": "See SWADE p.25",
+    "major": false
+  },
+  {
+    "slug": "stubborn",
+    "name": "Stubborn",
+    "name_cn": "",
+    "fvtt_id": "azzxAsa4RL4h6pRb",
+    "description": "See SWADE p.27",
+    "major": false
+  },
+  {
+    "slug": "code-of-honor",
+    "name": "Code of Honor",
+    "name_cn": "",
+    "fvtt_id": "boEHPh8mXqSfjTXD",
+    "description": "See SWADE p.23",
+    "major": true
+  },
+  {
+    "slug": "pacifist",
+    "name": "Pacifist",
+    "name_cn": "",
+    "fvtt_id": "d2mnGLYQlqWKdahh",
+    "description": "See SWADE p.26",
+    "major": false
+  },
+  {
+    "slug": "one-arm",
+    "name": "One Arm",
+    "name_cn": "",
+    "fvtt_id": "dHzAwM1pnNg4tdEH",
+    "description": "See SWADE p.26",
+    "major": true
+  },
+  {
+    "slug": "all-thumbs",
+    "name": "All Thumbs",
+    "name_cn": "",
+    "fvtt_id": "eDXRWmZ4Tgg6b14e",
+    "description": "See SWADE p.22",
+    "major": false
+  },
+  {
+    "slug": "vengeful",
+    "name": "Vengeful",
+    "name_cn": "",
+    "fvtt_id": "ftdEqnVvZSh4V58A",
+    "description": "See SWADE p.28",
+    "major": false
+  },
+  {
+    "slug": "loyal",
+    "name": "Loyal",
+    "name_cn": "",
+    "fvtt_id": "hZhsx1OFKes8P5Hm",
+    "description": "See SWADE p.25",
+    "major": false
+  },
+  {
+    "slug": "small",
+    "name": "Small",
+    "name_cn": "",
+    "fvtt_id": "iE6m7ZEEHB2iQgTE",
+    "description": "See SWADE p.27",
+    "major": false
+  },
+  {
+    "slug": "habit",
+    "name": "Habit",
+    "name_cn": "",
+    "fvtt_id": "igp2di7nPIogr0A9",
+    "description": "See SWADE p.24",
+    "major": false
+  },
+  {
+    "slug": "hesitant",
+    "name": "Hesitant",
+    "name_cn": "",
+    "fvtt_id": "jSwKIWqzi6w5pDwC",
+    "description": "See SWADE p.25",
+    "major": false
+  },
+  {
+    "slug": "phobia",
+    "name": "Phobia",
+    "name_cn": "",
+    "fvtt_id": "jXjR7Jmm7rS1KtF9",
+    "description": "See SWADE p.26",
+    "major": false
+  },
+  {
+    "slug": "timid",
+    "name": "Timid",
+    "name_cn": "",
+    "fvtt_id": "mD4kmdFPw6KzJ5Un",
+    "description": "See SWADE p.28",
+    "major": true
+  },
+  {
+    "slug": "ugly",
+    "name": "Ugly",
+    "name_cn": "",
+    "fvtt_id": "mPYGIfKRtdPwjUSh",
+    "description": "See SWADE p.28",
+    "major": false
+  },
+  {
+    "slug": "young",
+    "name": "Young",
+    "name_cn": "",
+    "fvtt_id": "n46jFPemqUPF67YT",
+    "description": "See SWADE p.28",
+    "major": false
+  },
+  {
+    "slug": "obese",
+    "name": "Obese",
+    "name_cn": "",
+    "fvtt_id": "n9GTlNTHJNfEY3f2",
+    "description": "See SWADE p.25",
+    "major": false
+  },
+  {
+    "slug": "quirk",
+    "name": "Quirk",
+    "name_cn": "",
+    "fvtt_id": "nzVA1c75mcBwHv2c",
+    "description": "See SWADE p.26",
+    "major": false
+  },
+  {
+    "slug": "doubting-thomas",
+    "name": "Doubting Thomas",
+    "name_cn": "",
+    "fvtt_id": "pmtGG7MrjRzUESCW",
+    "description": "See SWADE p.24",
+    "major": false
+  },
+  {
+    "slug": "mild-mannered",
+    "name": "Mild Mannered",
+    "name_cn": "",
+    "fvtt_id": "pxl97IuQz5hcgBlV",
+    "description": "See SWADE p.25",
+    "major": false
+  },
+  {
+    "slug": "elderly",
+    "name": "Elderly",
+    "name_cn": "",
+    "fvtt_id": "qSRCjsnqQ28MArfT",
+    "description": "See SWADE p.24",
+    "major": true
+  },
+  {
+    "slug": "big-mouth",
+    "name": "Big Mouth",
+    "name_cn": "",
+    "fvtt_id": "r09ToJ7uai9FdXDq",
+    "description": "See SWADE p.23",
+    "major": false
+  },
+  {
+    "slug": "slow",
+    "name": "Slow",
+    "name_cn": "",
+    "fvtt_id": "vKfRM417A2TCgNYd",
+    "description": "See SWADE p.27",
+    "major": false
+  },
+  {
+    "slug": "death-wish",
+    "name": "Death Wish",
+    "name_cn": "",
+    "fvtt_id": "w4XWEkeekxShUQIu",
+    "description": "See SWADE p.23",
+    "major": false
+  },
+  {
+    "slug": "bloodthirsty",
+    "name": "Bloodthirsty",
+    "name_cn": "",
+    "fvtt_id": "w9d3qLjIdvdIV12t",
+    "description": "See SWADE p.23",
+    "major": true
+  },
+  {
+    "slug": "cautious",
+    "name": "Cautious",
+    "name_cn": "",
+    "fvtt_id": "xVZDXCCWRywhXAln",
+    "description": "See SWADE p.23",
+    "major": false
+  }
+]

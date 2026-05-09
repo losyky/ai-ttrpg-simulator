@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+dist/
+build/
+backend/venv/
+.env
+.env.*
+
+# Node / Next.js
+node_modules/
+frontend/.next/
+frontend/out/
+
+# Runtime data
+data/
+
+# Logs
+*.log
+debug.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+*.swp
+*.swo

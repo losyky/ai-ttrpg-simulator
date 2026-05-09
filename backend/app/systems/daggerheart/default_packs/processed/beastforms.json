@@ -1,0 +1,434 @@
+[
+  {
+    "slug": "striking-serpent",
+    "name": "Striking Serpent",
+    "fvtt_id": "1XrZWGDttBAAUxR1",
+    "img": "icons/creatures/reptiles/serpent-horned-green.webp",
+    "tier": 2,
+    "main_trait": "finesse",
+    "name_cn": "突袭毒蛇"
+  },
+  {
+    "slug": "pouncing-predator",
+    "name": "Pouncing Predator",
+    "fvtt_id": "33oFSZ1PwFqInHPe",
+    "img": "icons/creatures/abilities/cougar-roar-rush-orange.webp",
+    "tier": 2,
+    "main_trait": "instinct",
+    "name_cn": "猛扑捕食者"
+  },
+  {
+    "slug": "terrible-lizard",
+    "name": "Terrible Lizard",
+    "fvtt_id": "5BABxRe2XVrYTj8N",
+    "img": "icons/creatures/abilities/dragon-breath-purple.webp",
+    "tier": 4,
+    "main_trait": "strength",
+    "name_cn": "可怖蜥种"
+  },
+  {
+    "slug": "armored-sentry",
+    "name": "Armored Sentry",
+    "fvtt_id": "8pUHJv3BYdjA4Qdf",
+    "img": "icons/creatures/reptiles/turtle-shell-glowing-green.webp",
+    "tier": 2,
+    "main_trait": "strength",
+    "name_cn": "甲壳哨兵"
+  },
+  {
+    "slug": "mighty-lizard",
+    "name": "Mighty Lizard",
+    "fvtt_id": "94tvcC3D5Kp4lzuN",
+    "img": "icons/creatures/reptiles/lizard-iguana-green.webp",
+    "tier": 3,
+    "main_trait": "instinct",
+    "name_cn": "巨型蜥种"
+  },
+  {
+    "slug": "stalking-arachnid",
+    "name": "Stalking Arachnid",
+    "fvtt_id": "A4TVRY0D5r9EiVwA",
+    "img": "icons/creatures/invertebrates/spider-mandibles-brown.webp",
+    "tier": 1,
+    "main_trait": "finesse",
+    "name_cn": "追猎蜘蛛"
+  },
+  {
+    "slug": "nimble-grazer",
+    "name": "Nimble Grazer",
+    "fvtt_id": "CItO8yX6amQaqyk7",
+    "img": "icons/creatures/mammals/deer-antlers-glowing-blue.webp",
+    "tier": 1,
+    "main_trait": "agility",
+    "name_cn": "灵巧食草者"
+  },
+  {
+    "slug": "aquatic-predator",
+    "name": "Aquatic Predator",
+    "fvtt_id": "ItBVeCl2u5uetgy7",
+    "img": "icons/creatures/fish/fish-marlin-swordfight-blue.webp",
+    "tier": 3,
+    "main_trait": "agility",
+    "name_cn": "深洋捕食者"
+  },
+  {
+    "slug": "mythic-hybrid",
+    "name": "Mythic Hybrid",
+    "fvtt_id": "WAbxCf2An8qmxyJ1",
+    "img": "icons/creatures/magical/spirit-undead-horned-blue.webp",
+    "tier": 4,
+    "main_trait": "strength",
+    "name_cn": "神话混种生物"
+  },
+  {
+    "slug": "pack-predator",
+    "name": "Pack Predator",
+    "fvtt_id": "YLisKYYhAGca50WM",
+    "img": "icons/creatures/mammals/wolf-howl-moon-forest-blue.webp",
+    "tier": 1,
+    "main_trait": "strength",
+    "name_cn": "群居捕食者"
+  },
+  {
+    "slug": "agile-scout",
+    "name": "Agile Scout",
+    "fvtt_id": "a9UoCwtrbgKk02mK",
+    "img": "icons/creatures/mammals/rodent-rat-diseaed-gray.webp",
+    "tier": 1,
+    "main_trait": "agility",
+    "name_cn": "迅捷斥候"
+  },
+  {
+    "slug": "great-predator",
+    "name": "Great Predator",
+    "fvtt_id": "afbMt4Ld6nY3mw0N",
+    "img": "icons/creatures/mammals/wolf-shadow-black.webp",
+    "tier": 3,
+    "main_trait": "strength",
+    "name_cn": "巨型捕食者"
+  },
+  {
+    "slug": "great-winged-beast",
+    "name": "Great Winged Beast",
+    "fvtt_id": "b4BMnTbJ3iPPidSb",
+    "img": "icons/creatures/birds/corvid-flying-wings-purple.webp",
+    "tier": 3,
+    "main_trait": "finesse",
+    "name_cn": "翔空巨禽"
+  },
+  {
+    "slug": "household-friend",
+    "name": "Household Friend",
+    "fvtt_id": "iDmOtiHJJ80AIAVT",
+    "img": "icons/creatures/mammals/rabbit-movement-glowing-green.webp",
+    "tier": 1,
+    "main_trait": "instinct",
+    "name_cn": "居家伴侣"
+  },
+  {
+    "slug": "mythic-aerial-hunter",
+    "name": "Mythic Aerial Hunter",
+    "fvtt_id": "jV6EuEacyQlHW4SN",
+    "img": "icons/creatures/reptiles/dragon-winged-blue.webp",
+    "tier": 4,
+    "main_trait": "finesse",
+    "name_cn": "神话空猎者"
+  },
+  {
+    "slug": "mythic-beast",
+    "name": "Mythic Beast",
+    "fvtt_id": "kObobka52JdpWBSu",
+    "img": "icons/creatures/eyes/lizard-single-slit-pink.webp",
+    "tier": 4,
+    "main_trait": "agility",
+    "name_cn": "神话野兽"
+  },
+  {
+    "slug": "powerful-beast",
+    "name": "Powerful Beast",
+    "fvtt_id": "m8BVTuJI1wCvzTcf",
+    "img": "icons/creatures/abilities/bear-roar-bite-brown-green.webp",
+    "tier": 2,
+    "main_trait": "strength",
+    "name_cn": "强大野兽"
+  },
+  {
+    "slug": "winged-beast",
+    "name": "Winged Beast",
+    "fvtt_id": "mZ4Wlqtss2FlNNvL",
+    "img": "icons/creatures/birds/raptor-owl-flying-moon.webp",
+    "tier": 2,
+    "main_trait": "finesse",
+    "name_cn": "翔空巨禽"
+  },
+  {
+    "slug": "legendary-beast",
+    "name": "Legendary Beast",
+    "fvtt_id": "mqP6z4Wg4K3oDAom",
+    "img": "icons/creatures/magical/humanoid-giant-forest-blue.webp",
+    "tier": 3,
+    "main_trait": "agility",
+    "name_cn": "传奇野兽"
+  },
+  {
+    "slug": "massive-behemoth",
+    "name": "Massive Behemoth",
+    "fvtt_id": "qjwMzPn33aKZACkv",
+    "img": "icons/creatures/mammals/beast-horned-scaled-glowing-orange.webp",
+    "tier": 4,
+    "main_trait": "strength",
+    "name_cn": "庞然巨兽"
+  },
+  {
+    "slug": "aquatic-scout",
+    "name": "Aquatic Scout",
+    "fvtt_id": "qqzdFCxyYupWZK23",
+    "img": "icons/creatures/tentacles/tentacles-octopus-black-pink.webp",
+    "tier": 1,
+    "main_trait": "agility",
+    "name_cn": "深洋斥候"
+  },
+  {
+    "slug": "legendary-hybrid",
+    "name": "Legendary Hybrid",
+    "fvtt_id": "rRUtgcUjimlpPhnn",
+    "img": "icons/creatures/magical/humanoid-silhouette-glowing-pink.webp",
+    "tier": 3,
+    "main_trait": "strength",
+    "name_cn": "传奇混种生物"
+  },
+  {
+    "slug": "epic-aquatic-beast",
+    "name": "Epic Aquatic Beast",
+    "fvtt_id": "wT4xbF99I55yjKZV",
+    "img": "icons/creatures/fish/squid-kraken-teal.webp",
+    "tier": 4,
+    "main_trait": "agility",
+    "name_cn": "史诗海兽"
+  },
+  {
+    "slug": "mighty-strider",
+    "name": "Mighty Strider",
+    "fvtt_id": "zRLjqKx4Rn2TjivL",
+    "img": "icons/environment/creatures/horse-tan.webp",
+    "tier": 2,
+    "main_trait": "agility",
+    "name_cn": "健步行者"
+  },
+  {
+    "slug": "beastform-transformation",
+    "name": "Beastform Transformation",
+    "fvtt_id": "qGhLojWa5430zRd1",
+    "img": "icons/creatures/abilities/paw-print-pair-purple.webp",
+    "tier": 1,
+    "main_trait": "",
+    "name_cn": "兽形态变身"
+  },
+  {
+    "slug": "beastform-transformation",
+    "name": "Beastform Transformation",
+    "fvtt_id": "GSmW6nJ3kyIoEK2H",
+    "img": "icons/creatures/abilities/paw-print-pair-purple.webp",
+    "tier": 1,
+    "main_trait": "",
+    "name_cn": "兽形态变身"
+  },
+  {
+    "slug": "beastform-transformation",
+    "name": "Beastform Transformation",
+    "fvtt_id": "qPtjZIkRVm68TGHN",
+    "img": "icons/creatures/abilities/paw-print-pair-purple.webp",
+    "tier": 1,
+    "main_trait": "",
+    "name_cn": "兽形态变身"
+  },
+  {
+    "slug": "beastform-transformation",
+    "name": "Beastform Transformation",
+    "fvtt_id": "hd0uVl6ZZeyPJn9O",
+    "img": "icons/creatures/abilities/paw-print-pair-purple.webp",
+    "tier": 1,
+    "main_trait": "",
+    "name_cn": "兽形态变身"
+  },
+  {
+    "slug": "beastform-transformation",
+    "name": "Beastform Transformation",
+    "fvtt_id": "d13EzuP8Co04Jk8K",
+    "img": "icons/creatures/abilities/paw-print-pair-purple.webp",
+    "tier": 1,
+    "main_trait": "",
+    "name_cn": "兽形态变身"
+  },
+  {
+    "slug": "beastform-transformation",
+    "name": "Beastform Transformation",
+    "fvtt_id": "YkZX2yc2X0QDFPBG",
+    "img": "icons/creatures/abilities/paw-print-pair-purple.webp",
+    "tier": 1,
+    "main_trait": "",
+    "name_cn": "兽形态变身"
+  },
+  {
+    "slug": "beastform-transformation",
+    "name": "Beastform Transformation",
+    "fvtt_id": "lIbJFb5XQ98Eaauu",
+    "img": "icons/creatures/abilities/paw-print-pair-purple.webp",
+    "tier": 1,
+    "main_trait": "",
+    "name_cn": "兽形态变身"
+  },
+  {
+    "slug": "beastform-transformation",
+    "name": "Beastform Transformation",
+    "fvtt_id": "7OTbmhQNtKhRAl59",
+    "img": "icons/creatures/abilities/paw-print-pair-purple.webp",
+    "tier": 1,
+    "main_trait": "",
+    "name_cn": "兽形态变身"
+  },
+  {
+    "slug": "beastform-transformation",
+    "name": "Beastform Transformation",
+    "fvtt_id": "HutJQ9HGtr1Eoibp",
+    "img": "icons/creatures/abilities/paw-print-pair-purple.webp",
+    "tier": 1,
+    "main_trait": "",
+    "name_cn": "兽形态变身"
+  },
+  {
+    "slug": "beastform-transformation",
+    "name": "Beastform Transformation",
+    "fvtt_id": "amuFS9LlEnzZnaIN",
+    "img": "icons/creatures/abilities/paw-print-pair-purple.webp",
+    "tier": 1,
+    "main_trait": "",
+    "name_cn": "兽形态变身"
+  },
+  {
+    "slug": "beastform-transformation",
+    "name": "Beastform Transformation",
+    "fvtt_id": "ehfx2SUKMiM6f5Pd",
+    "img": "icons/creatures/abilities/paw-print-pair-purple.webp",
+    "tier": 1,
+    "main_trait": "",
+    "name_cn": "兽形态变身"
+  },
+  {
+    "slug": "beastform-transformation",
+    "name": "Beastform Transformation",
+    "fvtt_id": "TFzvHClwIAQUFxyP",
+    "img": "icons/creatures/abilities/paw-print-pair-purple.webp",
+    "tier": 1,
+    "main_trait": "",
+    "name_cn": "兽形态变身"
+  },
+  {
+    "slug": "beastform-transformation",
+    "name": "Beastform Transformation",
+    "fvtt_id": "qGSm1QpICpxRZxLn",
+    "img": "icons/creatures/abilities/paw-print-pair-purple.webp",
+    "tier": 1,
+    "main_trait": "",
+    "name_cn": "兽形态变身"
+  },
+  {
+    "slug": "beastform-transformation",
+    "name": "Beastform Transformation",
+    "fvtt_id": "CzMAMg2q5gL15JrZ",
+    "img": "icons/creatures/abilities/paw-print-pair-purple.webp",
+    "tier": 1,
+    "main_trait": "",
+    "name_cn": "兽形态变身"
+  },
+  {
+    "slug": "beastform-transformation",
+    "name": "Beastform Transformation",
+    "fvtt_id": "hnKnaOaswWJdaYmf",
+    "img": "icons/creatures/abilities/paw-print-pair-purple.webp",
+    "tier": 1,
+    "main_trait": "",
+    "name_cn": "兽形态变身"
+  },
+  {
+    "slug": "beastform-transformation",
+    "name": "Beastform Transformation",
+    "fvtt_id": "vhwbPQ2YT64qD1t1",
+    "img": "icons/creatures/abilities/paw-print-pair-purple.webp",
+    "tier": 1,
+    "main_trait": "",
+    "name_cn": "兽形态变身"
+  },
+  {
+    "slug": "beastform-transformation",
+    "name": "Beastform Transformation",
+    "fvtt_id": "AZGTvqzFVHa4wS1a",
+    "img": "icons/creatures/abilities/paw-print-pair-purple.webp",
+    "tier": 1,
+    "main_trait": "",
+    "name_cn": "兽形态变身"
+  },
+  {
+    "slug": "beastform-transformation",
+    "name": "Beastform Transformation",
+    "fvtt_id": "Ln3atrxiqtPA0Wi6",
+    "img": "icons/creatures/abilities/paw-print-pair-purple.webp",
+    "tier": 1,
+    "main_trait": "",
+    "name_cn": "兽形态变身"
+  },
+  {
+    "slug": "beastform-transformation",
+    "name": "Beastform Transformation",
+    "fvtt_id": "cL4kH57pf2nGIxaK",
+    "img": "icons/creatures/abilities/paw-print-pair-purple.webp",
+    "tier": 1,
+    "main_trait": "",
+    "name_cn": "兽形态变身"
+  },
+  {
+    "slug": "beastform-transformation",
+    "name": "Beastform Transformation",
+    "fvtt_id": "RR6ySJU5zaC7ws6A",
+    "img": "icons/creatures/abilities/paw-print-pair-purple.webp",
+    "tier": 1,
+    "main_trait": "",
+    "name_cn": "兽形态变身"
+  },
+  {
+    "slug": "beastform-transformation",
+    "name": "Beastform Transformation",
+    "fvtt_id": "TsXyfEOCk0ma5tp9",
+    "img": "icons/creatures/abilities/paw-print-pair-purple.webp",
+    "tier": 1,
+    "main_trait": "",
+    "name_cn": "兽形态变身"
+  },
+  {
+    "slug": "beastform-transformation",
+    "name": "Beastform Transformation",
+    "fvtt_id": "RbZKFWATkfLZm67j",
+    "img": "icons/creatures/abilities/paw-print-pair-purple.webp",
+    "tier": 1,
+    "main_trait": "",
+    "name_cn": "兽形态变身"
+  },
+  {
+    "slug": "beastform-transformation",
+    "name": "Beastform Transformation",
+    "fvtt_id": "zYUexUr2e3k4kzhw",
+    "img": "icons/creatures/abilities/paw-print-pair-purple.webp",
+    "tier": 1,
+    "main_trait": "",
+    "name_cn": "兽形态变身"
+  },
+  {
+    "slug": "beastform-transformation",
+    "name": "Beastform Transformation",
+    "fvtt_id": "IWg2cWUdvucUOLAL",
+    "img": "icons/creatures/abilities/paw-print-pair-purple.webp",
+    "tier": 1,
+    "main_trait": "",
+    "name_cn": "兽形态变身"
+  }
+]

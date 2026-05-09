@@ -1,0 +1,602 @@
+[
+  {
+    "slug": "accomplished",
+    "name": "Accomplished",
+    "fvtt_id": "0wCctRupJAv5hTuE",
+    "type": "subclass_feature",
+    "img": "icons/sundries/scrolls/scroll-writing-orange-black.webp",
+    "description": "Take an additional domain card of your level or lower from a domain you have access to."
+  },
+  {
+    "slug": "slayer",
+    "name": "Slayer",
+    "fvtt_id": "1hF5KGKQc2VKT5O8",
+    "type": "subclass_feature",
+    "img": "icons/skills/melee/strike-axe-red.webp",
+    "description": "You gain a pool of dice called Slayer Dice. On a roll with Hope, you can place a d6 on this card instead of gaining a Hope, adding the die to the pool. You can store a number of Slayer Dice equal to your Proficiency. When you make an attack roll or damage roll, you can spend any number of these Slayer Dice, rolling them and adding their result to the roll. At the end of each session, clear any unspent Slayer Dice on this card and gain a Hope per die cleared."
+  },
+  {
+    "slug": "thrive-in-chaos",
+    "name": "Thrive in Chaos",
+    "fvtt_id": "1nmFmkNXY6OYyyju",
+    "type": "subclass_feature",
+    "img": "icons/magic/light/explosion-star-glow-silhouette.webp",
+    "description": "When you succeed on an attack, you can mark a Stress after rolling damage to force the target to mark an additional Hit Point."
+  },
+  {
+    "slug": "brilliant",
+    "name": "Brilliant",
+    "fvtt_id": "2A0HBDxGc4gEARou",
+    "type": "subclass_feature",
+    "img": "icons/sundries/scrolls/scroll-yellow-teal.webp",
+    "description": "Take an additional domain card of your level or lower from a domain you have access to."
+  },
+  {
+    "slug": "warden’s-protection",
+    "name": "Warden’s Protection",
+    "fvtt_id": "2F1bUFY80oce97C9",
+    "type": "subclass_feature",
+    "img": "icons/magic/nature/barrier-shield-wood-vines.webp",
+    "description": "Once per long rest, spend 2 Hope to clear 2 Hit Points on 1d4 allies within Close range."
+  },
+  {
+    "slug": "elemental-aura",
+    "name": "Elemental Aura",
+    "fvtt_id": "2JH9NaOh69yN80Gw",
+    "type": "subclass_feature",
+    "img": "icons/magic/control/debuff-energy-hold-green.webp",
+    "description": "Once per rest while Channeling, you can assume an aura matching your element. The aura affects targets within Close range until your Channeling ends.Fire: When an adversary marks 1 or more Hit Points, they must also mark a Stress.Earth: Your allies gain a +1 bonus to Strength.Water: When an adversary deals damage to you, you can mark a Stress to move them anywhere within Very Close range of where they are.Air: When you or an ally takes damage from an attack beyond Melee range, reduce the damage by 1d8."
+  },
+  {
+    "slug": "enchanted-aid",
+    "name": "Enchanted Aid",
+    "fvtt_id": "4pVBN8cuKePI423V",
+    "type": "subclass_feature",
+    "img": "icons/magic/movement/trail-streak-zigzag-teal.webp",
+    "description": "You can enhance the magic of others with your essence. When you Help an Ally with a Spellcast Roll, you can roll a d8 as your advantage die. Once per long rest, after an ally has made a Spellcast Roll with your help, you can swap the results of their Duality Dice."
+  },
+  {
+    "slug": "unrelenting",
+    "name": "Unrelenting",
+    "fvtt_id": "4qP7bNyxVHBmr4Rb",
+    "type": "subclass_feature",
+    "img": "icons/equipment/shield/heater-steel-crystal-red.webp",
+    "description": "Gain a permanent +2 bonus to your damage thresholds."
+  },
+  {
+    "slug": "eloquent",
+    "name": "Eloquent",
+    "fvtt_id": "5bmB1YcxiJVNVXDM",
+    "type": "subclass_feature",
+    "img": "icons/skills/social/diplomacy-writing-letter.webp",
+    "description": "Your moving words boost morale. Once per session, when you encourage an ally, you can do one of the following: Allow them to find a mundane object or tool they need.Help an Ally without spending Hope.Give them an additional downtime move during their next rest."
+  },
+  {
+    "slug": "iron-will",
+    "name": "Iron Will",
+    "fvtt_id": "7AVRNyBcd1Nffjtn",
+    "type": "subclass_feature",
+    "img": "icons/equipment/shield/heater-steel-worn.webp",
+    "description": "When you take physical damage, you can mark an additional Armor Slot to reduce the severity."
+  },
+  {
+    "slug": "well-connected",
+    "name": "Well-Connected",
+    "fvtt_id": "7KnSOazixXXSnspj",
+    "type": "subclass_feature",
+    "img": "icons/magic/defensive/illusion-evasion-echo-purple.webp",
+    "description": "When you arrive in a prominent town or environment, you know somebody who calls this place home. Give them a name, note how you think they could be useful, and choose one fact from the following list: They owe me a favor, but they’ll be hard to find.They’re going to ask for something in exchange. They’re always in a great deal of trouble. We used to be together. It’s a long story. We didn’t part on great terms."
+  },
+  {
+    "slug": "undaunted",
+    "name": "Undaunted",
+    "fvtt_id": "866b2jjyzXP8nPRQ",
+    "type": "subclass_feature",
+    "img": "icons/skills/melee/shield-block-gray-yellow.webp",
+    "description": "Gain a permanent +3 bonus to your damage thresholds."
+  },
+  {
+    "slug": "have-no-fear",
+    "name": "Have No Fear",
+    "fvtt_id": "8TH6h6a36h09mf6d",
+    "type": "subclass_feature",
+    "img": "icons/magic/unholy/silhouette-light-fire-blue.webp",
+    "description": "The extra magic damage from your “Face Your Fear” feature increases to 3d10."
+  },
+  {
+    "slug": "gifted-performer",
+    "name": "Gifted Performer",
+    "fvtt_id": "99U7YWNCxFZHCiT0",
+    "type": "subclass_feature",
+    "img": "icons/tools/instruments/harp-yellow-teal.webp",
+    "description": "You can play three different types of songs, once each per long rest; describe how you perform for others to gain the listed benefit: Relaxing Song: You and all allies within Close range clear a Hit Point.Epic Song: Make a target within Close range temporarily Vulnerable. Heartbreaking Song: You and all allies within Close range gain a Hope."
+  },
+  {
+    "slug": "heart-of-a-poet",
+    "name": "Heart of a Poet",
+    "fvtt_id": "Ce0sn0kqAw3PFe0k",
+    "type": "subclass_feature",
+    "img": "icons/magic/life/heart-hand-gold-green.webp",
+    "description": "After you make an action roll to impress, persuade, or offend someone, you can spend a Hope to add a d4 to the roll."
+  },
+  {
+    "slug": "elusive-predator",
+    "name": "Elusive Predator",
+    "fvtt_id": "Cjtc43V3IzAmfIFG",
+    "type": "subclass_feature",
+    "img": "icons/creatures/mammals/beast-horned-scaled-glowing-orange.webp",
+    "description": "When your Focus makes an attack against you, you gain a +2 bonus to your Evasion against the attack."
+  },
+  {
+    "slug": "face-your-fear",
+    "name": "Face Your Fear",
+    "fvtt_id": "D3ffFWSXCza4WGcM",
+    "type": "subclass_feature",
+    "img": "icons/magic/light/orb-hand-green.webp",
+    "description": "When you succeed with Fear on an attack roll, you deal an extra 1d10 magic damage."
+  },
+  {
+    "slug": "nemesis",
+    "name": "Nemesis",
+    "fvtt_id": "DPKmipNRlSAMs2Cg",
+    "type": "subclass_feature",
+    "img": "icons/magic/unholy/silhouette-robe-evil-power.webp",
+    "description": "Spend 2 Hope to Prioritize an adversary until your next rest. When you make an attack against your Prioritized adversary, you can swap the results of your Hope and Fear Dice. You can only Prioritize one adversary at a time."
+  },
+  {
+    "slug": "sacred-resonance",
+    "name": "Sacred Resonance",
+    "fvtt_id": "DxOAkDBfIMpXxAUD",
+    "type": "subclass_feature",
+    "img": "icons/magic/sonic/explosion-impact-shock-wave.webp",
+    "description": "When you roll damage for your “Spirit Weapon” feature, if any of the die results match, double the value of each matching die. For example, if you roll two 5s, they count as two 10s."
+  },
+  {
+    "slug": "elemental-dominion",
+    "name": "Elemental Dominion",
+    "fvtt_id": "EFUJHrkTuyv8uA9l",
+    "type": "subclass_feature",
+    "img": "icons/magic/nature/meteorite-purple.webp",
+    "description": "You further embody your element. While Channeling, you gain the following benefit:Fire: You gain a +1 bonus to your Proficiency for attacks and spells that deal damage.Earth: When you would mark Hit Points, roll a d6 per Hit Point marked. For each result of 6, reduce the number of Hit Points you mark by 1.Water: When an attack against you succeeds, you can mark a Stress to make the attacker temporarily Vulnerable.Air: You gain a +1 bonus to your Evasion and can fly"
+  },
+  {
+    "slug": "fleeting-shadow",
+    "name": "Fleeting Shadow",
+    "fvtt_id": "EY7Eo6hNGppVL3dR",
+    "type": "subclass_feature",
+    "img": "icons/magic/unholy/projectile-flame-white-purple.webp",
+    "description": "Gain a permanent +1 bonus to your Evasion. You can use your “Shadow Stepper” feature to move within Very Far range."
+  },
+  {
+    "slug": "partner-in-arms",
+    "name": "Partner-in-Arms",
+    "fvtt_id": "G54qY96XK62hgoK9",
+    "type": "subclass_feature",
+    "img": "icons/skills/social/diplomacy-handshake-yellow.webp",
+    "description": "When an ally within Very Close range takes damage, you can mark an Armor Slot to reduce the severity by one threshold."
+  },
+  {
+    "slug": "sparing-touch",
+    "name": "Sparing Touch",
+    "fvtt_id": "GfOSgVJW8bS1OjNq",
+    "type": "subclass_feature",
+    "img": "icons/magic/holy/prayer-hands-glowing-yellow.webp",
+    "description": "Once per long rest, touch a creature and clear 2 Hit Points or 2 Stress from them."
+  },
+  {
+    "slug": "weapon-specialist",
+    "name": "Weapon Specialist",
+    "fvtt_id": "HAqtoKUTrk8Mip1n",
+    "type": "subclass_feature",
+    "img": "icons/weapons/axes/axe-double-short-orange.webp",
+    "description": "You can wield multiple weapons with dangerous ease. When you succeed on an attack, you can spend a Hope to add one of the damage dice from your secondary weapon to the damage roll. Additionally, once per long rest when you roll your Slayer Dice, reroll any 1s."
+  },
+  {
+    "slug": "perfect-recall",
+    "name": "Perfect Recall",
+    "fvtt_id": "HzPa5U0EQhDfFTqW",
+    "type": "subclass_feature",
+    "img": "icons/magic/perception/third-eye-blue-red.webp",
+    "description": "Once per rest, when you recall a domain card in your vault, you can reduce its Recall Cost by 1."
+  },
+  {
+    "slug": "devout",
+    "name": "Devout",
+    "fvtt_id": "J3A7ycmj65hlhWnI",
+    "type": "subclass_feature",
+    "img": "icons/magic/holy/prayer-hands-glowing-yellow-white.webp",
+    "description": "When you roll your Prayer Dice, you can roll an additional die and discard the lowest result. Additionally, you can use your “Sparing Touch” feature twice instead of once per long rest."
+  },
+  {
+    "slug": "defender",
+    "name": "Defender",
+    "fvtt_id": "Jdktv5p1K2PfgxrT",
+    "type": "subclass_feature",
+    "img": "icons/magic/defensive/shield-barrier-flaming-diamond-acid.webp",
+    "description": "Your animal transformation embodies a healing guardian spirit. When you’re in Beastform and an ally within Close range marks 2 or more Hit Points, you can mark a Stress to reduce the number of Hit Points they mark by 1."
+  },
+  {
+    "slug": "regeneration",
+    "name": "Regeneration",
+    "fvtt_id": "KRyrbSLVGreIOTZe",
+    "type": "subclass_feature",
+    "img": "icons/magic/nature/beam-hand-leaves-green.webp",
+    "description": "Touch a creature and spend 3 Hope. That creature clears 1d4 Hit Points."
+  },
+  {
+    "slug": "wings-of-light",
+    "name": "Wings of Light",
+    "fvtt_id": "KkQH0tYhagIqe2MT",
+    "type": "subclass_feature",
+    "img": "icons/magic/light/projectile-beam-yellow.webp",
+    "description": "You can fly. While flying, you can do the following:Mark a Stress to pick up and carry another willing creature approximately your size or smaller.Spend a Hope to deal an extra 1d8 damage on a successful attack."
+  },
+  {
+    "slug": "companion",
+    "name": "Companion",
+    "fvtt_id": "MBFXxIEwc0Dl4kJg",
+    "type": "subclass_feature",
+    "img": "icons/creatures/mammals/deer-antlers-blue.webp",
+    "description": "You have an animal companion of your choice (at the GM’s discretion). They stay by your side unless you tell them otherwise. Take the Ranger Companion sheet. When you level up your character, choose a level-up option for your companion from this sheet as well."
+  },
+  {
+    "slug": "spirit-weapon",
+    "name": "Spirit Weapon",
+    "fvtt_id": "McoS0RxNLOg3SfSt",
+    "type": "subclass_feature",
+    "img": "icons/weapons/swords/sword-winged-pink.webp",
+    "description": "When you have an equipped weapon with a range of Melee or Very Close, it can fly from your hand to attack an adversary within Close range and then return to you. You can mark a Stress to target an additional adversary within range with the same attack roll."
+  },
+  {
+    "slug": "rousing-speech",
+    "name": "Rousing Speech",
+    "fvtt_id": "PCmYTX02JLzBpgml",
+    "type": "subclass_feature",
+    "img": "icons/tools/instruments/megaphone.webp",
+    "description": "Once per long rest, you can give a heartfelt, inspiring speech. All allies within Far range clear 2 Stress."
+  },
+  {
+    "slug": "reliable-backup",
+    "name": "Reliable Backup",
+    "fvtt_id": "QYNGdH37fsGuxS7L",
+    "type": "subclass_feature",
+    "img": "icons/magic/control/energy-stream-link-white.webp",
+    "description": "You can use your “Contacts Everywhere” feature three times per session. The following options are added to the list of benefits you can choose from when you use that feature: When you mark 1 or more Hit Points, they can rush out to shield you, reducing the Hit Points marked by 1.When you make a Presence Roll in conversation, they back you up. You can roll a d20 as your Hope Die."
+  },
+  {
+    "slug": "ruthless-predator",
+    "name": "Ruthless Predator",
+    "fvtt_id": "Qny2J3R35bvC0Cey",
+    "type": "subclass_feature",
+    "img": "icons/creatures/mammals/wolf-shadow-black.webp",
+    "description": "When you make a damage roll, you can mark a Stress to gain a +1 bonus to your Proficiency. Additionally, when you deal Severe damage to an adversary, they must mark a Stress."
+  },
+  {
+    "slug": "natural-evasion",
+    "name": "Natural Evasion",
+    "fvtt_id": "TnuLBtHQGbqyzn82",
+    "type": "subclass_feature",
+    "img": "icons/magic/movement/trail-streak-impact-blue.webp",
+    "description": "You can call forth your element to protect you from harm. When an attack roll against you succeeds, you can mark a Stress and describe how you use your element to defend you. When you do, roll a d6 and add its result to your Evasion against the attack."
+  },
+  {
+    "slug": "manipulate-magic",
+    "name": "Manipulate Magic",
+    "fvtt_id": "UNg4eyNfEQrMdD7G",
+    "type": "subclass_feature",
+    "img": "icons/magic/unholy/orb-hands-pink.webp",
+    "description": "Your primal origin allows you to modify the essence of magic itself. After you cast a spell or make an attack using a weapon that deals magic damage, you can mark a Stress to do one of the following:Extend the spell or attack’s reach by one rangeGain a +2 bonus to the action roll’s resultDouble a damage die of your choiceHit an additional target within range"
+  },
+  {
+    "slug": "unwavering",
+    "name": "Unwavering",
+    "fvtt_id": "WBiFZaYNoQNhysmN",
+    "type": "subclass_feature",
+    "img": "icons/equipment/shield/heater-steel-gold.webp",
+    "description": "Gain a permanent +1 bonus to your damage thresholds."
+  },
+  {
+    "slug": "battlemage",
+    "name": "Battlemage",
+    "fvtt_id": "Y9eGMewnFZgPvX0M",
+    "type": "subclass_feature",
+    "img": "icons/equipment/chest/collar-steel.webp",
+    "description": "You’ve focused your studies on becoming an unconquerable force on the battlefield. Gain an additional Hit Point slot."
+  },
+  {
+    "slug": "prepared",
+    "name": "Prepared",
+    "fvtt_id": "YS52ZGdce605wNVT",
+    "type": "subclass_feature",
+    "img": "icons/sundries/scrolls/scroll-bound-green.webp",
+    "description": "Take an additional domain card of your level or lower from a domain you have access to."
+  },
+  {
+    "slug": "power-of-the-gods",
+    "name": "Power of the Gods",
+    "fvtt_id": "Yij5sNyP1Ii7BAbc",
+    "type": "subclass_feature",
+    "img": "icons/magic/holy/projectiles-blades-salvo-yellow.webp",
+    "description": "While flying, you deal an extra 1d12 damage instead of 1d8 from your “Wings of Light” feature."
+  },
+  {
+    "slug": "maestro",
+    "name": "Maestro",
+    "fvtt_id": "ZFkCz8XV1EtMoJ1w",
+    "type": "subclass_feature",
+    "img": "icons/weapons/wands/wand-star-white.webp",
+    "description": "Your rallying songs steel the courage of those who listen. When you give a Rally Die to an ally, they can gain a Hope or clear a Stress."
+  },
+  {
+    "slug": "contacts-everywhere",
+    "name": "Contacts Everywhere",
+    "fvtt_id": "cXbRm744mW6UXGam",
+    "type": "subclass_feature",
+    "img": "icons/skills/social/theft-pickpocket-bribery-brown.webp",
+    "description": "Once per session, you can briefly call on a shady contact. Choose one of the following benefits and describe what brought them here to help you in this moment: They provide 1 handful of gold, a unique tool, or a mundane object that the situation requires.On your next action roll, their help provides a +3 bonus to the result of your Hope or Fear Die. The next time you deal damage, they snipe from the shadows, adding 2d8 to your damage roll."
+  },
+  {
+    "slug": "comaraderie",
+    "name": "Comaraderie",
+    "fvtt_id": "dArl2cxKIEGTicXU",
+    "type": "subclass_feature",
+    "img": "icons/skills/social/diplomacy-handshake-yellow.webp",
+    "description": "Your unwavering bravery is a rallying point for your allies. You can initiate a Tag Team Roll one additional time per session. Additionally, when an ally initiates a Tag Team Roll with you, they only need to spend 2 Hope to do so."
+  },
+  {
+    "slug": "martial-preparation",
+    "name": "Martial Preparation",
+    "fvtt_id": "dHgAnbt9m1KsQFmp",
+    "type": "subclass_feature",
+    "img": "icons/skills/melee/sword-winged-holy-orange.webp",
+    "description": "You’re an inspirational warrior to all who travel with you. Your party gains access to the Martial Preparation downtime move. To use this move during a rest, describe how you instruct and train with your party. You and each ally who chooses this downtime move gain a d6 Slayer Die. A PC with a Slayer Die can spend it to roll the die and add the result to an attack or damage roll of their choice."
+  },
+  {
+    "slug": "elementalist",
+    "name": "Elementalist",
+    "fvtt_id": "dPcqKN5NeDkjB1HW",
+    "type": "subclass_feature",
+    "img": "icons/magic/fire/flame-burning-hand-white.webp",
+    "description": "Choose one of the following elements at character creation: air, earth, fire, lightning, water.You can shape this element into harmless effects. Additionally, spend a Hope and describe how your control over this element helps an action roll you’re about to make, then either gain a +2 bonus to the roll or a +3 bonus to the roll’s damage."
+  },
+  {
+    "slug": "rise-to-the-challenge",
+    "name": "Rise to the Challenge",
+    "fvtt_id": "dcutk8RVOJ2sEkO1",
+    "type": "subclass_feature",
+    "img": "icons/magic/control/debuff-energy-hold-levitate-yellow.webp",
+    "description": "You are vigilant in the face of mounting danger. While you have 2 or fewer Hit Points unmarked, you can roll a d20 as your Hope Die."
+  },
+  {
+    "slug": "epic-poetry",
+    "name": "Epic Poetry",
+    "fvtt_id": "eCoEWkWuZPMZ9C6a",
+    "type": "subclass_feature",
+    "img": "icons/sundries/documents/document-letter-blue.webp",
+    "description": "Your Rally Die increases to a d10. Additionally, when you Help an Ally, you can narrate the moment as if you were writing the tale of their heroism in a memoir. When you do, roll a d10 as your advantage die."
+  },
+  {
+    "slug": "clarity-of-nature",
+    "name": "Clarity of Nature",
+    "fvtt_id": "etaQ01yGJhBLDUqZ",
+    "type": "subclass_feature",
+    "img": "icons/magic/nature/tree-twisted-glow-yellow.webp",
+    "description": "Once per long rest, you can create a space of natural serenity within Close range. When you spend a few minutes resting within the space, clear Stress equal to your Instinct, distributed as you choose between you and your allies."
+  },
+  {
+    "slug": "elemental-incarnation",
+    "name": "Elemental Incarnation",
+    "fvtt_id": "f37TTgCc0Q3Ih1A1",
+    "type": "subclass_feature",
+    "img": "icons/magic/nature/thorns-hand-glow-green.webp",
+    "description": "Mark a Stress to Channel one of the following elements until you take Severe damage or until your next rest:Fire: When an adversary within Melee range deals damage to you, they take 1d10 magic damage.Earth: Gain a bonus to your damage thresholds equal to your Proficiency.Water: When you deal damage to an adversary within Melee range, all other adversaries within Very Close range must mark a Stress. Air: You can hover, gaining advantage on Agility Rolls."
+  },
+  {
+    "slug": "ascendant",
+    "name": "Ascendant",
+    "fvtt_id": "fefLgx6kcYWusjBb",
+    "type": "subclass_feature",
+    "img": "icons/magic/defensive/shield-barrier-deflect-gold.webp",
+    "description": "Gain a permanent +4 bonus to your Severe damage threshold."
+  },
+  {
+    "slug": "dark-cloud",
+    "name": "Dark Cloud",
+    "fvtt_id": "frBTtNMX9Y2gkuPz",
+    "type": "subclass_feature",
+    "img": "icons/magic/air/wind-vortex-swirl-purple.webp",
+    "description": "Make a Spellcast Roll (15). On a success, create a temporary dark cloud that covers any area within Close range. Anyone in this cloud can’t see outside of it, and anyone outside of it can’t see in. You’re considered Cloaked from any adversary for whom the cloud blocks line of sight.@Template[type:emanation|range:c]"
+  },
+  {
+    "slug": "shadow-stepper",
+    "name": "Shadow Stepper",
+    "fvtt_id": "hAwTXjhyphiE3aeW",
+    "type": "subclass_feature",
+    "img": "icons/magic/unholy/projectile-smoke-trail-pink.webp",
+    "description": "You can move from shadow to shadow. When you move into an area of darkness or a shadow cast by another creature or object, you can mark a Stress to disappear from where you are and reappear inside another shadow within Far range. When you reappear, you are Cloaked."
+  },
+  {
+    "slug": "fueled-by-fear",
+    "name": "Fueled by Fear",
+    "fvtt_id": "hNqLf3zEfKRzSbvq",
+    "type": "subclass_feature",
+    "img": "icons/magic/symbols/rune-sigil-hook-white-red.webp",
+    "description": "The extra magic damage from your “Face Your Fear” feature increases to 2d10."
+  },
+  {
+    "slug": "battle-bonded",
+    "name": "Battle-Bonded",
+    "fvtt_id": "hWsKyed1vfILg0I8",
+    "type": "subclass_feature",
+    "img": "icons/creatures/mammals/humanoid-wolf-dog-blue.webp",
+    "description": "When an adversary attacks you while they’re within your companion’s Melee range, you gain a +2 bonus to your Evasion against the attack."
+  },
+  {
+    "slug": "loyal-protector",
+    "name": "Loyal Protector",
+    "fvtt_id": "hd7UeBPr86Mz21Pe",
+    "type": "subclass_feature",
+    "img": "icons/magic/defensive/shield-barrier-deflect-teal.webp",
+    "description": "When an ally within Close range has 2 or fewer Hit Points and would take damage, you can mark a Stress to sprint to their side and take the damage instead."
+  },
+  {
+    "slug": "expert-training",
+    "name": "Expert Training",
+    "fvtt_id": "iCXtOWBKv1FdKdWz",
+    "type": "subclass_feature",
+    "img": "icons/creatures/mammals/dog-husky-white-blue.webp",
+    "description": "Choose an additional level-up option for your companion."
+  },
+  {
+    "slug": "vanishing-act",
+    "name": "Vanishing Act",
+    "fvtt_id": "iyIg1VLwO8C6jvFZ",
+    "type": "subclass_feature",
+    "img": "icons/magic/unholy/strike-hand-glow-pink.webp",
+    "description": "Mark a Stress to become Cloaked at any time. When Cloaked from this feature, you automatically clear the Restrained condition if you have it. You remain Cloaked in this way until you roll with Fear or until your next rest."
+  },
+  {
+    "slug": "act-of-reprisal",
+    "name": "Act of Reprisal",
+    "fvtt_id": "k7vvMJtEcxMWUUrW",
+    "type": "subclass_feature",
+    "img": "icons/skills/targeting/crosshair-arrowhead-blue.webp",
+    "description": "When an adversary damages an ally within Melee range, you gain a +1 bonus to your Proficiency for the next successful attack you make against that adversary."
+  },
+  {
+    "slug": "virtuoso",
+    "name": "Virtuoso",
+    "fvtt_id": "kn2t409o0FDFQieo",
+    "type": "subclass_feature",
+    "img": "icons/magic/light/explosion-star-small-teal.webp",
+    "description": "You are among the greatest of your craft and your skill is boundless. You can perform each of your \"Gifted Performer\" feature’s songs twice per long rest."
+  },
+  {
+    "slug": "apex-predator",
+    "name": "Apex Predator",
+    "fvtt_id": "lwH3E0Zyf4gbVOd0",
+    "type": "subclass_feature",
+    "img": "icons/creatures/mammals/bat-giant-tattered-purple.webp",
+    "description": "Before you make an attack roll against your Focus, you can spend a Hope. On a successful attack, you remove a Fear from the GM’s Fear pool."
+  },
+  {
+    "slug": "courage",
+    "name": "Courage",
+    "fvtt_id": "o5j2vjXU8NicYlXx",
+    "type": "subclass_feature",
+    "img": "icons/magic/control/silhouette-hold-change-blue.webp",
+    "description": "When you fail a roll with Fear, you gain a Hope."
+  },
+  {
+    "slug": "regenerative-reach",
+    "name": "Regenerative Reach",
+    "fvtt_id": "oLO3VjGkMcK1uvB9",
+    "type": "subclass_feature",
+    "img": "icons/magic/nature/root-vines-entwined-leaves.webp",
+    "description": "You can target creatures within Very Close range with your “Regeneration” feature."
+  },
+  {
+    "slug": "revenge",
+    "name": "Revenge",
+    "fvtt_id": "oNfA5F9cKwNR7joq",
+    "type": "subclass_feature",
+    "img": "icons/magic/unholy/silhouette-robe-evil-glow.webp",
+    "description": "When an adversary within Melee range succeeds on an attack against you, you can mark 2 Stress to force the attacker to mark a Hit Point."
+  },
+  {
+    "slug": "conjure-shield",
+    "name": "Conjure Shield",
+    "fvtt_id": "oirsCnN66GOlK3Fa",
+    "type": "subclass_feature",
+    "img": "icons/magic/defensive/barrier-shield-dome-blue-purple.webp",
+    "description": "You can maintain a protective barrier of magic. While you have at least 2 Hope, you add your Proficiency to your Evasion."
+  },
+  {
+    "slug": "battle-ritual",
+    "name": "Battle Ritual",
+    "fvtt_id": "qqb5acyUSl1sCpWW",
+    "type": "subclass_feature",
+    "img": "icons/weapons/swords/sword-gold-holy.webp",
+    "description": "Once per long rest, before you attempt something incredibly dangerous or face off against a foe who clearly outmatches you, describe what ritual you perform or preparations you make. When you do, clear 2 Stress and gain 2 Hope."
+  },
+  {
+    "slug": "transcendence",
+    "name": "Transcendence",
+    "fvtt_id": "th6HZwEFnVBjUtqm",
+    "type": "subclass_feature",
+    "img": "icons/magic/fire/elemental-fire-flying.webp",
+    "description": "Once per long rest, you can transform into a physical manifestation of your element. When you do, describe your transformation and choose two of the following benefits to gain until your next rest:+4 bonus to your Severe threshold+1 bonus to a character trait of your choice+1 bonus to your Proficiency+2 bonus to your Evasion"
+  },
+  {
+    "slug": "ethereal-visage",
+    "name": "Ethereal Visage",
+    "fvtt_id": "tyGB6wRKjYdIBK1i",
+    "type": "subclass_feature",
+    "img": "icons/magic/holy/saint-glass-portrait-halo.webp",
+    "description": "Your supernatural visage strikes awe and fear. While flying, you have advantage on Presence Rolls. When you succeed with Hope on a Presence Roll, you can remove a Fear from the GM’s Fear pool instead of gaining Hope."
+  },
+  {
+    "slug": "adrenaline",
+    "name": "Adrenaline",
+    "fvtt_id": "uByM34yQlw38yf1V",
+    "type": "subclass_feature",
+    "img": "icons/magic/unholy/hand-marked-pink.webp",
+    "description": "While you're Vulnerable, add your level to your damage rolls."
+  },
+  {
+    "slug": "advanced-training",
+    "name": "Advanced Training",
+    "fvtt_id": "uGcs785h94RMtueH",
+    "type": "subclass_feature",
+    "img": "icons/creatures/mammals/wolf-howl-moon-gray.webp",
+    "description": "Choose two additional level-up options for your companion."
+  },
+  {
+    "slug": "path-forward",
+    "name": "Path Forward",
+    "fvtt_id": "uPPBOpoulUmSLlzr",
+    "type": "subclass_feature",
+    "img": "icons/environment/wilderness/terrain-river-road-gray.webp",
+    "description": "When you’re traveling to a place you’ve previously visited or you carry an object that has been at the location before, you can identify the shortest, most direct path to your destination."
+  },
+  {
+    "slug": "adept",
+    "name": "Adept",
+    "fvtt_id": "v511C6GMShsBblah",
+    "type": "subclass_feature",
+    "img": "icons/magic/symbols/chevron-elipse-circle-blue.webp",
+    "description": "When you Utilize an Experience, you can mark a Stress instead of spending a Hope. If you do, double your Experience modifier for that roll."
+  },
+  {
+    "slug": "honed-expertise",
+    "name": "Honed Expertise",
+    "fvtt_id": "w1BwNKxbQOSizLmZ",
+    "type": "subclass_feature",
+    "img": "icons/skills/trades/academics-book-study-runes.webp",
+    "description": "When you use an Experience, roll a d6. On a result of 5 or higher, you can use it without spending Hope."
+  },
+  {
+    "slug": "at-ease",
+    "name": "At Ease",
+    "fvtt_id": "xPWFvGvtUjIcqgJq",
+    "type": "subclass_feature",
+    "img": "icons/magic/holy/meditation-chi-focus-blue.webp",
+    "description": "Gain an additional Stress slot."
+  },
+  {
+    "slug": "loyal-friend",
+    "name": "Loyal Friend",
+    "fvtt_id": "xjZHD5Yo3Tu26rLm",
+    "type": "subclass_feature",
+    "img": "icons/creatures/mammals/humanoid-wolf-dog-blue.webp",
+    "description": "Once per long rest, when the damage from an attack would mark your companion’s last Stress or your last Hit Point and you’re within Close range of each other, you or your companion can rush to the other’s side and take that damage instead."
+  },
+  {
+    "slug": "arcane-charge",
+    "name": "Arcane Charge",
+    "fvtt_id": "yA4MKQ1tbKFiJoDB",
+    "type": "subclass_feature",
+    "img": "icons/magic/unholy/barrier-fire-pink.webp",
+    "description": "You can gather magical energy to enhance your capabilities. When you take magic damage, you become Charged. Alternatively, you can spend 2 Hope to become Charged. When you successfully make an attack that deals magic damage while Charged, you can clear your Charge to either gain a +10 bonus to the damage roll or gain a +3 bonus to the Difficulty of a reaction roll the spell causes the target to make. You stop being Charged at your next long rest."
+  }
+]

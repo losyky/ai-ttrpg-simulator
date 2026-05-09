@@ -1,0 +1,482 @@
+[
+  {
+    "slug": "minor-stamina-potion-recipe",
+    "name": "Minor Stamina Potion Recipe",
+    "fvtt_id": "1TLpFsp3PLDsqoTw",
+    "img": "icons/sundries/scrolls/scroll-bound-green.webp",
+    "description": "As a downtime move, you can use the bone of a creature to craft a Minor Stamina Potion.",
+    "name_cn": "初级耐力药剂配方"
+  },
+  {
+    "slug": "shard-of-memory",
+    "name": "Shard of Memory",
+    "fvtt_id": "2ULPgNyqCrxea0v0",
+    "img": "icons/commodities/gems/gem-rough-navette-purple-pink.webp",
+    "description": "Once per long rest, you can spend 2 Hope to recall a domain card from your vault instead of paying its Recall Cost.",
+    "name_cn": "记忆碎片"
+  },
+  {
+    "slug": "arcane-cloak",
+    "name": "Arcane Cloak",
+    "fvtt_id": "4STt98biZwjFoKOe",
+    "img": "icons/equipment/back/cloak-layered-green-brown.webp",
+    "description": "A creature with a Spellcast trait wearing this cloak can adjust its color, texture, and size at will.",
+    "name_cn": "奥术斗篷"
+  },
+  {
+    "slug": "mythic-dust-recipe",
+    "name": "Mythic Dust Recipe",
+    "fvtt_id": "5YZls8XH3MB7twNa",
+    "img": "icons/sundries/scrolls/scroll-bound-green.webp",
+    "description": "As a downtime move, you can use a handful of fine gold dust to craft Mythic Dust.",
+    "name_cn": "神话粉尘配方"
+  },
+  {
+    "slug": "valorstone",
+    "name": "Valorstone",
+    "fvtt_id": "7yywua9TmQ4WP5WH",
+    "img": "icons/commodities/treasure/token-engraved-spiral-grey-white.webp",
+    "description": "You can attach this stone to armor that doesn’t already have a feature. The armor gains the following feature.Resilient: Before you mark your last Armor Slot, roll a d6. On a result of 6, reduce the severity by one threshold without marking an Armor Slot.",
+    "name_cn": "勇气石"
+  },
+  {
+    "slug": "hopekeeper-locket",
+    "name": "Hopekeeper Locket",
+    "fvtt_id": "9DcFR75tsnBYIp6Z",
+    "img": "icons/equipment/neck/amulet-round-engraved-spiral-gold.webp",
+    "description": "During a long rest, if you have 6 Hope, you can spend a Hope to imbue this locket with your bountiful resolve.When you have 0 Hope, you can use the locket to immediately gain a Hope. The locket must be re-imbued before it can be used this way again.",
+    "name_cn": "希望守护坠盒"
+  },
+  {
+    "slug": "charm-relic",
+    "name": "Charm Relic",
+    "fvtt_id": "9P9jqGSlxVCbTdLe",
+    "img": "icons/commodities/treasure/token-runed-wyn-grey.webp",
+    "description": "You gain a +1 bonus to your Presence. You can only carry one relic.",
+    "name_cn": "魅力圣物"
+  },
+  {
+    "slug": "flickerfly-pendant",
+    "name": "Flickerfly Pendant",
+    "fvtt_id": "9VKYSBQxN9XFWlAm",
+    "img": "icons/equipment/neck/choker-rough-green.webp",
+    "description": "While you carry this pendant, your weapons with a Melee range that deal physical damage have a gossamer sheen and can attack targets within Very Close range.",
+    "name_cn": "萤火虫吊坠"
+  },
+  {
+    "slug": "woven-net",
+    "name": "Woven Net",
+    "fvtt_id": "ARuv48PWUGJGBC4n",
+    "img": "icons/tools/fishing/net-tan.webp",
+    "description": "You can make a Finesse Roll using this net to trap a small creature. A trapped target can break free with a successful Attack Roll (16).",
+    "name_cn": "编织网"
+  },
+  {
+    "slug": "gecko-gloves",
+    "name": "Gecko Gloves",
+    "fvtt_id": "CGzjBpHJRG8KSt5Y",
+    "img": "icons/equipment/hand/glove-ring-leather-green.webp",
+    "description": "You can climb up vertical surfaces and across ceilings.",
+    "name_cn": "壁虎手套"
+  },
+  {
+    "slug": "glider",
+    "name": "Glider",
+    "fvtt_id": "CiXwelozmBDcPY48",
+    "img": "icons/commodities/leather/leather-patch-red.webp",
+    "description": "While falling, you can mark a Stress to deploy this small parachute and glide safely to the ground.",
+    "name_cn": "滑翔翼"
+  },
+  {
+    "slug": "gem-of-precision",
+    "name": "Gem of Precision",
+    "fvtt_id": "CrvJ7vb4s40YgEcy",
+    "img": "icons/commodities/gems/gem-rough-cushion-green.webp",
+    "description": "You can attach this gem to a weapon, allowing you to use your Finesse when making an attack with that weapon.",
+    "name_cn": "精准宝石"
+  },
+  {
+    "slug": "paragon’s-chain",
+    "name": "Paragon’s Chain",
+    "fvtt_id": "F4hoRfvVdZq5bhhI",
+    "img": "icons/equipment/neck/choker-chain-thin-gold.webp",
+    "description": "As a downtime move, you can meditate on an ideal or principle you hold dear and focus your will into this chain.Once per long rest, you can spend a Hope to roll a d20 as your Hope Die for rolls that directly align with that principle.",
+    "name_cn": "典范之链"
+  },
+  {
+    "slug": "stride-relic",
+    "name": "Stride Relic",
+    "fvtt_id": "FfJISMzYATaPQPLc",
+    "img": "icons/commodities/treasure/token-runed-ing-brown.webp",
+    "description": "You gain a +1 bonus to your Agility. You can only carry one relic.",
+    "name_cn": "步幅圣物"
+  },
+  {
+    "slug": "corrector-sprite",
+    "name": "Corrector Sprite",
+    "fvtt_id": "G0RktbmtnuAlKCRH",
+    "img": "icons/magic/light/orbs-smoke-pink.webp",
+    "description": "This tiny sprite sits in the curve of your ear canal and whispers helpful advice during combat. Once per short rest, you can gain advantage on an attack roll.",
+    "name_cn": "矫正精灵"
+  },
+  {
+    "slug": "manacles",
+    "name": "Manacles",
+    "fvtt_id": "GkmATIuemyFtQX1D",
+    "img": "icons/sundries/survival/cuffs-shackles-steel.webp",
+    "description": "This pair of locking cuffs comes with a key.",
+    "name_cn": "镣铐"
+  },
+  {
+    "slug": "dual-flask",
+    "name": "Dual Flask",
+    "fvtt_id": "HCvcAu3sdHCspGMP",
+    "img": "icons/consumables/potions/round-decorated-snake-green.webp",
+    "description": "This flask can hold two different liquids. You can swap between them by flipping a small switch on the flask’s side.",
+    "name_cn": "双层瓶"
+  },
+  {
+    "slug": "piercing-arrows",
+    "name": "Piercing Arrows",
+    "fvtt_id": "I63LTFD6GXHgyGpR",
+    "img": "icons/weapons/ammunition/arrow-broadhead-glowing-orange.webp",
+    "description": "Three times per rest when you succeed on an attack with one of these arrows, you can add your Proficiency to the damage roll.",
+    "name_cn": "穿透箭"
+  },
+  {
+    "slug": "infinite-bag",
+    "name": "Infinite Bag",
+    "fvtt_id": "Iedjw1LVWEozVh0J",
+    "img": "icons/containers/bags/pack-engraved-leather-blue.webp",
+    "description": "When you store items in this bag, they are kept in a pocket dimension that never runs out of space. You can retrieve an item at any time.",
+    "name_cn": "无限之袋"
+  },
+  {
+    "slug": "lorekeeper",
+    "name": "Lorekeeper",
+    "fvtt_id": "JsPYzrqpITqGj23I",
+    "img": "icons/sundries/books/book-backed-wood-tan.webp",
+    "description": "You can store the name and details of up to three hostile creatures inside this book. You gain a +1 bonus to action rolls against those creatures.",
+    "name_cn": "知识守护者"
+  },
+  {
+    "slug": "ring-of-silence",
+    "name": "Ring of Silence",
+    "fvtt_id": "K1ysGnTpNyxPu5Au",
+    "img": "icons/equipment/finger/ring-ball-purple.webp",
+    "description": "Spend a Hope to activate this ring. Your footsteps are silent until your next rest.",
+    "name_cn": "静默之戒"
+  },
+  {
+    "slug": "speaking-orbs",
+    "name": "Speaking Orbs",
+    "fvtt_id": "LZrG6CFiSjpLA2F1",
+    "img": "icons/commodities/materials/glass-orb-blue-gold.webp",
+    "description": "This pair of orbs allows any creatures holding them to communicate with each other across any distance.",
+    "name_cn": "通讯球"
+  },
+  {
+    "slug": "alistair’s-torch",
+    "name": "Alistair’s Torch",
+    "fvtt_id": "MeEg57T6MKpw3sme",
+    "img": "icons/sundries/lights/torch-brown-lit.webp",
+    "description": "You can light this magic torch at will. The flame’s light fills a much larger space than it should, enough to illuminate a cave bright as day.",
+    "name_cn": "阿利斯泰尔的火炬"
+  },
+  {
+    "slug": "vial-of-darksmoke-recipe",
+    "name": "Vial of Darksmoke Recipe",
+    "fvtt_id": "MhCo8i0cRXzdnXbA",
+    "img": "icons/sundries/scrolls/scroll-bound-black-brown.webp",
+    "description": "As a downtime move, you can mark a Stress to craft a Vial of Darksmoke.",
+    "name_cn": "暗烟小瓶配方"
+  },
+  {
+    "slug": "arcane-prism",
+    "name": "Arcane Prism",
+    "fvtt_id": "Mn1eo2Mdtu1kzyxB",
+    "img": "icons/commodities/gems/gem-faceted-trillion-blue.webp",
+    "description": "Position this prism in a location of your choosing and activate it. All allies within Close range of it gain a +1 bonus to their Spellcast Rolls. While activated, the prism can’t be moved. Once the prism is deactivated, it can’t be activated again until your next long rest.",
+    "name_cn": "奥术棱镜"
+  },
+  {
+    "slug": "lakestrider-boots",
+    "name": "Lakestrider Boots",
+    "fvtt_id": "NgvmrJYKpA2PrRSo",
+    "img": "icons/equipment/feet/shoes-collared-leather-blue.webp",
+    "description": "You can walk on the surface of water as if it were soft ground.",
+    "name_cn": "踏湖之靴"
+  },
+  {
+    "slug": "minor-health-potion-recipe",
+    "name": "Minor Health Potion Recipe",
+    "fvtt_id": "PQxvxAVBbkt0TleC",
+    "img": "icons/sundries/scrolls/scroll-bound-red.webp",
+    "description": "As a downtime move, you can use a vial of blood to craft a Minor Health Potion.",
+    "name_cn": "初级生命药剂配方"
+  },
+  {
+    "slug": "glamour-stone",
+    "name": "Glamour Stone",
+    "fvtt_id": "Pj17cvdJ1XG1jv6I",
+    "img": "icons/commodities/treasure/token-engraved-purple-glowing.webp",
+    "description": "Activate this pebble-sized stone to memorize the appearance of someone you can see. Spend a Hope to magically recreate this guise on yourself as an illusion.",
+    "name_cn": "幻影石"
+  },
+  {
+    "slug": "elusive-amulet",
+    "name": "Elusive Amulet",
+    "fvtt_id": "PkmTZXRMZL022O75",
+    "img": "icons/equipment/neck/pendant-rough-silver-purple.webp",
+    "description": "Once per long rest, you can activate this amulet to become Hidden until you move. While Hidden in this way, you remain unseen even if an adversary moves to where they would normally see you.",
+    "name_cn": "闪避护符"
+  },
+  {
+    "slug": "premium-bedroll",
+    "name": "Premium Bedroll",
+    "fvtt_id": "QGYPNBIufpBguwjC",
+    "img": "icons/sundries/survival/bedroll-blue-red.webp",
+    "description": "During downtime, you automatically clear a Stress.",
+    "name_cn": "高级铺盖"
+  },
+  {
+    "slug": "phoenix-feather",
+    "name": "Phoenix Feather",
+    "fvtt_id": "QNtzJSVENww63THa",
+    "img": "icons/commodities/materials/feather-red.webp",
+    "description": "If you have at least one Phoenix Feather on you when you fall unconscious, you gain a +1 bonus to the roll you make to determine whether you gain a scar.",
+    "name_cn": "凤凰之羽"
+  },
+  {
+    "slug": "control-relic",
+    "name": "Control Relic",
+    "fvtt_id": "QPGBDItjrRhXU6iJ",
+    "img": "icons/commodities/treasure/token-runed-sigel-brown.webp",
+    "description": "You gain a +1 bonus to your Finesse. You can only carry one relic.",
+    "name_cn": "控制圣物"
+  },
+  {
+    "slug": "honing-relic",
+    "name": "Honing Relic",
+    "fvtt_id": "SAAnEAeXDnhBbLjB",
+    "img": "icons/commodities/treasure/token-runed-nyd-yellow.webp",
+    "description": "You gain a +1 bonus to an Experience of your choice. You can only carry one relic.",
+    "name_cn": "磨砺圣物"
+  },
+  {
+    "slug": "gem-of-insight",
+    "name": "Gem of Insight",
+    "fvtt_id": "TbgeT9ZxKHqFqJSN",
+    "img": "icons/commodities/gems/gem-rough-cushion-blue.webp",
+    "description": "You can attach this gem to a weapon, allowing you to use your Instinct when making an attack with that weapon.",
+    "name_cn": "洞察宝石"
+  },
+  {
+    "slug": "companion-case",
+    "name": "Companion Case",
+    "fvtt_id": "V25uXkAQvK3hUta4",
+    "img": "icons/containers/chest/chest-reinforced-steel-red.webp",
+    "description": "This case can fit a small animal companion. While the companion is inside, the animal and case are immune to all damage and harmful effects.",
+    "name_cn": "同伴匣"
+  },
+  {
+    "slug": "fire-jar",
+    "name": "Fire Jar",
+    "fvtt_id": "X6RMkIt89wf7qX2E",
+    "img": "icons/containers/kitchenware/jug-wrapped-red.webp",
+    "description": "You can pour out the strange liquid contents of this jar to instantly produce fire. The contents regenerate when you take a long rest.",
+    "name_cn": "火焰罐"
+  },
+  {
+    "slug": "ring-of-resistance",
+    "name": "Ring of Resistance",
+    "fvtt_id": "aUqRifqR5JXXa1dN",
+    "img": "icons/equipment/finger/ring-shield-silver.webp",
+    "description": "Once per long rest, you can activate this ring after a successful attack against you to halve the damage.",
+    "name_cn": "抗性之戒"
+  },
+  {
+    "slug": "box-of-many-goods",
+    "name": "Box of Many Goods",
+    "fvtt_id": "bZyT7Qw7iafswlTY",
+    "img": "icons/containers/boxes/crate-heavy-yellow.webp",
+    "description": "Once per long rest, you can open this small box and roll a [[/r d12]]. On a result of 1–6, it’s empty. On a result of 7–10, it contains one random common consumable. On a result of 11–12, it contains two random common consumables.",
+    "name_cn": "百宝箱"
+  },
+  {
+    "slug": "airblade-charm",
+    "name": "Airblade Charm",
+    "fvtt_id": "cTYvyaSKBxosM9Y9",
+    "img": "icons/equipment/neck/amulet-carved-stone-spiral-blue.webp",
+    "description": "You can attach this charm to a weapon with a Melee range. Three times per rest, you can activate the charm and attack a target within Close range.",
+    "name_cn": "风刃挂饰"
+  },
+  {
+    "slug": "portal-seed",
+    "name": "Portal Seed",
+    "fvtt_id": "eRd5Gk7J7hPCqp11",
+    "img": "icons/commodities/treasure/egg-ornate-green-gold.webp",
+    "description": "You can plant this seed in the ground to grow a portal in that spot. The portal is ready to use in 24 hours. You can use this portal to travel to any other location where you planted a portal seed. A portal can be destroyed by dealing any amount of magic damage to it.",
+    "name_cn": "传送种子"
+  },
+  {
+    "slug": "skeleton-key",
+    "name": "Skeleton Key",
+    "fvtt_id": "edkNgwy4xghZreBa",
+    "img": "icons/sundries/misc/key-ornate-iron-black.webp",
+    "description": "When you use this key to open a locked door, you gain advantage on the Finesse Roll.",
+    "name_cn": "万能钥匙"
+  },
+  {
+    "slug": "belt-of-unity",
+    "name": "Belt of Unity",
+    "fvtt_id": "gFzkUGCjkRJtyoe9",
+    "img": "icons/equipment/waist/belt-buckle-ornate-steel.webp",
+    "description": "Once per session, you can spend 5 Hope to lead a Tag Team Roll with three PCs instead of two.",
+    "name_cn": "团结之带"
+  },
+  {
+    "slug": "charging-quiver",
+    "name": "Charging Quiver",
+    "fvtt_id": "gsUDP90d4SRtLEUn",
+    "img": "icons/containers/ammunition/arrows-quiver-grey-gold.webp",
+    "description": "When you succeed on an attack with an arrow stored in this quiver, gain a bonus to the damage roll equal to your current tier.",
+    "name_cn": "充能箭袋"
+  },
+  {
+    "slug": "gem-of-audacity",
+    "name": "Gem of Audacity",
+    "fvtt_id": "hMu9It3ThCLCXuCA",
+    "img": "icons/commodities/gems/gem-rough-cushion-pink-yellow.webp",
+    "description": "You can attach this gem to a weapon, allowing you to use your Presence when making an attack with that weapon.",
+    "name_cn": "大胆宝石"
+  },
+  {
+    "slug": "ring-of-unbreakable-resolve",
+    "name": "Ring of Unbreakable Resolve",
+    "fvtt_id": "kn71qCQY0DnjmQBJ",
+    "img": "icons/equipment/finger/ring-faceted-gold-teal.webp",
+    "description": "Once per session, when the GM spends a Fear, you can spend 4 Hope to cancel the effects of that spent Fear.",
+    "name_cn": "不屈意志之戒"
+  },
+  {
+    "slug": "clay-companion",
+    "name": "Clay Companion",
+    "fvtt_id": "lGIk9vBNz0jvskXD",
+    "img": "icons/commodities/gems/pearl-brown.webp",
+    "description": "When you sculpt this ball of clay into a clay animal companion, it behaves as that animal. For example, a clay spider can spin clay webs, while a clay bird can fly. The clay companion retains memory and identity across different shapes, but they can adopt new mannerisms with each form.",
+    "name_cn": "黏土同伴"
+  },
+  {
+    "slug": "bolster-relic",
+    "name": "Bolster Relic",
+    "fvtt_id": "m3EpxlDgxn2tCDDR",
+    "img": "icons/commodities/treasure/token-runed-radr-brown.webp",
+    "description": "You gain a +1 bonus to your Strength. You can only carry one relic.",
+    "name_cn": "强化圣物"
+  },
+  {
+    "slug": "suspended-rod",
+    "name": "Suspended Rod",
+    "fvtt_id": "nnj12RiFanq7s5zv",
+    "img": "icons/commodities/tech/pipe-metal.webp",
+    "description": "This flat rod is inscribed with runes. When you activate the rod, it is immediately suspended in place. Until the rod is deactivated, it can’t move, doesn’t abide by the rules of gravity, and remains in place.",
+    "name_cn": "悬浮法杖"
+  },
+  {
+    "slug": "bloodstone",
+    "name": "Bloodstone",
+    "fvtt_id": "oMd78vhL2x2NO8Mg",
+    "img": "icons/commodities/treasure/token-engraved-eye-red.webp",
+    "description": "You can attach this stone to a weapon that doesn’t already have a feature. The weapon gains the following feature.Brutal: When you roll the maximum value on a damage die, roll an additional damage die.",
+    "name_cn": "血石"
+  },
+  {
+    "slug": "empty-chest",
+    "name": "Empty Chest",
+    "fvtt_id": "p2yy61uKsyIsl8cU",
+    "img": "icons/containers/chest/chest-simple-box-gold-brown.webp",
+    "description": "This magical chest appears empty. When you speak a specific trigger word or action and open the chest, you can see the items stored within it.",
+    "name_cn": "空宝箱"
+  },
+  {
+    "slug": "gem-of-might",
+    "name": "Gem of Might",
+    "fvtt_id": "rtSInNPc4B3ChBUZ",
+    "img": "icons/commodities/gems/gem-rough-brilliant-green.webp",
+    "description": "You can attach this gem to a weapon, allowing you to use your Strength when making an attack with that weapon.",
+    "name_cn": "力量宝石"
+  },
+  {
+    "slug": "calming-pendant",
+    "name": "Calming Pendant",
+    "fvtt_id": "tgFFMxpuRSiRrrEB",
+    "img": "icons/equipment/neck/amulet-round-blue.webp",
+    "description": "When you would mark your last Stress, roll a [[/r d6]]. On a result of 5 or higher, don’t mark it.",
+    "name_cn": "安抚吊坠"
+  },
+  {
+    "slug": "gem-of-sagacity",
+    "name": "Gem of Sagacity",
+    "fvtt_id": "ua351S7CsH22X1x2",
+    "img": "icons/commodities/gems/gem-rough-cushion-purple.webp",
+    "description": "You can attach this gem to a weapon, allowing you to use your Knowledge when making an attack with that weapon.",
+    "name_cn": "睿智宝石"
+  },
+  {
+    "slug": "piper-whistle",
+    "name": "Piper Whistle",
+    "fvtt_id": "v4PIoCCEjeE3acys",
+    "img": "icons/tools/instruments/pipe-flue-tan.webp",
+    "description": "This handcrafted whistle has a distinctive sound. When you blow this whistle, its piercing tone can be heard within a 1-mile radius.",
+    "name_cn": "笛手口哨"
+  },
+  {
+    "slug": "bag-of-ficklesand",
+    "name": "Bag of Ficklesand",
+    "fvtt_id": "v758j4FwNVAurhYK",
+    "img": "icons/containers/bags/pouch-cloth-tan.webp",
+    "description": "You can convince this small bag of sand to be much heavier or lighter with a successful [[/dr trait=\"presence\" difficulty=\"10\"]]. Additionally, on a successful [[/dr trait=\"finesse\" difficulty=\"10\"]], you can blow a bit of sand into a target’s face to make them temporarily Vulnerable.",
+    "name_cn": "流沙之袋"
+  },
+  {
+    "slug": "attune-relic",
+    "name": "Attune Relic",
+    "fvtt_id": "vK6bKyQTT3m8WvMh",
+    "img": "icons/commodities/treasure/token-runed-spiral-grey.webp",
+    "description": "You gain a +1 bonus to your Instinct. You can only carry one relic.",
+    "name_cn": "调谐圣物"
+  },
+  {
+    "slug": "enlighten-relic",
+    "name": "Enlighten Relic",
+    "fvtt_id": "vSGx1f9SYUiA29L3",
+    "img": "icons/commodities/treasure/token-runed-os-grey.webp",
+    "description": "You gain a +1 bonus to your Knowledge. You can only carry one relic.",
+    "name_cn": "启迪圣物"
+  },
+  {
+    "slug": "greatstone",
+    "name": "Greatstone",
+    "fvtt_id": "y7zABzR0Q2fRskTw",
+    "img": "icons/commodities/treasure/token-etched-h-brown.webp",
+    "description": "You can attach this stone to a weapon that doesn’t already have a feature. The weapon gains the following feature.Powerful: On a successful attack, roll an additional damage die and discard the lowest result.",
+    "name_cn": "巨石"
+  },
+  {
+    "slug": "homing-compasses",
+    "name": "Homing Compasses",
+    "fvtt_id": "yrAGYlDyoe4OYl7d",
+    "img": "icons/tools/navigation/compass-worn-copper.webp",
+    "description": "These two compasses point toward each other no matter how far apart they are.",
+    "name_cn": "追踪罗盘"
+  },
+  {
+    "slug": "gem-of-alacrity",
+    "name": "Gem of Alacrity",
+    "fvtt_id": "zecFwBUSWtB3HW8X",
+    "img": "icons/commodities/gems/gem-rough-ball-purple.webp",
+    "description": "You can attach this gem to a weapon, allowing you to use your Agility when making an attack with that weapon.",
+    "name_cn": "敏捷宝石"
+  }
+]
