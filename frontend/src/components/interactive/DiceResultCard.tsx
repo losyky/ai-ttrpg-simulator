@@ -94,6 +94,11 @@ export default function DiceResultCard({ dice }: { dice: DiceResult }) {
         <span className="text-xs text-muted-foreground font-mono uppercase tracking-wider">
           {dice.label || "🎲 骰子检定"}
         </span>
+        {dice.is_reroll && (
+          <span className="text-[10px] font-medium text-amber-400 bg-amber-500/10 border border-amber-500/30 rounded px-1.5 py-0.5">
+            ✦ 重投
+          </span>
+        )}
         {(dice.dc ?? 0) > 0 && (
           <span className="text-xs text-muted-foreground ml-auto">
             DC {dice.dc}
@@ -195,6 +200,12 @@ export default function DiceResultCard({ dice }: { dice: DiceResult }) {
         {dice.expression} → {dice.detail}
         {(dice.dc ?? 0) > 0 && ` (DC ${dice.dc})`}
       </div>
+      {dice.is_reroll && dice.original_total != null && phase === "result" && (
+        <div className="mt-1 text-[10px] text-amber-400/70 font-mono">
+          原始 {dice.original_total} → 重投 {dice.total}
+          {dice.total >= (dice.original_total ?? 0) ? " (取较高)" : " (保留原始)"}
+        </div>
+      )}
     </div>
   );
 }

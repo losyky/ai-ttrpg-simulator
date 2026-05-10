@@ -229,7 +229,7 @@ async def narrate(state: AgentState) -> dict[str, Any]:
     """
     from langchain_core.messages import ToolMessage, AIMessage
     from app.tools.interactive import (
-        INTERACTIVE_TOOLS, DAGGERHEART_INTERACTIVE_TOOLS, SWADE_INTERACTIVE_TOOLS,
+        get_interactive_tools,
         parse_interactive_markers,
     )
     from app.tools.party_manage import PARTY_TOOLS
@@ -241,12 +241,7 @@ async def narrate(state: AgentState) -> dict[str, Any]:
     system = get_current_system(session_id)
     system_tools = system.get_tools().get("narrator", [])
 
-    if system.system_id == "daggerheart":
-        interactive_tools = DAGGERHEART_INTERACTIVE_TOOLS
-    elif system.system_id == "swade":
-        interactive_tools = SWADE_INTERACTIVE_TOOLS
-    else:
-        interactive_tools = INTERACTIVE_TOOLS
+    interactive_tools = get_interactive_tools(system.system_id, session_id)
 
     from app.services.tool_registry import load_custom_langchain_tools
     custom_tools = load_custom_langchain_tools(system.system_id)
@@ -329,7 +324,7 @@ async def narrate(state: AgentState) -> dict[str, Any]:
     full_text_parts: list[str] = []
     INTERACTIVE_TOOL_NAMES = {
         "present_choices", "request_dice_roll", "request_player_input",
-        "request_duality_roll",
+        "request_duality_roll", "award_story_point",
     }
     BLOCKING_ELEMENT_TYPES = {"choices", "dice_request", "input_prompt", "duality_dice_request"}
 

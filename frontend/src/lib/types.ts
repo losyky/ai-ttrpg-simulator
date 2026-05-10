@@ -12,6 +12,7 @@ export interface CharacterSummary {
   hp: number;
   max_hp: number;
   conditions: string[];
+  extras: Record<string, unknown>;
 }
 
 export type GamePhase = "exploration" | "combat" | "social" | "downtime";
@@ -28,6 +29,8 @@ export interface SessionState {
   world_summary: string;
   recent_events: string[];
   enabled_doc_ids: string[] | null;
+  story_points: number;
+  max_story_points: number;
 }
 
 export interface SessionListItem {
@@ -59,6 +62,9 @@ export interface DiceResult {
   fear_die?: number;
   // SWADE raises
   raises?: number;
+  // Reroll via story/hero points
+  is_reroll?: boolean;
+  original_total?: number;
   // Flexible extras
   system_info?: Record<string, unknown>;
 }

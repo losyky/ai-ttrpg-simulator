@@ -151,9 +151,56 @@ def announce_token_change(token_type: str, change: int, new_total: int, reason: 
     return json.dumps(result, ensure_ascii=False)
 
 
+def _make_award_story_point(session_id: str):
+    """Create a session-bound award_story_point tool."""
+
+    @tool
+    def award_story_point(reason: str = "") -> str:
+        """Award 1 story/hero point to the player.
+
+        Use this to reward players at key narrative moments: completing a
+        major battle, solving a puzzle, excellent roleplay, or reaching
+        a story milestone. The point display will update in the sidebar.
+
+        Args:
+            reason: Why the point is being awarded, e.g. "精彩的角色扮演" or "成功解开谜题"
+        """
+        from app.models.game_state import get_session, update_session
+        new_total = 0
+        state = get_session(session_id)
+        if state:
+            new_val = min(state.story_points + 1, state.max_story_points)
+            update_session(session_id, story_points=new_val)
+            new_total = new_val
+
+        result = {
+            "__interactive__": True,
+            "element_type": "token_update",
+            "id": f"sp-{uuid.uuid4().hex[:8]}",
+            "prompt": reason or "获得叙事点",
+            "token_type": "story_point",
+            "token_change": 1,
+            "token_total": new_total,
+            "token_reason": reason,
+        }
+        return json.dumps(result, ensure_ascii=False)
+
+    return award_story_point
+
+
 INTERACTIVE_TOOLS = [present_choices, request_dice_roll, request_player_input]
 DAGGERHEART_INTERACTIVE_TOOLS = [present_choices, request_duality_roll, request_player_input, announce_token_change]
 SWADE_INTERACTIVE_TOOLS = [present_choices, request_dice_roll, request_player_input]
+
+
+def get_interactive_tools(system_id: str = "pf2e", session_id: str = "") -> list:
+    """Get interactive tools for a system, with session-bound award tool."""
+    if system_id == "daggerheart":
+        return DAGGERHEART_INTERACTIVE_TOOLS
+    base = SWADE_INTERACTIVE_TOOLS if system_id == "swade" else INTERACTIVE_TOOLS
+    if session_id:
+        return list(base) + [_make_award_story_point(session_id)]
+    return list(base)
 
 
 def parse_interactive_markers(text: str) -> tuple[str, list[dict[str, Any]]]:

@@ -4,13 +4,16 @@ import { useCallback, useState } from "react";
 import type { InteractiveElement, DiceResult } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import DiceResultCard from "./DiceResultCard";
-import { rollDice } from "@/lib/api";
+import { rollDice, rerollDice } from "@/lib/api";
 
 interface DiceRollButtonProps {
   element: InteractiveElement;
   sessionId: string;
   onResult: (result: DiceResult) => void;
   disabled?: boolean;
+  storyPoints?: number;
+  pointName?: string;
+  onStoryPointsChanged?: (pts: number) => void;
 }
 
 export default function DiceRollButton({
@@ -18,8 +21,12 @@ export default function DiceRollButton({
   sessionId,
   onResult,
   disabled,
+  storyPoints = 0,
+  pointName = "叙事点",
+  onStoryPointsChanged,
 }: DiceRollButtonProps) {
   const [rolling, setRolling] = useState(false);
+  const [rerolling, setRerolling] = useState(false);
   const [result, setResult] = useState<DiceResult | null>(element.resolved_dice ?? null);
 
   const handleRoll = useCallback(async () => {
@@ -34,7 +41,6 @@ export default function DiceRollButton({
         label: element.skill_name || "",
         modifier: element.modifier,
       });
-      // Delay slightly for animation buildup
       setTimeout(() => {
         setResult(res);
         setRolling(false);
@@ -45,8 +51,51 @@ export default function DiceRollButton({
     }
   }, [rolling, result, disabled, sessionId, element, onResult]);
 
+  const handleReroll = useCallback(async () => {
+    if (!result || rerolling || result.is_reroll) return;
+    setRerolling(true);
+    try {
+      const res = await rerollDice({
+        session_id: sessionId,
+        expression: element.expression || "1d20",
+        dc: element.dc,
+        label: element.skill_name || "",
+        modifier: element.modifier,
+        original_total: result.total,
+      });
+      setResult(res);
+      onStoryPointsChanged?.((storyPoints ?? 1) - 1);
+      onResult(res);
+    } catch { /* point insufficient or network error */ }
+    setRerolling(false);
+  }, [result, rerolling, sessionId, element, storyPoints, onResult, onStoryPointsChanged]);
+
+  const canReroll = result && !result.is_reroll && storyPoints > 0 && !rerolling;
+
   if (result) {
-    return <DiceResultCard dice={result} />;
+    return (
+      <div>
+        <DiceResultCard dice={result} />
+        {canReroll && (
+          <button
+            onClick={handleReroll}
+            disabled={rerolling}
+            className={cn(
+              "mt-1 flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-medium",
+              "border border-amber-500/40 bg-amber-500/5 text-amber-300",
+              "hover:bg-amber-500/10 hover:border-amber-500/60 transition-all",
+              rerolling && "animate-pulse pointer-events-none",
+            )}
+          >
+            <span className="text-base">✦</span>
+            <span>{rerolling ? "重投中..." : `花费 1${pointName} 重投`}</span>
+            <span className="ml-1 text-[10px] text-amber-400/60">
+              (剩余 {storyPoints})
+            </span>
+          </button>
+        )}
+      </div>
+    );
   }
 
   return (

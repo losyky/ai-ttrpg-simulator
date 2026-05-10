@@ -41,6 +41,9 @@ interface InteractiveRendererProps {
   onDiceResult?: (result: DiceResult) => void;
   onResolve?: (elementId: string, value: string, dice?: DiceResult) => void;
   disabled?: boolean;
+  storyPoints?: number;
+  pointName?: string;
+  onStoryPointsChanged?: (pts: number) => void;
 }
 
 export default function InteractiveRenderer({
@@ -50,6 +53,9 @@ export default function InteractiveRenderer({
   onDiceResult,
   onResolve,
   disabled,
+  storyPoints,
+  pointName,
+  onStoryPointsChanged,
 }: InteractiveRendererProps) {
   if (!elements.length) return null;
 
@@ -76,6 +82,9 @@ export default function InteractiveRenderer({
                 element={elem}
                 sessionId={sessionId}
                 disabled={disabled || elem.resolved}
+                storyPoints={storyPoints}
+                pointName={pointName}
+                onStoryPointsChanged={onStoryPointsChanged}
                 onResult={(result) => {
                   const msg = formatDiceResultMessage(result);
                   onResolve?.(elem.id, msg, result);
@@ -100,6 +109,12 @@ export default function InteractiveRenderer({
               />
             );
           case "token_update":
+            if (elem.token_type === "story_point" && elem.token_change && !elem.resolved) {
+              elem.resolved = true;
+              if (elem.token_total != null) {
+                onStoryPointsChanged?.(elem.token_total);
+              }
+            }
             return <TokenUpdateCard key={elem.id} element={elem} />;
           case "input_prompt":
             return (

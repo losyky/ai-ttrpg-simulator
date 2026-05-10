@@ -52,24 +52,123 @@ from app.config import settings
 log = logging.getLogger(__name__)
 
 
+def _build_character_extras(sheet: Any, system_id: str) -> dict[str, Any]:
+    """Extract system-specific extras from a CharacterSheet for sidebar display."""
+    raw = getattr(sheet, "fvtt_raw", None) or getattr(sheet, "raw", None) or {}
+    system = raw.get("system", {})
+    extras: dict[str, Any] = {}
+
+    if system_id == "swade":
+        stats = system.get("stats", {})
+        resources = system.get("resources", {})
+        attrs_raw = system.get("attributes", {})
+        attrs = {}
+        for a in ("dexterity", "smarts", "spirit", "strength", "vigor"):
+            die_data = attrs_raw.get(a, {})
+            if a == "dexterity" and not die_data:
+                die_data = attrs_raw.get("agility", {})
+            if isinstance(die_data, dict) and "die" in die_data:
+                attrs[a] = f"d{die_data['die'].get('sides', 4)}"
+            else:
+                attrs[a] = "d4"
+        toughness_data = stats.get("toughness", {})
+        extras = {
+            "attributes": attrs,
+            "toughness": toughness_data.get("value", 5),
+            "toughness_armor": toughness_data.get("armor", 0),
+            "parry": stats.get("parry", {}).get("value", 4),
+            "pace": stats.get("speed", {}).get("value", 6),
+            "mp": resources.get("mp", {}).get("value", 0),
+            "mp_max": resources.get("mp", {}).get("max", 0),
+            "ip": resources.get("ip", {}).get("value", 6),
+            "ip_max": resources.get("ip", {}).get("max", 6),
+            "wounds": system.get("wounds", {}).get("value", 0) if isinstance(system.get("wounds"), dict) else system.get("wounds", 0),
+            "fatigue": system.get("fatigue", {}).get("value", 0) if isinstance(system.get("fatigue"), dict) else system.get("fatigue", 0),
+            "advances": system.get("advances", {}).get("value", 0),
+        }
+    elif system_id == "daggerheart":
+        resources = system.get("resources", {})
+        traits_raw = system.get("traits", {})
+        traits = {k: v.get("value", 0) if isinstance(v, dict) else v
+                  for k, v in traits_raw.items()}
+        extras = {
+            "hp": resources.get("hitPoints", {}).get("value", 0),
+            "max_hp": resources.get("hitPoints", {}).get("max", 0),
+            "stress": resources.get("stress", {}).get("value", 0),
+            "stress_max": resources.get("stress", {}).get("max", 6),
+            "hope": resources.get("hope", {}).get("value", 0),
+            "hope_max": resources.get("hope", {}).get("max", 6),
+            "armor_slots": resources.get("armorSlots", {}).get("value", 0),
+            "armor_max": resources.get("armorSlots", {}).get("max", 0),
+            "evasion": system.get("evasion", 10),
+            "traits": traits,
+            "dh_class": system.get("class", ""),
+            "subclass": system.get("subclass", ""),
+        }
+    else:
+        ac_data = system.get("attributes", {}).get("ac", {})
+        extras = {
+            "ac": ac_data.get("value", 10) if isinstance(ac_data, dict) else 10,
+            "temp_hp": getattr(sheet, "temp_hp", 0),
+            "hero_points": getattr(sheet, "hero_points", 1),
+        }
+    return extras
+
+
 def _try_auto_bind_character(session: Any, user_message: str, session_id: str) -> None:
     """If the user mentions a loaded character's name, auto-bind it to the session."""
-    from app.routers.characters import _characters
+    from app.routers.characters import _characters, _raw_data
     from app.models.schemas import CharacterSummary
 
+    system_id = getattr(session, "system_id", "pf2e")
     msg_lower = user_message.lower()
-    for sheet in _characters.values():
+    for char_id, sheet in _characters.items():
         if sheet.name.lower() in msg_lower:
-            summary = CharacterSummary(
-                name=sheet.name,
-                ancestry=sheet.ancestry,
-                character_class=sheet.character_class,
-                level=sheet.level,
-                hp=sheet.hp,
-                max_hp=sheet.max_hp,
-                conditions=[],
-            )
-            update_session(session_id, player=summary)
+            raw = _raw_data.get(char_id, {})
+            raw_sys = raw.get("system", {})
+            extras = _build_character_extras(sheet, system_id)
+
+            if system_id == "daggerheart":
+                res = raw_sys.get("resources", {})
+                hp_val = res.get("hitPoints", {}).get("value", 0)
+                hp_max = res.get("hitPoints", {}).get("max", 0)
+                heritage = raw_sys.get("heritage", {})
+                ancestry_name = heritage.get("ancestry", "") if isinstance(heritage, dict) else ""
+                summary = CharacterSummary(
+                    name=sheet.name,
+                    ancestry=ancestry_name,
+                    character_class=raw_sys.get("class", sheet.character_class),
+                    level=raw_sys.get("level", sheet.level) or sheet.level,
+                    hp=hp_val or sheet.hp,
+                    max_hp=hp_max or sheet.max_hp,
+                    extras=extras,
+                )
+            elif system_id == "swade":
+                summary = CharacterSummary(
+                    name=sheet.name,
+                    ancestry=raw_sys.get("details", {}).get("species", sheet.ancestry),
+                    character_class="冒险者",
+                    level=raw_sys.get("advances", {}).get("value", 0),
+                    hp=0,
+                    max_hp=0,
+                    extras=extras,
+                )
+            else:
+                summary = CharacterSummary(
+                    name=sheet.name,
+                    ancestry=sheet.ancestry,
+                    character_class=sheet.character_class,
+                    level=sheet.level,
+                    hp=sheet.hp,
+                    max_hp=sheet.max_hp,
+                    extras=extras,
+                )
+
+            updates: dict = {"player": summary}
+            hero_pts = getattr(sheet, "hero_points", None)
+            if hero_pts is not None and hero_pts > 0:
+                updates["story_points"] = min(hero_pts, 3)
+            update_session(session_id, **updates)
             session.player = summary
             log_event("session", "auto_bind_character", session_id=session_id,
                       detail=f"Auto-bound character: {sheet.name}")
@@ -78,23 +177,31 @@ def _try_auto_bind_character(session: Any, user_message: str, session_id: str) -
 
 def _build_player_context(session: Any) -> str:
     """Build a rich character context string from the session's player
-    and the full character store."""
+    and the full character store.  Uses system-specific summary when available."""
     from app.routers.characters import _characters
-    from app.models.character import character_to_summary
+    from app.models.character import character_to_summary as pf2e_summary
 
     parts: list[str] = []
+    system_id = getattr(session, "system_id", "pf2e")
 
-    # If session has a player bound, find full character sheet
     if session and session.player:
         player_name = session.player.name
-        # Look up full sheet by name
         full_sheet = None
         for sheet in _characters.values():
             if sheet.name == player_name:
                 full_sheet = sheet
                 break
         if full_sheet:
-            parts.append(f"[玩家角色详细信息]\n{character_to_summary(full_sheet)}")
+            try:
+                sys_obj = get_current_system(system_id)
+                summary_data = sys_obj.character_to_summary(full_sheet)
+                if isinstance(summary_data, str):
+                    parts.append(f"[玩家角色详细信息]\n{summary_data}")
+                else:
+                    parts.append(f"[玩家角色详细信息]\n{pf2e_summary(full_sheet)}")
+                    parts.append(f"[系统数据] {json.dumps(summary_data, ensure_ascii=False)}")
+            except Exception:
+                parts.append(f"[玩家角色详细信息]\n{pf2e_summary(full_sheet)}")
         else:
             p = session.player
             parts.append(
@@ -102,7 +209,6 @@ def _build_player_context(session: Any) -> str:
                 f"  HP: {p.hp}/{p.max_hp}"
             )
 
-    # Also list available characters that could be teammates
     other_chars = [
         s for s in _characters.values()
         if not session or not session.player or s.name != session.player.name

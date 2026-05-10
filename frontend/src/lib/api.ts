@@ -401,6 +401,38 @@ export async function rollDice(data: {
   });
 }
 
+export async function rerollDice(data: {
+  session_id: string;
+  expression: string;
+  dc?: number;
+  label?: string;
+  modifier?: number;
+  original_total: number;
+}): Promise<DiceResult> {
+  return request<DiceResult>("/api/dice/reroll", {
+    method: "POST",
+    body: JSON.stringify({
+      session_id: data.session_id,
+      expression: data.expression,
+      dc: data.dc ?? 0,
+      label: data.label ?? "",
+      modifier: data.modifier ?? 0,
+      original_total: data.original_total,
+    }),
+  });
+}
+
+export async function updateStoryPoints(
+  sessionId: string,
+  delta: number,
+  reason: string = "",
+): Promise<{ story_points: number; max_story_points: number }> {
+  return request(`/api/sessions/${sessionId}/story-points`, {
+    method: "PATCH",
+    body: JSON.stringify({ delta, reason }),
+  });
+}
+
 // ── Save / Load ──
 
 export interface SaveInfo {

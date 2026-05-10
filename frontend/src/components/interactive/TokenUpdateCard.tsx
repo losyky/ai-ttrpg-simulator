@@ -22,6 +22,15 @@ const TOKEN_CONFIG = {
     icon: "⚡",
     gradient: "from-rose-500 to-red-600",
   },
+  story_point: {
+    label: "Story Point",
+    labelCn: "叙事点",
+    color: "text-amber-400",
+    bg: "bg-amber-500/10",
+    border: "border-amber-500/30",
+    icon: "✦",
+    gradient: "from-amber-400 to-yellow-500",
+  },
 } as const;
 
 export default function TokenUpdateCard({ element }: { element: InteractiveElement }) {

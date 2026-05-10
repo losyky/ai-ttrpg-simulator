@@ -208,6 +208,31 @@ async def set_session_documents(session_id: str, req: DocumentToggleRequest):
     return {"session_id": session_id, "enabled_doc_ids": state.enabled_doc_ids}
 
 
+class StoryPointsRequest(BaseModel):
+    delta: int
+    reason: str = ""
+
+
+@router.patch("/{session_id}/story-points")
+async def update_story_points(session_id: str, req: StoryPointsRequest):
+    """Add or subtract story/hero points for a session."""
+    state = get_session(session_id)
+    if state is None:
+        raise HTTPException(404, "Session not found")
+    new_val = state.story_points + req.delta
+    if new_val < 0:
+        raise HTTPException(400, "Not enough story points")
+    new_val = min(new_val, state.max_story_points)
+    state = update_session(session_id, story_points=new_val)
+    return {
+        "session_id": session_id,
+        "story_points": state.story_points,
+        "max_story_points": state.max_story_points,
+        "delta": req.delta,
+        "reason": req.reason,
+    }
+
+
 @router.delete("/{session_id}")
 async def remove_session(session_id: str):
     ok = delete_session(session_id)

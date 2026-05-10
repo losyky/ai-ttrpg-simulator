@@ -33,6 +33,7 @@ class CharacterSummary(BaseModel):
     hp: int = 0
     max_hp: int = 0
     conditions: list[str] = Field(default_factory=list)
+    extras: dict[str, Any] = Field(default_factory=dict)
 
 
 class SessionCreateRequest(BaseModel):
@@ -56,6 +57,8 @@ class SessionState(BaseModel):
     world_summary: str = ""
     recent_events: list[str] = Field(default_factory=list)
     enabled_doc_ids: list[str] | None = None
+    story_points: int = 3
+    max_story_points: int = 3
 
 
 # --------------- Chat ---------------
@@ -86,6 +89,9 @@ class DiceResult(BaseModel):
     fear_die: int = 0
     # SWADE raises
     raises: int = 0
+    # Reroll via story/hero points
+    is_reroll: bool = False
+    original_total: int | None = None
     # Flexible system-specific extras
     system_info: dict[str, Any] = Field(default_factory=dict)
 

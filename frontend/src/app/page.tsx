@@ -283,7 +283,12 @@ export default function Home() {
 
   return (
     <div className="flex h-screen overflow-hidden">
-      <Sidebar session={session} systemId={systemId} />
+      <Sidebar
+        session={session}
+        systemId={systemId}
+        onSendMessage={handleSend}
+        onStoryPointsChanged={(pts) => setSession((prev) => prev ? { ...prev, story_points: pts } : prev)}
+      />
 
       <main className="flex-1 flex flex-col min-w-0">
         {/* Mode switcher */}
@@ -473,6 +478,9 @@ export default function Home() {
                               onSendMessage={handleSend}
                               onResolve={handleResolveInteractive}
                               disabled={streaming}
+                              storyPoints={session?.story_points ?? 0}
+                              pointName={session?.system_id === "swade" ? "物语点" : session?.system_id === "pf2e" ? "英雄点" : "叙事点"}
+                              onStoryPointsChanged={(pts) => setSession((prev) => prev ? { ...prev, story_points: pts } : prev)}
                             />
                           </div>
                         )}

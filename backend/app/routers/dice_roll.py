@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import re
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
 from app.models.schemas import PlayerDiceRequest, DiceResult
 from app.tools.dice import roll_dice_raw
@@ -222,15 +222,64 @@ def _roll_swade(req: PlayerDiceRequest) -> DiceResult:
     )
 
 
-@router.post("/roll")
-async def player_roll(req: PlayerDiceRequest) -> DiceResult:
-    """Roll dice with system-specific result calculation."""
+def _dispatch_roll(req: PlayerDiceRequest) -> DiceResult:
+    """Dispatch a roll to the appropriate system handler."""
     system = _get_system(req.session_id)
     system_id = system.system_id
-
     if system_id == "daggerheart":
         return _roll_daggerheart(req)
     elif system_id == "swade":
         return _roll_swade(req)
     else:
         return _roll_pf2e(req)
+
+
+@router.post("/roll")
+async def player_roll(req: PlayerDiceRequest) -> DiceResult:
+    """Roll dice with system-specific result calculation."""
+    return _dispatch_roll(req)
+
+
+class RerollRequest(PlayerDiceRequest):
+    original_total: int = 0
+
+
+@router.post("/reroll")
+async def player_reroll(req: RerollRequest) -> DiceResult:
+    """Spend 1 story/hero point to reroll, keeping the better result."""
+    from app.models.game_state import get_session, update_session
+
+    state = get_session(req.session_id)
+    if state is None:
+        raise HTTPException(404, "Session not found")
+    if state.story_points < 1:
+        raise HTTPException(400, "Not enough story points")
+
+    update_session(req.session_id, story_points=state.story_points - 1)
+
+    new_result = _dispatch_roll(
+        PlayerDiceRequest(
+            session_id=req.session_id,
+            expression=req.expression,
+            dc=req.dc,
+            label=req.label,
+            modifier=req.modifier,
+        )
+    )
+
+    kept_new = new_result.total >= req.original_total
+    final = new_result if kept_new else DiceResult(
+        expression=req.expression,
+        rolls=[req.original_total],
+        total=req.original_total,
+        detail=f"保留原始结果 {req.original_total}",
+        success_level=new_result.success_level,
+        dc=req.dc,
+        label=req.label,
+        raises=new_result.raises,
+        system_info=new_result.system_info,
+    )
+
+    final.is_reroll = True
+    final.original_total = req.original_total if kept_new else new_result.total
+    return final
