@@ -250,7 +250,7 @@ export default function SWADECharacterSheetEditor({ characterId, onBack }: Props
             {hindrances.map((h) => (
               <div key={h._id} className="px-3 py-2 rounded-lg bg-red-500/10 border border-red-500/20 text-sm text-foreground flex justify-between">
                 <span>{h.name}</span>
-                {h.system?.major && <span className="text-xs text-red-400">主要</span>}
+                {Boolean(h.system?.major) && <span className="text-xs text-red-400">主要</span>}
               </div>
             ))}
           </div>
@@ -265,7 +265,7 @@ export default function SWADECharacterSheetEditor({ characterId, onBack }: Props
             {gear.map((g) => (
               <div key={g._id} className="px-3 py-2 rounded-lg bg-secondary/50 text-sm text-foreground flex justify-between">
                 <span>{g.name}</span>
-                {g.system?.damage && <span className="text-muted-foreground">{String(g.system.damage)}</span>}
+                {Boolean(g.system?.damage) && <span className="text-muted-foreground">{String(g.system!.damage)}</span>}
               </div>
             ))}
           </div>

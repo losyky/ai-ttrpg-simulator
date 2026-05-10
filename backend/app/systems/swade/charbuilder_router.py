@@ -8,7 +8,7 @@ from fastapi import APIRouter
 router = APIRouter(prefix="/api/swade/charbuilder", tags=["swade-charbuilder"])
 
 SWADE_ATTRIBUTES = [
-    {"slug": "agility", "name": "Agility", "name_cn": "灵巧"},
+    {"slug": "dexterity", "name": "Dexterity", "name_cn": "灵巧"},
     {"slug": "smarts", "name": "Smarts", "name_cn": "聪慧"},
     {"slug": "spirit", "name": "Spirit", "name_cn": "心魂"},
     {"slug": "strength", "name": "Strength", "name_cn": "力量"},

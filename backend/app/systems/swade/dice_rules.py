@@ -27,6 +27,28 @@ def ace_roll(sides: int) -> int:
     return total
 
 
+def ace_roll_detailed(sides: int) -> dict:
+    """Roll a single die with Acing, returning extra metadata.
+
+    Returns:
+        total: final result (with all explosions summed)
+        natural: the first roll value
+        aced: whether the die exploded (first roll == max)
+    """
+    if sides < 4:
+        sides = 4
+    first = random.randint(1, sides)
+    total = first
+    aced = first == sides
+    if aced:
+        while True:
+            roll = random.randint(1, sides)
+            total += roll
+            if roll < sides:
+                break
+    return {"total": total, "natural": first, "aced": aced}
+
+
 def dual_attribute_check(primary_sides: int, secondary_sides: int, modifier: int = 0) -> dict:
     """Perform a dual-attribute check (七物语 style).
 
@@ -51,17 +73,16 @@ def dual_attribute_check(primary_sides: int, secondary_sides: int, modifier: int
 def determine_success(total: int, dc: int, natural: int = 0) -> str:
     """Determine success level for a 七物语 check.
 
-    Returns: 'failure', 'success', 'success_with_raise', 'success_with_N_raises'
+    Returns one of four standard levels:
+        'critical_failure', 'failure', 'success', 'critical_success'
+
+    Raise count should be conveyed separately via `DiceResult.raises`.
+    Critical success/failure are set by the caller based on Ace/snake-eyes
+    detection; this function only distinguishes success vs failure.
     """
     if total < dc:
         return "failure"
-    margin = total - dc
-    raises = margin // 4
-    if raises == 0:
-        return "success"
-    if raises == 1:
-        return "success_with_raise"
-    return f"success_with_{raises}_raises"
+    return "success"
 
 
 def calc_damage_result(damage_total: int, toughness: int, already_shaken: bool = False) -> dict:
@@ -96,9 +117,9 @@ def calc_toughness(vigor_die_sides: int, armor: int = 0) -> int:
     return 2 + vigor_die_sides // 2 + armor
 
 
-def calc_parry(agility_die_sides: int) -> int:
-    """Calculate Parry: 2 + agility_die_sides/2."""
-    return 2 + agility_die_sides // 2
+def calc_parry(dexterity_die_sides: int) -> int:
+    """Calculate Parry: 2 + dexterity_die_sides/2."""
+    return 2 + dexterity_die_sides // 2
 
 
 def calc_mp(level: int, spirit_die_sides: int) -> int:

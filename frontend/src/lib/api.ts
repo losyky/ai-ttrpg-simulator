@@ -90,6 +90,35 @@ export async function deleteSession(sessionId: string): Promise<void> {
   await request(`/api/sessions/${sessionId}`, { method: "DELETE" });
 }
 
+// ── Session document settings ──
+
+export interface SessionDocumentItem {
+  doc_id: string;
+  title: string;
+  filename: string;
+  doc_type: string;
+  chunk_count: number;
+  enabled: boolean;
+}
+
+export async function getSessionDocuments(sessionId: string): Promise<{
+  session_id: string;
+  documents: SessionDocumentItem[];
+  mode: "all" | "selective";
+}> {
+  return request(`/api/sessions/${sessionId}/documents`);
+}
+
+export async function setSessionDocuments(
+  sessionId: string,
+  enabledDocIds: string[] | null,
+): Promise<{ session_id: string; enabled_doc_ids: string[] | null }> {
+  return request(`/api/sessions/${sessionId}/documents`, {
+    method: "PUT",
+    body: JSON.stringify({ enabled_doc_ids: enabledDocIds }),
+  });
+}
+
 export async function* streamChat(
   sessionId: string,
   message: string,

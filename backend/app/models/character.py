@@ -307,9 +307,12 @@ def parse_fvtt_actor(data: dict[str, Any]) -> CharacterSheet:
         # v13: perception from class item
         sheet.perception_rank = class_item.get("perception", 0)
 
-    # Biography
+    # Biography — may be a dict (PF2e FVTT) or a plain string (SWADE)
     bio = details.get("biography", {})
-    sheet.backstory = _strip_html(bio.get("backstory", ""))
+    if isinstance(bio, str):
+        sheet.backstory = _strip_html(bio)
+    else:
+        sheet.backstory = _strip_html(bio.get("backstory", ""))
     sheet.age = details.get("age", {}).get("value", "")
     sheet.gender = details.get("gender", {}).get("value", "")
     sheet.deity = details.get("deity", {}).get("value", "")

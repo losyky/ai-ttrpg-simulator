@@ -27,7 +27,7 @@ import {
   type SaveInfo,
 } from "@/lib/api";
 import type { SessionState, ChatMessage } from "@/lib/types";
-import { cn } from "@/lib/utils";
+import { cn, hydrateHistory } from "@/lib/utils";
 
 interface SaveLoadPanelProps {
   session: SessionState | null;
@@ -93,20 +93,7 @@ export default function SaveLoadPanel({
       const state = await loadSave(saveId);
       const { getSaveHistory } = await import("@/lib/api");
       const rawHistory = await getSaveHistory(saveId);
-      const history: ChatMessage[] = rawHistory.map((m, i) => ({
-        id: `loaded_${i}`,
-        role: (m.role as ChatMessage["role"]) || "system",
-        content: (m.content as string) || "",
-        timestamp: Date.now() - (rawHistory.length - i) * 1000,
-        ...(m.dice ? { dice: m.dice } : {}),
-        ...(m.interactive ? {
-          interactive: (m.interactive as Array<Record<string, unknown>>).map((ie) => ({
-            ...ie,
-            resolved: true,
-            resolved_value: ie.resolved_value ?? "",
-          })),
-        } : {}),
-      }));
+      const history = hydrateHistory(rawHistory, "loaded");
       onSessionLoaded(state, history);
       flash("存档已加载");
     } catch (err) {

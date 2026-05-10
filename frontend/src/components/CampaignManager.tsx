@@ -19,6 +19,9 @@ import {
   FolderOpen,
   UserPlus,
   UserMinus,
+  BookOpen,
+  ToggleLeft,
+  ToggleRight,
 } from "lucide-react";
 import {
   listSessions,
@@ -33,11 +36,14 @@ import {
   getCharacterSummary,
   addTeammate,
   removeTeammate,
+  getSessionDocuments,
+  setSessionDocuments,
   type SaveInfo,
   type CharacterListItem,
+  type SessionDocumentItem,
 } from "@/lib/api";
 import { loadLLMConfig, saveSessionId } from "@/lib/store";
-import { cn } from "@/lib/utils";
+import { cn, hydrateHistory } from "@/lib/utils";
 import type { SessionState, SessionListItem, ChatMessage, LLMConfig } from "@/lib/types";
 
 const PHASE_ICON: Record<string, React.ReactNode> = {
@@ -75,6 +81,10 @@ export default function CampaignManager({
   const [selectedCharId, setSelectedCharId] = useState<string>("");
   const [selectedTeammateIds, setSelectedTeammateIds] = useState<string[]>([]);
   const [managingTeammates, setManagingTeammates] = useState<string | null>(null);
+  const [managingDocs, setManagingDocs] = useState<string | null>(null);
+  const [sessionDocs, setSessionDocs] = useState<SessionDocumentItem[]>([]);
+  const [docsMode, setDocsMode] = useState<"all" | "selective">("all");
+  const [docsSaving, setDocsSaving] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editLabel, setEditLabel] = useState("");
   const [statusMsg, setStatusMsg] = useState("");
@@ -148,20 +158,7 @@ export default function CampaignManager({
       const rawHistory: Record<string, unknown>[] = resp.ok
         ? await resp.json()
         : [];
-      const history: ChatMessage[] = rawHistory.map((m, i) => ({
-        id: `s_${sessionId}_${i}`,
-        role: (m.role as ChatMessage["role"]) || "system",
-        content: (m.content as string) || "",
-        timestamp: Date.now() - (rawHistory.length - i) * 1000,
-        ...(m.dice ? { dice: m.dice } : {}),
-        ...(m.interactive ? {
-          interactive: (m.interactive as Array<Record<string, unknown>>).map((ie) => ({
-            ...ie,
-            resolved: true,
-            resolved_value: ie.resolved_value ?? "",
-          })),
-        } : {}),
-      }));
+      const history = hydrateHistory(rawHistory, `s_${sessionId}`);
       onSessionSwitch(state, history);
       flash(`已切换到: ${state.label}`);
     } catch (err) {
@@ -176,20 +173,7 @@ export default function CampaignManager({
     try {
       const state = await loadSave(saveId);
       const rawHistory = await getSaveHistory(saveId);
-      const history: ChatMessage[] = rawHistory.map((m, i) => ({
-        id: `saved_${i}`,
-        role: (m.role as ChatMessage["role"]) || "system",
-        content: (m.content as string) || "",
-        timestamp: Date.now() - (rawHistory.length - i) * 1000,
-        ...(m.dice ? { dice: m.dice } : {}),
-        ...(m.interactive ? {
-          interactive: (m.interactive as Array<Record<string, unknown>>).map((ie) => ({
-            ...ie,
-            resolved: true,
-            resolved_value: ie.resolved_value ?? "",
-          })),
-        } : {}),
-      }));
+      const history = hydrateHistory(rawHistory, "saved");
       onSessionSwitch(state, history);
       flash("存档已加载");
     } catch (err) {
@@ -224,6 +208,63 @@ export default function CampaignManager({
       refresh();
     } catch {
       flash("重命名失败");
+    }
+  };
+
+  const handleOpenDocs = async (sessionId: string) => {
+    if (managingDocs === sessionId) {
+      setManagingDocs(null);
+      return;
+    }
+    try {
+      const data = await getSessionDocuments(sessionId);
+      setSessionDocs(data.documents);
+      setDocsMode(data.mode);
+      setManagingDocs(sessionId);
+    } catch {
+      flash("加载资料列表失败");
+    }
+  };
+
+  const handleToggleDoc = async (sessionId: string, docId: string, currentlyEnabled: boolean) => {
+    setDocsSaving(true);
+    try {
+      const currentEnabled = sessionDocs.filter((d) => d.enabled).map((d) => d.doc_id);
+      let newEnabled: string[];
+      if (docsMode === "all") {
+        newEnabled = currentlyEnabled
+          ? sessionDocs.filter((d) => d.doc_id !== docId).map((d) => d.doc_id)
+          : sessionDocs.map((d) => d.doc_id);
+      } else {
+        newEnabled = currentlyEnabled
+          ? currentEnabled.filter((id) => id !== docId)
+          : [...currentEnabled, docId];
+      }
+      await setSessionDocuments(sessionId, newEnabled);
+      setSessionDocs((prev) =>
+        prev.map((d) => ({
+          ...d,
+          enabled: newEnabled.includes(d.doc_id),
+        })),
+      );
+      setDocsMode("selective");
+    } catch {
+      flash("更新资料设置失败");
+    } finally {
+      setDocsSaving(false);
+    }
+  };
+
+  const handleEnableAllDocs = async (sessionId: string) => {
+    setDocsSaving(true);
+    try {
+      await setSessionDocuments(sessionId, null);
+      setSessionDocs((prev) => prev.map((d) => ({ ...d, enabled: true })));
+      setDocsMode("all");
+    } catch {
+      flash("更新资料设置失败");
+    } finally {
+      setDocsSaving(false);
     }
   };
 
@@ -490,6 +531,18 @@ export default function CampaignManager({
                         <Users className="h-3 w-3" />
                       </button>
                       <button
+                        onClick={() => handleOpenDocs(s.session_id)}
+                        className={cn(
+                          "p-1.5 rounded-lg transition-colors",
+                          managingDocs === s.session_id
+                            ? "text-amber-400 bg-amber-400/10"
+                            : "text-muted-foreground hover:text-foreground hover:bg-secondary",
+                        )}
+                        title="管理参考资料"
+                      >
+                        <BookOpen className="h-3 w-3" />
+                      </button>
+                      <button
                         onClick={() => {
                           setEditingId(s.session_id);
                           setEditLabel(s.label);
@@ -574,6 +627,73 @@ export default function CampaignManager({
                           </span>
                         )}
                       </div>
+                    </div>
+                  )}
+
+                  {/* Document management panel */}
+                  {managingDocs === s.session_id && (
+                    <div className="mt-3 pt-3 border-t border-border">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="text-xs font-semibold text-muted-foreground flex items-center gap-1">
+                          <BookOpen className="h-3 w-3" />
+                          参考资料管理
+                        </div>
+                        {docsMode === "selective" && (
+                          <button
+                            onClick={() => handleEnableAllDocs(s.session_id)}
+                            disabled={docsSaving}
+                            className="text-[10px] px-2 py-0.5 rounded-md bg-amber-400/10 text-amber-400 hover:bg-amber-400/20 transition-colors"
+                          >
+                            全部启用
+                          </button>
+                        )}
+                      </div>
+
+                      {sessionDocs.length === 0 ? (
+                        <p className="text-xs text-muted-foreground py-2">
+                          暂无已上传的参考资料。请先在「参考资料」标签页上传文件。
+                        </p>
+                      ) : (
+                        <div className="space-y-1.5">
+                          <p className="text-[10px] text-muted-foreground mb-2">
+                            {docsMode === "all"
+                              ? "当前使用全部资料。关闭不需要的资料可减少无关内容干扰。"
+                              : `已启用 ${sessionDocs.filter((d) => d.enabled).length} / ${sessionDocs.length} 份资料`}
+                          </p>
+                          {sessionDocs.map((doc) => (
+                            <div
+                              key={doc.doc_id}
+                              className={cn(
+                                "flex items-center gap-2 px-3 py-2 rounded-lg border transition-all",
+                                doc.enabled
+                                  ? "border-amber-400/30 bg-amber-400/5"
+                                  : "border-border bg-secondary/30 opacity-60",
+                              )}
+                            >
+                              <button
+                                onClick={() => handleToggleDoc(s.session_id, doc.doc_id, doc.enabled)}
+                                disabled={docsSaving}
+                                className="shrink-0 transition-colors"
+                                title={doc.enabled ? "点击禁用" : "点击启用"}
+                              >
+                                {doc.enabled ? (
+                                  <ToggleRight className="h-5 w-5 text-amber-400" />
+                                ) : (
+                                  <ToggleLeft className="h-5 w-5 text-muted-foreground" />
+                                )}
+                              </button>
+                              <div className="flex-1 min-w-0">
+                                <div className="text-xs font-medium text-foreground truncate">
+                                  {doc.title || doc.filename}
+                                </div>
+                                <div className="text-[10px] text-muted-foreground">
+                                  {doc.doc_type} · {doc.chunk_count} 片段
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>

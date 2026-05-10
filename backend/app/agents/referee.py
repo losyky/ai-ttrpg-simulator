@@ -25,6 +25,7 @@ from app.tools.read_material import (
     list_materials,
     browse_material,
     search_material,
+    make_session_search_material,
 )
 from app.services.event_log import log_event
 from app.services.memory_store import get_memory_context
@@ -64,6 +65,7 @@ def request_player_roll(
 def _get_referee_tools(session_id: str | None = None):
     system = get_current_system(session_id)
     system_tools = system.get_tools().get("referee", [])
+    mat_tool = make_session_search_material(session_id) if session_id else search_material
     return [
         request_player_roll,
         dice_roller,
@@ -73,7 +75,7 @@ def _get_referee_tools(session_id: str | None = None):
         apply_damage,
         end_combat,
         get_combat_status,
-        search_material,
+        mat_tool,
     ]
 
 

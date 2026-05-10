@@ -10,7 +10,7 @@ if TYPE_CHECKING:
     from fastapi import APIRouter
 
 
-SWADE_ABILITIES = ["agility", "smarts", "spirit", "strength", "vigor"]
+SWADE_ABILITIES = ["dexterity", "smarts", "spirit", "strength", "vigor"]
 
 
 class SWADESystem(GameSystem):
@@ -94,6 +94,9 @@ class SWADESystem(GameSystem):
         attrs = {}
         for a in SWADE_ABILITIES:
             die_data = attrs_raw.get(a, {})
+            # Backward compat: old saves may still use "agility"
+            if a == "dexterity" and not die_data:
+                die_data = attrs_raw.get("agility", {})
             if isinstance(die_data, dict) and "die" in die_data:
                 attrs[a] = f"d{die_data['die'].get('sides', 4)}"
             else:

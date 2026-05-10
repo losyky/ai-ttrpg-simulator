@@ -95,6 +95,13 @@ async def analyze_intent(state: AgentState) -> dict[str, Any]:
     }
 
 
+def _get_enabled_doc_ids(session_id: str) -> list[str] | None:
+    """Return the enabled_doc_ids for a session, or None if all are enabled."""
+    from app.models.game_state import get_session
+    session = get_session(session_id)
+    return session.enabled_doc_ids if session else None
+
+
 def _gather_material_context(state: AgentState) -> str:
     """Gather relevant uploaded material for the narrator.
 
@@ -104,6 +111,8 @@ def _gather_material_context(state: AgentState) -> str:
     2. Search with the user's message.
     3. Also search with key terms from recent conversation history to
        catch broader context.
+
+    Respects per-session document enable/disable settings.
     """
     history = get_history(state["session_id"])
     is_early_game = len(history) <= 3
@@ -113,6 +122,7 @@ def _gather_material_context(state: AgentState) -> str:
 
     system = get_current_system(state["session_id"])
     sys_id = system.system_id
+    doc_ids = _get_enabled_doc_ids(state["session_id"])
 
     def _add(hits: list[dict]) -> None:
         for h in hits:
@@ -123,13 +133,13 @@ def _gather_material_context(state: AgentState) -> str:
 
     if is_early_game:
         try:
-            opening = get_opening_chunks(limit=6, system_id=sys_id)
+            opening = get_opening_chunks(limit=6, system_id=sys_id, doc_ids=doc_ids)
             _add(opening)
         except Exception:
             pass
 
     try:
-        hits = search_documents(user_msg, limit=3, system_id=sys_id)
+        hits = search_documents(user_msg, limit=3, system_id=sys_id, doc_ids=doc_ids)
         _add(hits)
     except Exception:
         pass
@@ -142,7 +152,7 @@ def _gather_material_context(state: AgentState) -> str:
         keywords = _extract_search_terms(recent_text, user_msg)
         for kw in keywords[:3]:
             try:
-                hits = search_documents(kw, limit=2, system_id=sys_id)
+                hits = search_documents(kw, limit=2, system_id=sys_id, doc_ids=doc_ids)
                 _add(hits)
             except Exception:
                 pass
@@ -223,6 +233,7 @@ async def narrate(state: AgentState) -> dict[str, Any]:
         parse_interactive_markers,
     )
     from app.tools.party_manage import PARTY_TOOLS
+    from app.models.game_state import get_session
 
     session_id = state["session_id"]
     queue = _narrator_token_queues.get(session_id)
@@ -263,12 +274,22 @@ async def narrate(state: AgentState) -> dict[str, Any]:
     if memory_ctx:
         context_parts.append(memory_ctx)
 
-    if state.get("notetaker_output"):
-        context_parts.append(f"[世界状态摘要]\n{state['notetaker_output']}")
+    session = get_session(session_id)
+    if session and session.world_summary:
+        context_parts.append(f"[世界状态摘要]\n{session.world_summary}")
+
+    # Collect interactive elements already created by the referee so the
+    # narrator's blocking-check prevents duplicate dice/choice requests.
+    prior_interactive: list[dict] = list(state.get("interactive_elements", []))
 
     referee_out = state.get("referee_output", "")
     if referee_out and referee_out.strip() not in ("", "无需进行检定。", "无需进行检定"):
         context_parts.append(f"[规则判定结果]\n{referee_out}")
+        if prior_interactive:
+            context_parts.append(
+                "[重要] 裁判已经向玩家发出了掷骰/选择请求，你**不要**再重复请求掷骰或选择。"
+                "请直接根据规则判定结果进行叙事描写，等待玩家操作。"
+            )
 
     dice_results = state.get("dice_results", [])
     if dice_results:
@@ -311,6 +332,16 @@ async def narrate(state: AgentState) -> dict[str, Any]:
         "request_duality_roll",
     }
     BLOCKING_ELEMENT_TYPES = {"choices", "dice_request", "input_prompt", "duality_dice_request"}
+
+    # Pre-seed with referee's blocking elements so the duplicate guard fires,
+    # but track how many we seeded so we can strip them from the return value.
+    _prior_count = 0
+    if prior_interactive:
+        for ie in prior_interactive:
+            ie_dict = ie if isinstance(ie, dict) else (ie.model_dump() if hasattr(ie, "model_dump") else {})
+            if ie_dict.get("element_type") in BLOCKING_ELEMENT_TYPES:
+                interactive_elements.append(ie_dict)
+                _prior_count += 1
 
     async def _push_token(token: str) -> None:
         if queue:
@@ -411,12 +442,16 @@ async def narrate(state: AgentState) -> dict[str, Any]:
         except Exception as exc:
             log.warning("[narrator] streaming fallback error: %s", exc)
 
+    # Strip the pre-seeded referee elements so they aren't duplicated
+    # by the append-reducer in AgentState.
+    narrator_only_elements = interactive_elements[_prior_count:]
+
     log_event("chat", "narrator_output", session_id=session_id,
               agent="narrator",
               detail="\n\n".join(full_text_parts)[:300],
-              data={"interactive_count": len(interactive_elements), "text_length": len("\n\n".join(full_text_parts))})
+              data={"interactive_count": len(narrator_only_elements), "text_length": len("\n\n".join(full_text_parts))})
 
     return {
         "narrator_response": "\n\n".join(full_text_parts),
-        "interactive_elements": interactive_elements,
+        "interactive_elements": narrator_only_elements,
     }

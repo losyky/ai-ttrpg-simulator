@@ -6,8 +6,11 @@ Key LangGraph features used:
   - astream(stream_mode=updates) for real-time node-level streaming
   - RetryPolicy on LLM-calling nodes for transient failures
   - Annotated reducers for list field accumulation
-  - Deferred notetaker node (runs after main output is sent)
   - asyncio.Queue for narrator token-level streaming
+
+The notetaker runs as a fire-and-forget background task AFTER the
+graph completes, so the SSE response closes as soon as narration is
+streamed.  Summary update and memory extraction run in parallel.
 """
 
 from __future__ import annotations
@@ -33,7 +36,7 @@ from app.agents.narrator import (
 )
 from app.agents.referee import referee_judge
 from app.agents.teammate import teammates_act
-from app.agents.notetaker import update_notes
+from app.agents.notetaker import schedule_notetaker
 from app.agents.dice_interrupt import dice_interrupt_node
 from app.models.schemas import (
     ChatResponseChunk,
@@ -146,7 +149,6 @@ def _build_graph() -> StateGraph:
     graph.add_node("dice_check", dice_interrupt_node)
     graph.add_node("teammates", teammates_act, retry_policy=llm_retry)
     graph.add_node("narrate", narrate, retry_policy=llm_retry)
-    graph.add_node("notetaker", update_notes, retry_policy=llm_retry, defer=True)
 
     graph.set_entry_point("analyze_intent")
 
@@ -164,8 +166,7 @@ def _build_graph() -> StateGraph:
 
     graph.add_edge("dice_check", "narrate")
     graph.add_edge("teammates", "narrate")
-    graph.add_edge("narrate", "notetaker")
-    graph.add_edge("notetaker", END)
+    graph.add_edge("narrate", END)
 
     return graph
 
@@ -244,7 +245,6 @@ async def run_graph(
         "player_context": player_context,
         "referee_output": "",
         "teammate_output": "",
-        "notetaker_output": "",
         "needs_referee": False,
         "needs_teammates": False,
         "dice_results": [],
@@ -447,6 +447,20 @@ async def run_graph(
                   "narrator_len": len(result.get("narrator_response", "")),
               })
 
+    # Fire-and-forget: notetaker runs in background after SSE closes
+    schedule_notetaker(
+        session_id=session_id,
+        user_message=user_message,
+        referee_output=result.get("referee_output", ""),
+        teammate_output=result.get("teammate_output", ""),
+        narrator_response=result.get("narrator_response", ""),
+        llm_config={
+            "model": llm_config.model,
+            "api_key": llm_config.api_key,
+            "base_url": llm_config.base_url,
+        },
+    )
+
     for elem in result.get("interactive_elements", []):
         try:
             ie = InteractiveElement(**(elem if isinstance(elem, dict) else elem.model_dump()))
@@ -629,6 +643,25 @@ async def resume_graph(
 
     if graph_error:
         raise graph_error
+
+    # Fire-and-forget notetaker for resumed graph
+    narrator_text = result.get("narrator_response", "")
+    if narrator_text:
+        # Recover LLM config from the checkpointed graph state
+        _gs = await compiled.aget_state(config)
+        _vals = _gs.values if _gs else {}
+        _api_key = _vals.get("api_key", "")
+        _model = _vals.get("model", "gpt-4o")
+        _base_url = _vals.get("base_url", "https://api.openai.com/v1")
+        if _api_key:
+            schedule_notetaker(
+                session_id=session_id,
+                user_message=_vals.get("user_message", ""),
+                referee_output=result.get("referee_output", _vals.get("referee_output", "")),
+                teammate_output=result.get("teammate_output", _vals.get("teammate_output", "")),
+                narrator_response=narrator_text,
+                llm_config={"model": _model, "api_key": _api_key, "base_url": _base_url},
+            )
 
     updated_session = get_session(session_id)
     if updated_session:

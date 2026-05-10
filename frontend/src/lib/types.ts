@@ -27,6 +27,7 @@ export interface SessionState {
   teammates: CharacterSummary[];
   world_summary: string;
   recent_events: string[];
+  enabled_doc_ids: string[] | null;
 }
 
 export interface SessionListItem {

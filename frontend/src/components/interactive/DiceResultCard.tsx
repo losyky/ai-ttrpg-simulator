@@ -53,6 +53,13 @@ export default function DiceResultCard({ dice }: { dice: DiceResult }) {
 
   const natural20 = dice.rolls.includes(20);
   const natural1 = dice.rolls.length === 1 && dice.rolls[0] === 1;
+  const isDualAttribute = dice.system_info?.dual_attribute === true;
+  const usedIdx = isDualAttribute
+    ? (dice.system_info?.used === "secondary" ? 1 : 0)
+    : -1;
+  const acedFlags = isDualAttribute
+    ? [dice.system_info?.primary_aced === true, dice.system_info?.secondary_aced === true]
+    : [];
 
   useEffect(() => {
     // Tumbling phase: show random numbers
@@ -97,24 +104,44 @@ export default function DiceResultCard({ dice }: { dice: DiceResult }) {
       {/* Dice display */}
       <div className="flex items-center gap-4">
         <div className="flex gap-2">
-          {dice.rolls.map((r, i) => (
-            <div
-              key={i}
-              className={cn(
-                "relative w-14 h-14 rounded-xl flex items-center justify-center text-xl font-bold",
-                "transition-all duration-500",
-                phase === "rolling" && "animate-dice-tumble",
-                phase === "landing" && "animate-dice-land",
-                natural20 && phase === "result"
-                  ? "bg-gradient-to-br from-yellow-400 to-amber-600 text-black shadow-[0_0_20px_rgba(234,179,8,0.5)]"
-                  : natural1 && phase === "result"
-                    ? "bg-gradient-to-br from-red-600 to-red-900 text-white shadow-[0_0_20px_rgba(185,28,28,0.5)]"
-                    : "bg-secondary text-foreground border border-border",
-              )}
-            >
-              {phase === "rolling" ? displayValue : r}
-            </div>
-          ))}
+          {dice.rolls.map((r, i) => {
+            const isUsed = usedIdx === i;
+            const isDiscarded = isDualAttribute && usedIdx >= 0 && !isUsed;
+            const dieLabel = isDualAttribute
+              ? (i === 0 ? `d${dice.system_info?.primary_sides ?? "?"}` : `d${dice.system_info?.secondary_sides ?? "?"}`)
+              : null;
+            return (
+              <div key={i} className="flex flex-col items-center gap-1">
+                <div
+                  className={cn(
+                    "relative w-14 h-14 rounded-xl flex items-center justify-center text-xl font-bold",
+                    "transition-all duration-500",
+                    phase === "rolling" && "animate-dice-tumble",
+                    phase === "landing" && "animate-dice-land",
+                    natural20 && phase === "result"
+                      ? "bg-gradient-to-br from-yellow-400 to-amber-600 text-black shadow-[0_0_20px_rgba(234,179,8,0.5)]"
+                      : natural1 && phase === "result"
+                        ? "bg-gradient-to-br from-red-600 to-red-900 text-white shadow-[0_0_20px_rgba(185,28,28,0.5)]"
+                        : isUsed && phase === "result"
+                          ? "bg-primary/20 text-primary border-2 border-primary/60 ring-2 ring-primary/30"
+                          : isDiscarded && phase === "result"
+                            ? "bg-secondary/50 text-muted-foreground border border-border/50 opacity-50"
+                            : "bg-secondary text-foreground border border-border",
+                  )}
+                >
+                  {phase === "rolling" ? displayValue : r}
+                </div>
+                {dieLabel && phase === "result" && (
+                  <span className={cn(
+                    "text-[10px] font-mono",
+                    isUsed ? "text-primary" : "text-muted-foreground/60",
+                  )}>
+                    {dieLabel}{acedFlags[i] ? " 💥" : ""}{isUsed ? " ✓" : ""}
+                  </span>
+                )}
+              </div>
+            );
+          })}
         </div>
 
         {/* Total */}

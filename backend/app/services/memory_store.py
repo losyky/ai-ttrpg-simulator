@@ -89,7 +89,12 @@ def get_memories(
 
 
 def get_memory_context(session_id: str, max_chars: int = 1500) -> str:
-    """Build a compact memory context string for injection into agent prompts."""
+    """Build a compact memory context string for injection into agent prompts.
+
+    Iterates through all categories and truncates *individual items*
+    within the last fitting category so that every category gets
+    representation rather than being entirely cut off.
+    """
     all_memories = get_memories(session_id, limit=30)
     if not all_memories:
         return ""
@@ -107,18 +112,31 @@ def get_memory_context(session_id: str, max_chars: int = 1500) -> str:
         "items": "物品变动",
     }
 
-    parts = []
+    parts: list[str] = []
     total = 0
     for cat in MEMORY_CATEGORIES:
         items = grouped.get(cat, [])
         if not items:
             continue
         label = cat_labels.get(cat, cat)
-        section = f"【{label}】\n" + "\n".join(f"• {t}" for t in items)
-        if total + len(section) > max_chars:
+        header = f"【{label}】"
+        header_len = len(header) + 1  # +1 for newline
+
+        if total + header_len > max_chars:
             break
-        parts.append(section)
-        total += len(section)
+
+        fitting_items: list[str] = []
+        section_len = header_len
+        for t in items:
+            line = f"• {t}"
+            if total + section_len + len(line) + 1 > max_chars:
+                break
+            fitting_items.append(line)
+            section_len += len(line) + 1
+
+        if fitting_items:
+            parts.append(header + "\n" + "\n".join(fitting_items))
+            total += section_len
 
     if not parts:
         return ""
@@ -176,22 +194,66 @@ EXTRACT_PROMPT = """\
 """
 
 
+def _extract_json_array(text: str) -> list[dict]:
+    """Robustly extract a JSON array from LLM output.
+
+    Handles: bare JSON, ```json fenced blocks, stray text before/after.
+    """
+    import re
+
+    text = text.strip()
+
+    # Try bare parse first
+    try:
+        parsed = json.loads(text)
+        if isinstance(parsed, list):
+            return parsed
+    except json.JSONDecodeError:
+        pass
+
+    # Try extracting from fenced code block (```json ... ``` or ``` ... ```)
+    fence_match = re.search(r"```(?:json)?\s*\n?(.*?)```", text, re.DOTALL)
+    if fence_match:
+        try:
+            parsed = json.loads(fence_match.group(1).strip())
+            if isinstance(parsed, list):
+                return parsed
+        except json.JSONDecodeError:
+            pass
+
+    # Last resort: find the first [ ... ] substring
+    bracket_match = re.search(r"\[.*\]", text, re.DOTALL)
+    if bracket_match:
+        try:
+            parsed = json.loads(bracket_match.group(0))
+            if isinstance(parsed, list):
+                return parsed
+        except json.JSONDecodeError:
+            pass
+
+    return []
+
+
 async def extract_and_store_memories(
     session_id: str,
     turn_info: str,
     llm_config: dict[str, str],
+    existing_ctx: str | None = None,
 ) -> int:
     """Use LLM to extract important facts from this turn and store them.
 
-    Called at the end of each turn by the notetaker.
+    Args:
+        existing_ctx: Pre-fetched memory context string.  When supplied
+            the function skips an extra ``get_memory_context`` call.
     """
     from app.agents.compat import SafeChatOpenAI as ChatOpenAI
     from langchain_core.messages import HumanMessage, SystemMessage
 
-    existing = get_memory_context(session_id, max_chars=800)
+    if existing_ctx is None:
+        existing_ctx = get_memory_context(session_id, max_chars=800)
 
     prompt = EXTRACT_PROMPT.format(
-        existing=existing or "(暂无)",
+        existing=existing_ctx or "(暂无)",
         turn_info=turn_info[:2000],
     )
 
@@ -208,18 +270,10 @@ async def extract_and_store_memories(
             HumanMessage(content=prompt),
         ])
 
-        text = str(response.content).strip()
-        # Extract JSON from possible markdown code blocks
-        if "```" in text:
-            text = text.split("```")[1]
-            if text.startswith("json"):
-                text = text[4:]
-            text = text.strip()
-
-        memories = json.loads(text)
-        if isinstance(memories, list) and memories:
+        memories = _extract_json_array(str(response.content))
+        if memories:
             return bulk_add_memories(session_id, memories)
-    except (json.JSONDecodeError, IndexError, Exception) as e:
+    except Exception as e:
         log_event("error", "memory_extract_fail", session_id=session_id,
                   detail=str(e)[:200])
 

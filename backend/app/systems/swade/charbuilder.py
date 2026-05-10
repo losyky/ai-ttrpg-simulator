@@ -10,9 +10,9 @@ from langchain_core.tools import tool
 
 from app.systems.swade.dice_rules import calc_toughness, calc_parry, calc_mp, calc_ip
 
-SWADE_ATTRIBUTES = ["agility", "smarts", "spirit", "strength", "vigor"]
+SWADE_ATTRIBUTES = ["dexterity", "smarts", "spirit", "strength", "vigor"]
 SWADE_ATTR_LABELS = {
-    "agility": "灵巧 (Agility)",
+    "dexterity": "灵巧 (Dexterity)",
     "smarts": "聪慧 (Smarts)",
     "spirit": "心魂 (Spirit)",
     "strength": "力量 (Strength)",
@@ -37,7 +37,7 @@ def swade_assemble_character(spec_json: str) -> str:
     The spec_json should contain:
     - name (str): character name
     - race (str): race/species name
-    - attributes (dict): {"agility": 6, "smarts": 8, ...} — die sides (4/6/8/10/12)
+    - attributes (dict): {"dexterity": 6, "smarts": 8, ...} — die sides (4/6/8/10/12)
     - edges (list[dict]): [{"name": "Edge Name", "description": "...", "rank": "novice"}]
     - hindrances (list[dict]): [{"name": "Hindrance Name", "description": "...", "major": true/false}]
     - equipment (list[dict]): [{"name": "Item", "damage": "str+d6", "weight": 2, "notes": ""}]
@@ -72,7 +72,7 @@ def swade_assemble_character(spec_json: str) -> str:
             warnings.append(f"属性 {a} 骰面 d{sides} 不合规，应为 d4/d6/d8/d10/d12")
 
     toughness = calc_toughness(attrs.get("vigor", 4), armor_val) + spec.get("toughness_bonus", 0)
-    parry = calc_parry(attrs.get("agility", 4))
+    parry = calc_parry(attrs.get("dexterity", attrs.get("agility", 4)))
     mp_max = calc_mp(level, attrs.get("spirit", 4)) + spec.get("mp_bonus", 0)
     ip_max = calc_ip() + spec.get("ip_bonus", 0)
     pace = spec.get("pace", 6)
@@ -125,7 +125,7 @@ def swade_assemble_character(spec_json: str) -> str:
         "system": {
             "details": {
                 "species": race,
-                "biography": spec.get("background", ""),
+                "biography": {"backstory": spec.get("background", "")},
             },
             "attributes": {
                 a: {"die": {"sides": attrs.get(a, 4), "modifier": 0}}
@@ -188,7 +188,7 @@ def swade_assemble_npc(spec_json: str) -> str:
     The spec_json should contain:
     - name (str): NPC/monster name
     - wildcard (bool): true = Wildcard (has Bennies, Wild Die), false = Extra
-    - attributes (dict): {"agility": 6, ...} die sides for each attribute
+    - attributes (dict): {"dexterity": 6, ...} die sides for each attribute
     - toughness (int): total toughness value
     - parry (int): parry value
     - pace (int): movement speed

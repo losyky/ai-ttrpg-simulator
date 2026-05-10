@@ -335,12 +335,21 @@ def _rebuild_chunks_fts(conn: sqlite3.Connection) -> None:
 
 # ── Query API (for the AI reading tool) ──
 
-def list_documents(system_id: str | None = None) -> list[dict]:
+def list_documents(system_id: str | None = None, doc_ids: list[str] | None = None) -> list[dict]:
     conn = _get_conn()
+    conditions = []
+    params: list = []
     if system_id:
-        rows = conn.execute("SELECT * FROM documents WHERE system_id = ? ORDER BY created_at DESC", (system_id,)).fetchall()
-    else:
-        rows = conn.execute("SELECT * FROM documents ORDER BY created_at DESC").fetchall()
+        conditions.append("system_id = ?")
+        params.append(system_id)
+    if doc_ids is not None:
+        if not doc_ids:
+            return []
+        placeholders = ",".join("?" for _ in doc_ids)
+        conditions.append(f"doc_id IN ({placeholders})")
+        params.extend(doc_ids)
+    where = (" WHERE " + " AND ".join(conditions)) if conditions else ""
+    rows = conn.execute(f"SELECT * FROM documents{where} ORDER BY created_at DESC", params).fetchall()
     return [dict(r) for r in rows]
 
 
@@ -371,19 +380,35 @@ def read_document_section(doc_id: str, start: int = 0, count: int = 3) -> list[d
     return [dict(r) for r in rows]
 
 
-def search_documents(query: str, doc_id: str | None = None, limit: int = 5, system_id: str | None = None) -> list[dict]:
-    """Full-text search across uploaded documents, optionally filtered by system_id."""
-    conn = _get_conn()
+def search_documents(query: str, doc_id: str | None = None, limit: int = 5, system_id: str | None = None, doc_ids: list[str] | None = None) -> list[dict]:
+    """Full-text search across uploaded documents.
 
-    rows = _fts_search(conn, query, doc_id, limit, system_id)
+    Filters:
+        doc_id: scope to a single document
+        system_id: scope to a game system
+        doc_ids: scope to a specific set of enabled documents (None = all)
+    """
+    conn = _get_conn()
+    if doc_ids is not None and not doc_ids:
+        return []
+
+    rows = _fts_search(conn, query, doc_id, limit, system_id, doc_ids)
 
     if not rows:
-        rows = _like_search(conn, query, doc_id, limit, system_id)
+        rows = _like_search(conn, query, doc_id, limit, system_id, doc_ids)
 
     return [dict(r) for r in rows]
 
 
-def _fts_search(conn: sqlite3.Connection, query: str, doc_id: str | None, limit: int, system_id: str | None = None) -> list:
+def _doc_ids_clause(doc_ids: list[str] | None, params: list, table_alias: str = "dc") -> str:
+    if doc_ids is None:
+        return ""
+    placeholders = ",".join("?" for _ in doc_ids)
+    params.extend(doc_ids)
+    return f" AND {table_alias}.doc_id IN ({placeholders})"
+
+
+def _fts_search(conn: sqlite3.Connection, query: str, doc_id: str | None, limit: int, system_id: str | None = None, doc_ids: list[str] | None = None) -> list:
     fts_query = query.replace('"', '""')
     try:
         base = """
@@ -399,6 +424,7 @@ def _fts_search(conn: sqlite3.Connection, query: str, doc_id: str | None, limit:
         if system_id:
             base += " AND d.system_id = ?"
             params.append(system_id)
+        base += _doc_ids_clause(doc_ids, params)
         base += " ORDER BY rank LIMIT ?"
         params.append(limit)
         return conn.execute(base, params).fetchall()
@@ -406,7 +432,7 @@ def _fts_search(conn: sqlite3.Connection, query: str, doc_id: str | None, limit:
         return []
 
 
-def _like_search(conn: sqlite3.Connection, query: str, doc_id: str | None, limit: int, system_id: str | None = None) -> list:
+def _like_search(conn: sqlite3.Connection, query: str, doc_id: str | None, limit: int, system_id: str | None = None, doc_ids: list[str] | None = None) -> list:
     """LIKE-based fallback: search for each significant token independently."""
     tokens = [t for t in query.strip() if t.strip()]
     if not tokens:
@@ -435,6 +461,10 @@ def _like_search(conn: sqlite3.Connection, query: str, doc_id: str | None, limit
     if system_id:
         base_conditions.append("d.system_id = ?")
         extra_params.append(system_id)
+    if doc_ids is not None:
+        placeholders = ",".join("?" for _ in doc_ids)
+        base_conditions.append(f"dc.doc_id IN ({placeholders})")
+        extra_params.extend(doc_ids)
 
     sql = "SELECT dc.* FROM doc_chunks dc JOIN documents d ON d.doc_id = dc.doc_id WHERE"
     if base_conditions:
@@ -444,25 +474,34 @@ def _like_search(conn: sqlite3.Connection, query: str, doc_id: str | None, limit
     return conn.execute(sql, extra_params + params + [limit]).fetchall()
 
 
-def get_opening_chunks(limit: int = 5, system_id: str | None = None) -> list[dict]:
-    """Get the opening sections of uploaded documents, optionally filtered by system_id."""
+def get_opening_chunks(limit: int = 5, system_id: str | None = None, doc_ids: list[str] | None = None) -> list[dict]:
+    """Get the opening sections of uploaded documents.
+
+    Filters:
+        system_id: scope to a game system
+        doc_ids: scope to a specific set of enabled documents (None = all)
+    """
+    if doc_ids is not None and not doc_ids:
+        return []
     conn = _get_conn()
+    conditions = ["dc.chunk_index <= 2"]
+    params: list = []
     if system_id:
-        rows = conn.execute("""
-            SELECT dc.*, d.title as doc_title FROM doc_chunks dc
-            JOIN documents d ON d.doc_id = dc.doc_id
-            WHERE dc.chunk_index <= 2 AND d.system_id = ?
-            ORDER BY d.created_at DESC, dc.chunk_index ASC
-            LIMIT ?
-        """, (system_id, limit)).fetchall()
-    else:
-        rows = conn.execute("""
-            SELECT dc.*, d.title as doc_title FROM doc_chunks dc
-            JOIN documents d ON d.doc_id = dc.doc_id
-            WHERE dc.chunk_index <= 2
-            ORDER BY d.created_at DESC, dc.chunk_index ASC
-            LIMIT ?
-        """, (limit,)).fetchall()
+        conditions.append("d.system_id = ?")
+        params.append(system_id)
+    if doc_ids is not None:
+        placeholders = ",".join("?" for _ in doc_ids)
+        conditions.append(f"dc.doc_id IN ({placeholders})")
+        params.extend(doc_ids)
+    where = " AND ".join(conditions)
+    params.append(limit)
+    rows = conn.execute(f"""
+        SELECT dc.*, d.title as doc_title FROM doc_chunks dc
+        JOIN documents d ON d.doc_id = dc.doc_id
+        WHERE {where}
+        ORDER BY d.created_at DESC, dc.chunk_index ASC
+        LIMIT ?
+    """, params).fetchall()
     return [dict(r) for r in rows]
 
 

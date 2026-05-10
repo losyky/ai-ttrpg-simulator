@@ -55,6 +55,7 @@ class SessionState(BaseModel):
     teammates: list[CharacterSummary] = Field(default_factory=list)
     world_summary: str = ""
     recent_events: list[str] = Field(default_factory=list)
+    enabled_doc_ids: list[str] | None = None
 
 
 # --------------- Chat ---------------

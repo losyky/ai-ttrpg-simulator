@@ -292,7 +292,7 @@ export default function CompendiumManager({ systemId }: Props) {
                   )}
                   {entry._default && <Lock className="h-3 w-3 text-muted-foreground/50 flex-shrink-0" />}
                 </div>
-                {(entry.description || entry.trait) && (
+                {Boolean(entry.description || entry.trait) && (
                   <div className="text-xs text-muted-foreground truncate mt-0.5">{String(entry.description || entry.trait).slice(0, 100)}</div>
                 )}
               </div>

@@ -79,3 +79,33 @@ def search_material(query: str, doc_id: str = "") -> str:
     for r in results:
         parts.append(f"--- {r['section']} ---\n{r['content'][:800]}")
     return "\n\n".join(parts)
+
+
+def make_session_search_material(session_id: str):
+    """Create a search_material tool scoped to a session's enabled documents."""
+    from app.models.game_state import get_session as _get_session
+
+    @tool
+    def search_material_scoped(query: str, doc_id: str = "") -> str:
+        """Search through uploaded reference materials for relevant content.
+
+        Searches across enabled documents using full-text search.
+        Optionally scope to a specific document.
+
+        Args:
+            query: What to search for, e.g. "葬礼竞技", "funeral games", "丁托尼昂".
+            doc_id: Optional — limit search to a specific document.
+        """
+        session = _get_session(session_id)
+        enabled = session.enabled_doc_ids if session else None
+        results = search_documents(query, doc_id=doc_id or None, limit=5, doc_ids=enabled)
+        if not results:
+            return f"未在参考资料中找到与「{query}」相关的内容。"
+
+        parts = [f"搜索「{query}」的结果："]
+        for r in results:
+            parts.append(f"--- {r['section']} ---\n{r['content'][:800]}")
+        return "\n\n".join(parts)
+
+    search_material_scoped.name = "search_material"
+    return search_material_scoped

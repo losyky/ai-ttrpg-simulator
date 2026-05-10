@@ -165,6 +165,49 @@ async def remove_teammate(session_id: str, body: dict[str, Any]):
     return {"status": "removed", "teammates": [t.name for t in state.teammates]}
 
 
+class DocumentToggleRequest(BaseModel):
+    enabled_doc_ids: list[str] | None = None
+
+
+@router.get("/{session_id}/documents")
+async def get_session_documents(session_id: str):
+    """Get the document enable/disable settings for a session."""
+    state = get_session(session_id)
+    if state is None:
+        raise HTTPException(404, "Session not found")
+
+    from app.services.knowledge_base import list_documents
+    all_docs = list_documents(system_id=state.system_id)
+    enabled = state.enabled_doc_ids
+
+    docs = []
+    for d in all_docs:
+        docs.append({
+            "doc_id": d["doc_id"],
+            "title": d.get("title", d.get("filename", "")),
+            "filename": d.get("filename", ""),
+            "doc_type": d.get("doc_type", ""),
+            "chunk_count": d.get("chunk_count", 0),
+            "enabled": enabled is None or d["doc_id"] in enabled,
+        })
+    return {"session_id": session_id, "documents": docs, "mode": "all" if enabled is None else "selective"}
+
+
+@router.put("/{session_id}/documents")
+async def set_session_documents(session_id: str, req: DocumentToggleRequest):
+    """Set which documents are enabled for a session.
+
+    Pass enabled_doc_ids=null to enable all documents (default).
+    Pass enabled_doc_ids=[] to disable all documents.
+    Pass enabled_doc_ids=["id1","id2"] to enable only those.
+    """
+    state = get_session(session_id)
+    if state is None:
+        raise HTTPException(404, "Session not found")
+    state = update_session(session_id, enabled_doc_ids=req.enabled_doc_ids)
+    return {"session_id": session_id, "enabled_doc_ids": state.enabled_doc_ids}
+
+
 @router.delete("/{session_id}")
 async def remove_session(session_id: str):
     ok = delete_session(session_id)
