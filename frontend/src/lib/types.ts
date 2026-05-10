@@ -99,6 +99,8 @@ export interface InteractiveElement {
   // input_prompt
   placeholder?: string;
   input_type?: string;
+  // metadata from backend (e.g. character_id for add-teammate flow)
+  meta?: Record<string, unknown>;
   // resolved state — persisted so controls survive tab switches & save/load
   resolved?: boolean;
   resolved_value?: string;   // selected choice label, dice result text, or input value

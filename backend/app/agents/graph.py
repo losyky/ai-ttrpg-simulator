@@ -83,7 +83,9 @@ def _build_character_extras(sheet: Any, system_id: str) -> dict[str, Any]:
             "ip": resources.get("ip", {}).get("value", 6),
             "ip_max": resources.get("ip", {}).get("max", 6),
             "wounds": system.get("wounds", {}).get("value", 0) if isinstance(system.get("wounds"), dict) else system.get("wounds", 0),
+            "wounds_max": system.get("wounds", {}).get("max", 3) if isinstance(system.get("wounds"), dict) else 3,
             "fatigue": system.get("fatigue", {}).get("value", 0) if isinstance(system.get("fatigue"), dict) else system.get("fatigue", 0),
+            "fatigue_max": system.get("fatigue", {}).get("max", 2) if isinstance(system.get("fatigue"), dict) else 2,
             "advances": system.get("advances", {}).get("value", 0),
         }
     elif system_id == "daggerheart":

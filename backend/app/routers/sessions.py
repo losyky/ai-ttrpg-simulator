@@ -133,7 +133,7 @@ async def add_teammate(session_id: str, body: dict[str, Any]):
     if not char_id:
         raise HTTPException(400, "character_id is required")
 
-    from app.routers.characters import _characters
+    from app.routers.characters import _characters, _raw_data
     sheet = _characters.get(char_id)
     if not sheet:
         raise HTTPException(404, f"Character {char_id} not found")
@@ -141,11 +141,42 @@ async def add_teammate(session_id: str, body: dict[str, Any]):
     if any(t.name == sheet.name for t in state.teammates):
         return {"status": "already_added", "teammates": [t.name for t in state.teammates]}
 
-    new_tm = CharacterSummary(
-        name=sheet.name, ancestry=sheet.ancestry,
-        character_class=sheet.character_class, level=sheet.level,
-        hp=sheet.hp, max_hp=sheet.max_hp, conditions=[],
-    )
+    from app.agents.graph import _build_character_extras
+    extras = _build_character_extras(sheet, state.system_id)
+
+    raw = _raw_data.get(char_id, {})
+    raw_sys = raw.get("system", {})
+
+    if state.system_id == "daggerheart":
+        res = raw_sys.get("resources", {})
+        heritage = raw_sys.get("heritage", {})
+        ancestry_name = heritage.get("ancestry", "") if isinstance(heritage, dict) else ""
+        new_tm = CharacterSummary(
+            name=sheet.name,
+            ancestry=ancestry_name,
+            character_class=raw_sys.get("class", sheet.character_class),
+            level=raw_sys.get("level", sheet.level) or sheet.level,
+            hp=res.get("hitPoints", {}).get("value", sheet.hp),
+            max_hp=res.get("hitPoints", {}).get("max", sheet.max_hp),
+            extras=extras,
+        )
+    elif state.system_id == "swade":
+        new_tm = CharacterSummary(
+            name=sheet.name,
+            ancestry=raw_sys.get("details", {}).get("species", sheet.ancestry),
+            character_class="冒险者",
+            level=raw_sys.get("advances", {}).get("value", 0),
+            hp=0, max_hp=0,
+            extras=extras,
+        )
+    else:
+        new_tm = CharacterSummary(
+            name=sheet.name, ancestry=sheet.ancestry,
+            character_class=sheet.character_class, level=sheet.level,
+            hp=sheet.hp, max_hp=sheet.max_hp,
+            extras=extras,
+        )
+
     updated_list = list(state.teammates) + [new_tm]
     state = update_session(session_id, teammates=updated_list)
     return {"status": "added", "teammates": [t.name for t in state.teammates]}

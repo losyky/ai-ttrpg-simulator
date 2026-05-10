@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
   ArrowLeft,
   Heart,
@@ -11,18 +11,21 @@ import {
   Check,
   X,
   Zap,
+  Minus,
+  Plus,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
 const ATTR_LABELS: Record<string, string> = {
-  agility: "灵巧",
+  dexterity: "灵巧",
   smarts: "聪慧",
   spirit: "心魂",
   strength: "力量",
   vigor: "活力",
 };
+const ATTR_KEYS = ["dexterity", "smarts", "spirit", "strength", "vigor"];
 
 const ELEMENT_LABELS: Record<string, string> = {
   fire: "火", ice: "冰", earth: "土", wind: "风",
@@ -45,7 +48,7 @@ interface RawActor {
   system?: {
     details?: {
       species?: string;
-      biography?: string | { value?: string };
+      biography?: string | { value?: string; backstory?: string };
     };
     attributes?: Record<string, { die?: { sides?: number; modifier?: number } }>;
     stats?: {
@@ -57,14 +60,20 @@ interface RawActor {
       mp?: { value?: number; max?: number };
       ip?: { value?: number; max?: number };
     };
-    wounds?: { value?: number; max?: number };
-    fatigue?: { value?: number; max?: number };
-    bennies?: { value?: number; max?: number };
+    wounds?: { value?: number; max?: number } | number;
+    fatigue?: { value?: number; max?: number } | number;
+    bennies?: { value?: number; max?: number } | number;
     advances?: { value?: number };
     elementalResistances?: Record<string, string>;
     bonds?: { target?: string; type?: string; description?: string }[];
   };
   items?: { _id?: string; type?: string; name?: string; system?: Record<string, unknown> }[];
+}
+
+function getNumField(field: unknown, sub: "value" | "max", fallback: number): number {
+  if (typeof field === "number") return field;
+  if (typeof field === "object" && field !== null) return (field as Record<string, number>)[sub] ?? fallback;
+  return fallback;
 }
 
 interface Props {
@@ -88,6 +97,20 @@ export default function SWADECharacterSheetEditor({ characterId, onBack }: Props
     })();
   }, [characterId]);
 
+  const patchFvtt = useCallback(async (updates: Record<string, unknown>) => {
+    try {
+      const resp = await fetch(`${API}/api/characters/${characterId}/fvtt`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updates),
+      });
+      if (resp.ok) {
+        const newRaw = await resp.json();
+        setRaw(newRaw);
+      }
+    } catch { /* ignore */ }
+  }, [characterId]);
+
   if (loading) return <div className="text-center text-muted-foreground py-12">加载中…</div>;
   if (!raw) return <div className="text-center text-red-400 py-12">无法加载角色数据</div>;
 
@@ -97,9 +120,10 @@ export default function SWADECharacterSheetEditor({ characterId, onBack }: Props
   const resources = sys.resources || {};
   const mp = resources.mp || {};
   const ip = resources.ip || {};
-  const wounds = sys.wounds || {};
-  const fatigue = sys.fatigue || {};
-  const bennies = sys.bennies || {};
+  const woundsVal = getNumField(sys.wounds, "value", 0);
+  const woundsMax = getNumField(sys.wounds, "max", 3);
+  const fatigueVal = getNumField(sys.fatigue, "value", 0);
+  const fatigueMax = getNumField(sys.fatigue, "max", 2);
   const details = sys.details || {};
   const elemResist = sys.elementalResistances || {};
   const bonds = sys.bonds || [];
@@ -109,9 +133,12 @@ export default function SWADECharacterSheetEditor({ characterId, onBack }: Props
   const hindrances = items.filter((i) => i.type === "hindrance");
   const gear = items.filter((i) => ["gear", "weapon", "armor", "shield"].includes(i.type || ""));
   const powers = items.filter((i) => i.type === "power");
+  const abilities = items.filter((i) => i.type === "ability");
 
   const species = details.species || "";
-  const bio = typeof details.biography === "string" ? details.biography : details.biography?.value || "";
+  const bio = typeof details.biography === "string"
+    ? details.biography
+    : (details.biography?.backstory || details.biography?.value || "");
 
   return (
     <div className="space-y-6">
@@ -130,12 +157,7 @@ export default function SWADECharacterSheetEditor({ characterId, onBack }: Props
                 autoFocus
               />
               <button onClick={async () => {
-                await fetch(`${API}/api/characters/${characterId}`, {
-                  method: "PATCH",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({ name: nameVal }),
-                });
-                setRaw({ ...raw, name: nameVal });
+                await patchFvtt({ name: nameVal });
                 setEditName(false);
               }}>
                 <Check className="h-4 w-4 text-green-400" />
@@ -164,8 +186,10 @@ export default function SWADECharacterSheetEditor({ characterId, onBack }: Props
       <div>
         <h4 className="text-sm font-semibold text-foreground mb-2">属性</h4>
         <div className="grid grid-cols-5 gap-2">
-          {Object.entries(ATTR_LABELS).map(([key, label]) => {
-            const die = attrs[key]?.die;
+          {ATTR_KEYS.map((key) => {
+            const label = ATTR_LABELS[key] ?? key;
+            const dieData = attrs[key] ?? (key === "dexterity" ? attrs["agility"] : undefined);
+            const die = dieData?.die;
             const sides = die?.sides ?? 4;
             return (
               <div key={key} className="text-center p-2 rounded-lg bg-secondary/50 border border-border">
@@ -204,29 +228,47 @@ export default function SWADECharacterSheetEditor({ characterId, onBack }: Props
           <div className="grid grid-cols-2 gap-2 text-center text-sm">
             <div>
               <div className="text-muted-foreground flex items-center justify-center gap-1"><Zap className="h-3 w-3 text-blue-400" />MP</div>
-              <div className="font-bold text-foreground">{mp.value ?? 0} / {mp.max ?? 0}</div>
+              <ResourceEditor
+                value={mp.value ?? 0}
+                max={mp.max ?? 0}
+                color="text-blue-400"
+                onChange={(v) => patchFvtt({ resources: { mp: { value: v } } })}
+              />
             </div>
             <div>
               <div className="text-muted-foreground flex items-center justify-center gap-1"><Heart className="h-3 w-3 text-red-400" />IP</div>
-              <div className="font-bold text-foreground">{ip.value ?? 0} / {ip.max ?? 0}</div>
+              <ResourceEditor
+                value={ip.value ?? 0}
+                max={ip.max ?? 0}
+                color="text-orange-400"
+                onChange={(v) => patchFvtt({ resources: { ip: { value: v } } })}
+              />
             </div>
           </div>
         </div>
       </div>
 
-      {/* Wounds / Fatigue / Bennies */}
-      <div className="grid grid-cols-3 gap-2 text-sm text-center">
-        <div className="p-2 rounded-lg bg-red-500/10 border border-red-500/30">
-          <div className="text-muted-foreground">负伤</div>
-          <div className="font-bold text-foreground">{wounds.value ?? 0} / {wounds.max ?? 3}</div>
+      {/* Wounds / Fatigue */}
+      <div className="grid grid-cols-2 gap-2 text-sm text-center">
+        <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/30">
+          <div className="text-muted-foreground mb-1">负伤</div>
+          <WoundTracker
+            value={woundsVal}
+            max={woundsMax}
+            color="bg-red-500"
+            emptyColor="bg-red-500/20"
+            onChange={(v) => patchFvtt({ wounds: { value: v } })}
+          />
         </div>
-        <div className="p-2 rounded-lg bg-orange-500/10 border border-orange-500/30">
-          <div className="text-muted-foreground">疲劳</div>
-          <div className="font-bold text-foreground">{fatigue.value ?? 0} / {fatigue.max ?? 2}</div>
-        </div>
-        <div className="p-2 rounded-lg bg-yellow-500/10 border border-yellow-500/30">
-          <div className="text-muted-foreground">坚毅点</div>
-          <div className="font-bold text-foreground">{bennies.value ?? 3} / {bennies.max ?? 3}</div>
+        <div className="p-3 rounded-lg bg-orange-500/10 border border-orange-500/30">
+          <div className="text-muted-foreground mb-1">疲劳</div>
+          <WoundTracker
+            value={fatigueVal}
+            max={fatigueMax}
+            color="bg-orange-500"
+            emptyColor="bg-orange-500/20"
+            onChange={(v) => patchFvtt({ fatigue: { value: v } })}
+          />
         </div>
       </div>
 
@@ -237,7 +279,10 @@ export default function SWADECharacterSheetEditor({ characterId, onBack }: Props
           <div className="space-y-1">
             {edges.map((e) => (
               <div key={e._id} className="px-3 py-2 rounded-lg bg-green-500/10 border border-green-500/20 text-sm text-foreground">
-                {e.name}
+                <span className="font-medium">{e.name}</span>
+                {Boolean(e.system?.description) && (
+                  <div className="text-xs text-muted-foreground mt-0.5">{String(e.system!.description)}</div>
+                )}
               </div>
             ))}
           </div>
@@ -251,6 +296,23 @@ export default function SWADECharacterSheetEditor({ characterId, onBack }: Props
               <div key={h._id} className="px-3 py-2 rounded-lg bg-red-500/10 border border-red-500/20 text-sm text-foreground flex justify-between">
                 <span>{h.name}</span>
                 {Boolean(h.system?.major) && <span className="text-xs text-red-400">主要</span>}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Special Abilities (NPC) */}
+      {abilities.length > 0 && (
+        <div>
+          <h4 className="text-sm font-semibold text-foreground mb-2">特殊能力</h4>
+          <div className="space-y-1">
+            {abilities.map((a) => (
+              <div key={a._id} className="px-3 py-2 rounded-lg bg-purple-500/10 border border-purple-500/20 text-sm text-foreground">
+                <span className="font-medium">{a.name}</span>
+                {Boolean(a.system?.description) && (
+                  <div className="text-xs text-muted-foreground mt-0.5">{String(a.system!.description)}</div>
+                )}
               </div>
             ))}
           </div>
@@ -329,6 +391,68 @@ export default function SWADECharacterSheetEditor({ characterId, onBack }: Props
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+/* ── Reusable sub-components ── */
+
+function ResourceEditor({ value, max, color, onChange }: {
+  value: number; max: number; color: string;
+  onChange: (v: number) => void;
+}) {
+  return (
+    <div className="flex items-center justify-center gap-1">
+      <button
+        onClick={() => onChange(Math.max(0, value - 1))}
+        className="p-0.5 rounded hover:bg-secondary transition-colors"
+        disabled={value <= 0}
+      >
+        <Minus className="h-3 w-3 text-muted-foreground" />
+      </button>
+      <span className={cn("font-bold tabular-nums", color)}>{value}/{max}</span>
+      <button
+        onClick={() => onChange(Math.min(max, value + 1))}
+        className="p-0.5 rounded hover:bg-secondary transition-colors"
+        disabled={value >= max}
+      >
+        <Plus className="h-3 w-3 text-muted-foreground" />
+      </button>
+    </div>
+  );
+}
+
+function WoundTracker({ value, max, color, emptyColor, onChange }: {
+  value: number; max: number; color: string; emptyColor: string;
+  onChange: (v: number) => void;
+}) {
+  return (
+    <div className="flex items-center justify-center gap-1.5">
+      <button
+        onClick={() => onChange(Math.max(0, value - 1))}
+        className="p-0.5 rounded hover:bg-secondary transition-colors"
+        disabled={value <= 0}
+      >
+        <Minus className="h-3 w-3 text-muted-foreground" />
+      </button>
+      <div className="flex gap-1">
+        {Array.from({ length: max }).map((_, i) => (
+          <span
+            key={i}
+            className={cn(
+              "w-4 h-4 rounded-full border transition-colors",
+              i < value ? `${color} border-transparent` : `${emptyColor} border-border`,
+            )}
+          />
+        ))}
+      </div>
+      <button
+        onClick={() => onChange(Math.min(max, value + 1))}
+        className="p-0.5 rounded hover:bg-secondary transition-colors"
+        disabled={value >= max}
+      >
+        <Plus className="h-3 w-3 text-muted-foreground" />
+      </button>
     </div>
   );
 }

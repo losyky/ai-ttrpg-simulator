@@ -321,6 +321,69 @@ async def update_hp(char_id: str, hp_change: int = Body(..., embed=True)):
     return {"hp": sheet.hp, "max_hp": sheet.max_hp}
 
 
+@router.patch("/{char_id}/fvtt")
+async def update_fvtt_raw(char_id: str, updates: dict[str, Any] = Body(...)):
+    """Patch raw FVTT data fields.  Supports top-level keys that map into
+    `system.*`, for example::
+
+        {"wounds": {"value": 1}, "resources": {"mp": {"value": 20}}}
+
+    Also supports ``"name"`` to rename.
+    Persists changes to disk and reloads the in-memory CharacterSheet.
+    """
+    raw = _raw_data.get(char_id)
+    if raw is None:
+        raise HTTPException(404, "角色未找到")
+
+    system = raw.setdefault("system", {})
+
+    for key, val in updates.items():
+        if key == "name":
+            raw["name"] = val
+        elif key in ("wounds", "fatigue", "bennies"):
+            if isinstance(val, dict):
+                existing = system.get(key, {})
+                if isinstance(existing, dict):
+                    existing.update(val)
+                    system[key] = existing
+                else:
+                    system[key] = val
+        elif key == "resources" and isinstance(val, dict):
+            res = system.setdefault("resources", {})
+            for rk, rv in val.items():
+                if isinstance(rv, dict):
+                    existing = res.get(rk, {})
+                    if isinstance(existing, dict):
+                        existing.update(rv)
+                        res[rk] = existing
+                    else:
+                        res[rk] = rv
+        elif key == "stats" and isinstance(val, dict):
+            stats = system.setdefault("stats", {})
+            for sk, sv in val.items():
+                if isinstance(sv, dict):
+                    existing = stats.get(sk, {})
+                    if isinstance(existing, dict):
+                        existing.update(sv)
+                        stats[sk] = existing
+                    else:
+                        stats[sk] = sv
+
+    _raw_data[char_id] = raw
+
+    sheet = parse_fvtt_actor(raw)
+    sheet.id = char_id
+    _characters[char_id] = sheet
+
+    sys_id = _detect_system_id(raw)
+    save_path = _char_dir(sys_id) / f"{char_id}.json"
+    save_path.write_text(json.dumps(raw, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    log_event("data", "character_fvtt_updated", detail=f"{raw.get('name', '?')}",
+              data={"id": char_id, "fields": list(updates.keys())})
+    return raw
+
+
 @router.delete("/{char_id}")
 async def delete_character(char_id: str):
     """Remove a character."""

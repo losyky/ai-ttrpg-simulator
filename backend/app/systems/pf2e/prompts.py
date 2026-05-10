@@ -67,8 +67,10 @@ NARRATOR_PF2E = """\
 
 队伍管理工具：
 4. `list_available_characters` — 查看所有已导入的角色卡。用于了解有哪些角色可以作为队友。
-5. `suggest_add_teammate` — 向玩家建议添加 AI 队友。当剧情需要更多队伍成员时使用。
-   必须先用 `list_available_characters` 确认角色存在，再征求玩家同意。
+5. `suggest_add_teammate(character_name, reason, npc_data?)` — 向玩家建议添加 AI 队友。
+   - 如果角色已存在（通过 `list_available_characters` 确认），只需传 `character_name` 和 `reason`。
+   - 如果是剧情中新创建的 NPC，传 `npc_data` 参数（JSON 字符串），会自动创建角色卡并入队。
+     npc_data 格式与 NPC 创建工具一致（包含 name, attributes, toughness 等）。
 6. `request_prep_work` — 向团外准备助手发送制作请求。
    当你发现缺少所需的角色卡、skill、工具或剧本材料时使用。
 

@@ -1,6 +1,7 @@
 "use client";
 
 import type { InteractiveElement, DiceResult } from "@/lib/types";
+import { addTeammate } from "@/lib/api";
 import ChoiceCard from "./ChoiceCard";
 import DiceRollButton from "./DiceRollButton";
 import DualityDiceButton from "./DualityDiceButton";
@@ -69,9 +70,13 @@ export default function InteractiveRenderer({
                 key={elem.id}
                 element={elem}
                 disabled={disabled || elem.resolved}
-                onSelect={(_, label) => {
+                onSelect={(optId, label) => {
                   onResolve?.(elem.id, label);
                   onSendMessage(label);
+                  const charId = elem.meta?.character_id as string | undefined;
+                  if (charId && optId.startsWith("accept_")) {
+                    addTeammate(sessionId, charId).catch(() => {});
+                  }
                 }}
               />
             );

@@ -72,7 +72,6 @@ const ATTR_LABELS: Record<string, string> = {
 
 function SWADEStats({ extras }: { extras: Record<string, unknown> }) {
   if (!extras) return null;
-  const attrs = (extras.attributes ?? {}) as Record<string, string>;
   const toughness = (extras.toughness ?? 0) as number;
   const armor = (extras.toughness_armor ?? 0) as number;
   const parry = (extras.parry ?? 0) as number;
@@ -81,15 +80,29 @@ function SWADEStats({ extras }: { extras: Record<string, unknown> }) {
   const ip = (extras.ip ?? 0) as number;
   const ipMax = (extras.ip_max ?? 0) as number;
   const wounds = (extras.wounds ?? 0) as number;
+  const woundsMax = (extras.wounds_max ?? 3) as number;
   const fatigue = (extras.fatigue ?? 0) as number;
+  const fatigueMax = (extras.fatigue_max ?? 2) as number;
 
   return (
     <div className="space-y-1.5 mt-1">
-      {/* Attributes */}
-      <div className="flex flex-wrap gap-x-2 gap-y-0.5 text-[10px] text-muted-foreground">
-        {Object.entries(attrs).map(([k, v]) => (
-          <span key={k}>{ATTR_LABELS[k] ?? k} <span className="text-foreground font-mono">{v}</span></span>
-        ))}
+      {/* Wounds — always visible, most important in SWADE */}
+      <div className="flex items-center gap-2 text-xs">
+        <Heart className="h-3 w-3 text-red-400" />
+        <span className="text-muted-foreground">负伤</span>
+        <div className="flex gap-0.5 ml-auto">
+          {Array.from({ length: woundsMax }).map((_, i) => (
+            <span
+              key={i}
+              className={cn(
+                "w-3 h-3 rounded-full border transition-colors",
+                i < wounds
+                  ? "bg-red-500 border-red-600"
+                  : "bg-secondary border-border",
+              )}
+            />
+          ))}
+        </div>
       </div>
       {/* Core derived stats */}
       <div className="grid grid-cols-3 gap-1 text-xs">
@@ -128,21 +141,24 @@ function SWADEStats({ extras }: { extras: Record<string, unknown> }) {
           </div>
         )}
       </div>
-      {/* Wounds / Fatigue */}
-      {(wounds > 0 || fatigue > 0) && (
-        <div className="flex gap-3 text-xs">
-          {wounds > 0 && (
-            <span className="text-red-400">
-              负伤 <span className="font-mono">{wounds}</span>
-            </span>
-          )}
-          {fatigue > 0 && (
-            <span className="text-yellow-400">
-              疲劳 <span className="font-mono">{fatigue}</span>
-            </span>
-          )}
+      {/* Fatigue */}
+      <div className="flex items-center gap-2 text-xs">
+        <Activity className="h-3 w-3 text-yellow-400" />
+        <span className="text-muted-foreground">疲劳</span>
+        <div className="flex gap-0.5 ml-auto">
+          {Array.from({ length: fatigueMax }).map((_, i) => (
+            <span
+              key={i}
+              className={cn(
+                "w-2.5 h-2.5 rounded-sm border transition-colors",
+                i < fatigue
+                  ? "bg-yellow-500 border-yellow-600"
+                  : "bg-secondary border-border",
+              )}
+            />
+          ))}
         </div>
-      )}
+      </div>
     </div>
   );
 }
