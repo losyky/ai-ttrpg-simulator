@@ -90,7 +90,8 @@ async def referee_judge(state: AgentState) -> dict[str, Any]:
         temperature=0.0,
     )
     REFEREE_TOOLS = _get_referee_tools(state["session_id"])
-    llm_with_tools = llm.bind_tools(REFEREE_TOOLS)
+    from app.utils.tools import fix_noarg_tools
+    llm_with_tools = llm.bind_tools(fix_noarg_tools(REFEREE_TOOLS))
 
     session = get_session(state["session_id"])
     game_phase = state.get("game_phase", "exploration")
@@ -219,7 +220,8 @@ async def referee_judge(state: AgentState) -> dict[str, Any]:
 
     text_content = str(response.content) if response.content else ""
     if text_content:
-        if _tool_calls and not (hasattr(response, "tool_calls") and response.tool_calls):
+        _structured_calls = hasattr(response, "tool_calls") and response.tool_calls
+        if not _structured_calls:
             text_content = extract_text_without_tool_calls(text_content)
         if text_content.strip():
             outputs.append(text_content)

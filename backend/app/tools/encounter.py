@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from typing import Any
 from langchain_core.tools import tool
 
@@ -24,16 +25,22 @@ def _get_enc(session_id: str) -> dict[str, Any]:
 
 
 @tool
-def start_combat(session_id: str, combatants: list[dict[str, Any]]) -> str:
+def start_combat(session_id: str, combatants_json: str) -> str:
     """Begin a combat encounter.
 
     Args:
         session_id: Current game session id.
-        combatants: List of combatant dicts, each with
-                    {"name": str, "initiative": int, "hp": int, "max_hp": int, "team": "player"|"enemy"}.
+        combatants_json: JSON array of combatant objects, each with keys:
+                         name (str), initiative (int), hp (int), max_hp (int),
+                         team ("player" or "enemy").
+                         Example: [{"name":"勇者","initiative":18,"hp":30,"max_hp":30,"team":"player"}]
     """
     enc = _get_enc(session_id)
-    sorted_combatants = sorted(combatants, key=lambda c: c["initiative"], reverse=True)
+    try:
+        combatants: list[dict[str, Any]] = json.loads(combatants_json)
+    except Exception:
+        return f"combatants_json 解析失败，请传入合法的 JSON 数组。收到：{combatants_json[:200]}"
+    sorted_combatants = sorted(combatants, key=lambda c: c.get("initiative", 0), reverse=True)
     enc.update({
         "active": True,
         "round": 1,

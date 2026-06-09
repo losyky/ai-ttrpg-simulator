@@ -52,3 +52,9 @@ class AgentState(TypedDict, total=False):
 
     # Final streamed output for the user
     narrator_response: str
+
+    # Image generation config (passed from ChatRequest, optional)
+    image_gen_config: dict[str, Any] | None
+
+    # Accumulated image URLs generated in this turn
+    generated_images: Annotated[list[str], operator.add]

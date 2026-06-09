@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import traceback
 import uuid
 from pathlib import Path
 from typing import Any
@@ -368,6 +369,63 @@ async def update_fvtt_raw(char_id: str, updates: dict[str, Any] = Body(...)):
                         stats[sk] = existing
                     else:
                         stats[sk] = sv
+        elif key == "advances":
+            if isinstance(val, dict):
+                existing = system.get("advances", {})
+                if isinstance(existing, dict):
+                    existing.update(val)
+                    system["advances"] = existing
+                else:
+                    system["advances"] = val
+            else:
+                system["advances"] = {"value": int(val)}
+        elif key == "attributes" and isinstance(val, dict):
+            attrs = system.setdefault("attributes", {})
+            for ak, av in val.items():
+                if isinstance(av, dict):
+                    existing = attrs.get(ak, {})
+                    if isinstance(existing, dict):
+                        existing.update(av)
+                        attrs[ak] = existing
+                    else:
+                        attrs[ak] = av
+                else:
+                    attrs[ak] = av
+        elif key == "pending_levelup":
+            system["pending_levelup"] = bool(val)
+        elif key == "elementalResistances" and isinstance(val, dict):
+            system["elementalResistances"] = val
+        elif key == "details" and isinstance(val, dict):
+            details = system.setdefault("details", {})
+            details.update(val)
+        elif key == "items" and isinstance(val, list):
+            raw["items"] = val
+        elif key == "bonds" and isinstance(val, list):
+            system["bonds"] = val
+        elif key == "traits" and isinstance(val, dict):
+            # DH: merge each trait sub-dict
+            tdict = system.setdefault("traits", {})
+            for tk, tv in val.items():
+                if isinstance(tv, dict):
+                    existing = tdict.get(tk, {})
+                    if isinstance(existing, dict):
+                        existing.update(tv)
+                        tdict[tk] = existing
+                    else:
+                        tdict[tk] = tv
+                else:
+                    tdict[tk] = tv
+        elif key == "experiences" and isinstance(val, list):
+            system["experiences"] = val
+        elif key == "biography" and isinstance(val, dict):
+            bio = system.setdefault("biography", {})
+            bio.update(val)
+        elif key == "heritage" and isinstance(val, dict):
+            h = system.setdefault("heritage", {})
+            h.update(val)
+        elif key not in ("system",) and isinstance(val, (str, int, float, bool)):
+            # Generic scalar passthrough for system-level fields (class, subclass, level, evasion, etc.)
+            system[key] = val
 
     _raw_data[char_id] = raw
 
@@ -382,6 +440,45 @@ async def update_fvtt_raw(char_id: str, updates: dict[str, Any] = Body(...)):
     log_event("data", "character_fvtt_updated", detail=f"{raw.get('name', '?')}",
               data={"id": char_id, "fields": list(updates.keys())})
     return raw
+
+
+@router.post("/{char_id}/award_advance")
+async def award_advance(char_id: str):
+    """Grant the character 1 advance (SWADE level-up) and mark pending_levelup=true.
+
+    The narrator will see the [⬆ 可升级] flag and remind the player at the next
+    appropriate narrative moment to visit the character page to spend the advance.
+    """
+    raw = _raw_data.get(char_id)
+    if raw is None:
+        raise HTTPException(404, "角色未找到")
+
+    system = raw.setdefault("system", {})
+    advances_data = system.get("advances", {})
+    if isinstance(advances_data, dict):
+        current = advances_data.get("value", 0) or 0
+        advances_data["value"] = current + 1
+        system["advances"] = advances_data
+    else:
+        current = int(advances_data or 0)
+        system["advances"] = {"value": current + 1}
+
+    system["pending_levelup"] = True
+    _raw_data[char_id] = raw
+
+    sheet = parse_fvtt_actor(raw)
+    sheet.id = char_id
+    _characters[char_id] = sheet
+
+    sys_id = _detect_system_id(raw)
+    save_path = _char_dir(sys_id) / f"{char_id}.json"
+    save_path.write_text(json.dumps(raw, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    new_value = (system["advances"] if isinstance(system["advances"], int)
+                 else system["advances"].get("value", 1))
+    log_event("data", "character_advance_awarded", detail=f"{raw.get('name', '?')} → advance {new_value}",
+              data={"id": char_id, "advances": new_value})
+    return {"name": raw.get("name", "?"), "advances": new_value, "pending_levelup": True}
 
 
 @router.delete("/{char_id}")
@@ -413,15 +510,100 @@ async def as_session_character(char_id: str) -> CharacterSummary:
     sheet = _characters.get(char_id)
     if not sheet:
         raise HTTPException(404, "角色未找到")
-    return CharacterSummary(
-        name=sheet.name,
-        ancestry=sheet.ancestry,
-        character_class=sheet.character_class,
-        level=sheet.level,
-        hp=sheet.hp,
-        max_hp=sheet.max_hp,
-        conditions=[],
+
+    from app.agents.graph import _build_character_extras
+    raw = _raw_data.get(char_id, {})
+    sys_id = _detect_system_id(raw)
+    extras = _build_character_extras(sheet, sys_id)
+    raw_sys = raw.get("system", {})
+
+    if sys_id == "daggerheart":
+        res = raw_sys.get("resources", {})
+        hp_val = res.get("hitPoints", {}).get("value", sheet.hp)
+        hp_max = res.get("hitPoints", {}).get("max", sheet.max_hp)
+        heritage = raw_sys.get("heritage", {})
+        ancestry_name = heritage.get("ancestry", sheet.ancestry) if isinstance(heritage, dict) else sheet.ancestry
+        return CharacterSummary(
+            name=sheet.name,
+            ancestry=ancestry_name,
+            character_class=raw_sys.get("class", sheet.character_class),
+            level=raw_sys.get("level", sheet.level) or sheet.level,
+            hp=hp_val,
+            max_hp=hp_max,
+            extras=extras,
+        )
+    elif sys_id == "swade":
+        return CharacterSummary(
+            name=sheet.name,
+            ancestry=raw_sys.get("details", {}).get("species", sheet.ancestry),
+            character_class="冒险者",
+            level=raw_sys.get("advances", {}).get("value", 0),
+            hp=0,
+            max_hp=0,
+            extras=extras,
+        )
+    else:
+        return CharacterSummary(
+            name=sheet.name,
+            ancestry=sheet.ancestry,
+            character_class=sheet.character_class,
+            level=sheet.level,
+            hp=sheet.hp,
+            max_hp=sheet.max_hp,
+            conditions=[],
+            extras=extras,
+        )
+
+
+@router.post("/{char_id}/portrait")
+async def generate_portrait(char_id: str, body: dict):
+    """Generate a portrait for a character and store the URL in raw data.
+
+    Body: { api_key, model, base_url, style_prefix, description }
+    Returns: { portrait_url }
+    """
+    raw = _raw_data.get(char_id)
+    if raw is None:
+        raise HTTPException(404, "角色未找到")
+
+    char_name = raw.get("name", "角色")
+    description = body.get("description", "")
+    style_prefix = body.get("style_prefix", "")
+    api_key = body.get("api_key", "")
+    model = body.get("model", "dall-e-3")
+    base_url = body.get("base_url", "https://api.grsaiapi.com/v1")
+
+    if not api_key:
+        raise HTTPException(400, "缺少 api_key")
+
+    prompt = f"{char_name} portrait{', ' + description if description else ''}"
+
+    from app.services.image_gen import generate_image
+    try:
+        portrait_url = await generate_image(
+            prompt,
+            api_key=api_key,
+            session_id="portraits",
+            style_prefix=style_prefix,
+            model=model,
+            base_url=base_url,
+        )
+    except Exception as exc:
+        traceback.print_exc()
+        raise HTTPException(500, str(exc))
+
+    raw["img"] = portrait_url
+    _raw_data[char_id] = raw
+
+    # Persist to disk
+    sys_id = _detect_system_id(raw)
+    char_file = _char_dir(sys_id) / f"{char_id}.json"
+    char_file.write_text(
+        __import__("json").dumps(raw, ensure_ascii=False, indent=2),
+        encoding="utf-8",
     )
+    log_event("data", "portrait_generated", detail=char_name, data={"id": char_id, "url": portrait_url})
+    return {"portrait_url": portrait_url}
 
 
 def get_loaded_character(char_id: str) -> CharacterSheet | None:

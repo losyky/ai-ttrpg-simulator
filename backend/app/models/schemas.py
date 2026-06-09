@@ -67,12 +67,22 @@ class ChatMessage(BaseModel):
     role: str  # "user" | "narrator" | "referee" | "teammate" | "system"
     content: str
     metadata: dict[str, Any] = Field(default_factory=dict)
+    images: list[str] = Field(default_factory=list)
+
+
+class ImageGenConfig(BaseModel):
+    api_key: str = ""
+    model: str = "nano-banana-2"
+    base_url: str = "https://grsaiapi.com/v1/api/generate"
+    style_prefix: str = ""
+    turns_per_image: int = 5
 
 
 class ChatRequest(BaseModel):
     session_id: str
     message: str
     llm_config: LLMConfig
+    image_gen_config: ImageGenConfig | None = None
 
 
 class DiceResult(BaseModel):
@@ -107,7 +117,7 @@ class ChoiceOption(BaseModel):
 
 class InteractiveElement(BaseModel):
     """An interactive UI element the narrator sends to the player."""
-    element_type: str  # "choices" | "dice_request" | "input_prompt" | "duality_dice_request" | "token_update"
+    element_type: str  # "choices" | "dice_request" | "input_prompt" | "duality_dice_request" | "token_update" | "image_confirm"
     id: str
     prompt: str = ""
 
@@ -140,13 +150,14 @@ class InteractiveElement(BaseModel):
 
 class ChatResponseChunk(BaseModel):
     """A single SSE chunk sent to the frontend."""
-    type: str  # "text" | "dice" | "interactive" | "state_update" | "interrupt" | "error" | "done" | "thinking"
+    type: str  # "text" | "dice" | "interactive" | "state_update" | "interrupt" | "error" | "done" | "thinking" | "image"
     content: str = ""
     dice: DiceResult | None = None
     state: SessionState | None = None
     interactive: InteractiveElement | None = None
     interrupt_data: dict[str, Any] | None = None
     thinking_step: str = ""  # current processing step label
+    image_url: str | None = None  # for type="image"
 
 
 # --------------- Player dice roll ---------------

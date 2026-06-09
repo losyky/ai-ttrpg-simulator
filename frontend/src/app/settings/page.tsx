@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Save, Info } from "lucide-react";
-import { loadLLMConfig, saveLLMConfig } from "@/lib/store";
-import type { LLMConfig } from "@/lib/types";
+import { loadLLMConfig, saveLLMConfig, loadImageGenConfig, saveImageGenConfig } from "@/lib/store";
+import type { LLMConfig, ImageGenConfig } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
@@ -24,9 +24,18 @@ export default function SettingsPage() {
   const [gameSystems, setGameSystems] = useState<GameSystemInfo[]>([]);
   const [selectedSystem, setSelectedSystem] = useState("pf2e");
   const [saved, setSaved] = useState(false);
+  const [imageGenConfig, setImageGenConfig] = useState<ImageGenConfig>({
+    api_key: "",
+    model: "nano-banana-2",
+    base_url: "https://grsaiapi.com",
+    style_prefix: "",
+    turns_per_image: 5,
+  });
+  const [imageGenTestStatus, setImageGenTestStatus] = useState<"idle" | "testing" | "ok" | "fail">("idle");
 
   useEffect(() => {
     setConfig(loadLLMConfig());
+    setImageGenConfig(loadImageGenConfig());
     fetch(`${API}/api/settings/reasoning-strategy`)
       .then((r) => r.json())
       .then((d) => setReasoningStrategy(d.strategy ?? "auto"))
@@ -44,8 +53,36 @@ export default function SettingsPage() {
       .catch(() => {});
   }, []);
 
+  async function handleTestImageGen() {
+    if (!imageGenConfig.api_key) {
+      setImageGenTestStatus("fail");
+      return;
+    }
+    setImageGenTestStatus("testing");
+    try {
+      const res = await fetch(`${API}/api/chat/generate-image`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          session_id: "test",
+          prompt: "a simple test image, white background, minimal",
+          image_gen_config: imageGenConfig,
+        }),
+      });
+      if (res.ok) {
+        setImageGenTestStatus("ok");
+      } else {
+        setImageGenTestStatus("fail");
+      }
+    } catch {
+      setImageGenTestStatus("fail");
+    }
+    setTimeout(() => setImageGenTestStatus("idle"), 3000);
+  }
+
   async function handleSave() {
     saveLLMConfig(config);
+    saveImageGenConfig(imageGenConfig);
     try {
       await fetch(`${API}/api/settings/reasoning-strategy`, {
         method: "PUT",
@@ -326,6 +363,148 @@ export default function SettingsPage() {
                   </div>
                 </label>
               ))}
+            </div>
+          </div>
+
+          {/* Image Generation Settings */}
+          <div className="border-t border-border pt-6">
+            <h2 className="text-base font-semibold text-foreground mb-4">图片生成设置</h2>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-1.5">
+                  图片生成 API Key
+                </label>
+                <input
+                  type="password"
+                  value={imageGenConfig.api_key}
+                  onChange={(e) => setImageGenConfig((c) => ({ ...c, api_key: e.target.value }))}
+                  placeholder="sk-..."
+                  className={cn(
+                    "w-full px-3 py-2 rounded-lg border border-border bg-secondary text-sm",
+                    "text-foreground placeholder:text-muted-foreground",
+                    "focus:outline-none focus:ring-2 focus:ring-ring"
+                  )}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-1.5">
+                  接口地址（完整 URL，直接 POST 到此地址）
+                </label>
+                <input
+                  type="text"
+                  value={imageGenConfig.base_url}
+                  onChange={(e) => setImageGenConfig((c) => ({ ...c, base_url: e.target.value }))}
+                  placeholder="https://grsaiapi.com/v1/api/generate"
+                  className={cn(
+                    "w-full px-3 py-2 rounded-lg border border-border bg-secondary text-sm",
+                    "text-foreground placeholder:text-muted-foreground",
+                    "focus:outline-none focus:ring-2 focus:ring-ring"
+                  )}
+                />
+                <div className="flex flex-wrap gap-2 mt-1.5">
+                  {[
+                    { label: "nano-banana 全球", url: "https://grsaiapi.com/v1/api/generate" },
+                    { label: "nano-banana 国内", url: "https://grsai.dakka.com.cn/v1/api/generate" },
+                  ].map((n) => (
+                    <button key={n.url} type="button"
+                      onClick={() => setImageGenConfig((c) => ({ ...c, base_url: n.url }))}
+                      className={cn(
+                        "px-2.5 py-1 rounded text-xs border transition-colors",
+                        imageGenConfig.base_url === n.url
+                          ? "border-primary bg-primary/20 text-primary"
+                          : "border-border text-muted-foreground hover:text-foreground hover:border-foreground/30"
+                      )}>
+                      {n.label}
+                    </button>
+                  ))}
+                </div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  地址原样使用，不会自动补全路径。其他图片服务填入对应的生成接口地址即可。
+                </p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-1.5">
+                  图片模型
+                </label>
+                <input
+                  type="text"
+                  value={imageGenConfig.model}
+                  onChange={(e) => setImageGenConfig((c) => ({ ...c, model: e.target.value }))}
+                  placeholder="nano-banana-2"
+                  className={cn(
+                    "w-full px-3 py-2 rounded-lg border border-border bg-secondary text-sm",
+                    "text-foreground placeholder:text-muted-foreground",
+                    "focus:outline-none focus:ring-2 focus:ring-ring"
+                  )}
+                />
+                <div className="flex flex-wrap gap-1.5 mt-1.5">
+                  {["nano-banana", "nano-banana-fast", "nano-banana-2", "nano-banana-2-cl", "nano-banana-pro", "nano-banana-pro-cl"].map((m) => (
+                    <button key={m} type="button"
+                      onClick={() => setImageGenConfig((c) => ({ ...c, model: m }))}
+                      className={cn(
+                        "px-2 py-0.5 rounded text-xs border transition-colors",
+                        imageGenConfig.model === m
+                          ? "border-primary bg-primary/20 text-primary"
+                          : "border-border text-muted-foreground hover:text-foreground hover:border-foreground/30"
+                      )}>
+                      {m}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-1.5">
+                  画风基础提示词（style prefix）
+                  <span className="text-xs text-muted-foreground ml-2">会自动拼接在所有图片 prompt 前</span>
+                </label>
+                <input
+                  type="text"
+                  value={imageGenConfig.style_prefix}
+                  onChange={(e) => setImageGenConfig((c) => ({ ...c, style_prefix: e.target.value }))}
+                  placeholder="例：anime fantasy art, detailed illustration"
+                  className={cn(
+                    "w-full px-3 py-2 rounded-lg border border-border bg-secondary text-sm",
+                    "text-foreground placeholder:text-muted-foreground",
+                    "focus:outline-none focus:ring-2 focus:ring-ring"
+                  )}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-1.5">
+                  每 N 轮对话可生成一次图片
+                </label>
+                <input
+                  type="number"
+                  title="每N轮生成一次"
+                  min={0}
+                  max={50}
+                  value={imageGenConfig.turns_per_image}
+                  onChange={(e) => setImageGenConfig((c) => ({ ...c, turns_per_image: parseInt(e.target.value) || 0 }))}
+                  className={cn(
+                    "w-24 px-3 py-2 rounded-lg border border-border bg-secondary text-sm",
+                    "text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                  )}
+                />
+                <p className="text-xs text-muted-foreground mt-1">
+                  设为 0 表示无限制。超出频率时 AI 会弹出确认框询问是否继续生成。
+                </p>
+              </div>
+              <button
+                onClick={handleTestImageGen}
+                disabled={imageGenTestStatus === "testing"}
+                className={cn(
+                  "px-4 py-2 rounded-lg text-sm font-medium border transition-colors",
+                  imageGenTestStatus === "ok" && "bg-green-600 text-white border-green-600",
+                  imageGenTestStatus === "fail" && "bg-red-600 text-white border-red-600",
+                  imageGenTestStatus === "testing" && "opacity-60 cursor-not-allowed border-border text-muted-foreground",
+                  imageGenTestStatus === "idle" && "border-border text-foreground hover:border-primary hover:text-primary"
+                )}
+              >
+                {imageGenTestStatus === "testing" ? "测试中..." :
+                 imageGenTestStatus === "ok" ? "连接成功 ✓" :
+                 imageGenTestStatus === "fail" ? "连接失败 ✗" :
+                 "测试图片生成连接"}
+              </button>
             </div>
           </div>
 

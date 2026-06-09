@@ -123,6 +123,7 @@ export async function* streamChat(
   sessionId: string,
   message: string,
   llmConfig: LLMConfig,
+  imageGenConfig?: import("./types").ImageGenConfig,
 ): AsyncGenerator<ChatResponseChunk> {
   const res = await fetch(`${BASE}/api/chat`, {
     method: "POST",
@@ -131,6 +132,7 @@ export async function* streamChat(
       session_id: sessionId,
       message,
       llm_config: llmConfig,
+      ...(imageGenConfig ? { image_gen_config: imageGenConfig } : {}),
     }),
   });
 

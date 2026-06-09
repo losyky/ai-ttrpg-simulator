@@ -246,9 +246,25 @@ async def narrate(state: AgentState) -> dict[str, Any]:
     from app.services.tool_registry import load_custom_langchain_tools
     custom_tools = load_custom_langchain_tools(system.system_id)
 
-    all_tools = interactive_tools + PARTY_TOOLS + system_tools + custom_tools
+    # Build image generation tool if config is present and has an API key
+    image_gen_tools: list = []
+    img_cfg: dict[str, Any] | None = state.get("image_gen_config")
+    if img_cfg and img_cfg.get("api_key"):
+        from app.tools.image_gen import make_image_gen_tool
+        _img_tool = make_image_gen_tool(
+            session_id=session_id,
+            api_key=img_cfg["api_key"],
+            model=img_cfg.get("model", "dall-e-3"),
+            base_url=img_cfg.get("base_url", "https://api.grsaiapi.com/v1"),
+            style_prefix=img_cfg.get("style_prefix", ""),
+            turns_per_image=int(img_cfg.get("turns_per_image", 5)),
+        )
+        image_gen_tools = [_img_tool]
+
+    all_tools = interactive_tools + PARTY_TOOLS + system_tools + custom_tools + image_gen_tools
     llm = _build_llm(state)
-    llm_with_tools = llm.bind_tools(all_tools)
+    from app.utils.tools import fix_noarg_tools
+    llm_with_tools = llm.bind_tools(fix_noarg_tools(all_tools))
     tool_map = {t.name: t for t in all_tools}
 
     context_parts: list[str] = []
@@ -322,6 +338,7 @@ async def narrate(state: AgentState) -> dict[str, Any]:
 
     interactive_elements: list[dict] = []
     full_text_parts: list[str] = []
+    generated_images: list[str] = []
     INTERACTIVE_TOOL_NAMES = {
         "present_choices", "request_dice_roll", "request_player_input",
         "request_duality_roll", "award_story_point",
@@ -357,7 +374,15 @@ async def narrate(state: AgentState) -> dict[str, Any]:
         msgs.append(response)
 
         tool_calls = response.tool_calls or []
-        full_content = str(response.content) if response.content else ""
+        # Normalise content: some providers return a list of content blocks
+        raw_content = response.content
+        if isinstance(raw_content, list):
+            full_content = "".join(
+                block.get("text", "") if isinstance(block, dict) else str(block)
+                for block in raw_content
+            )
+        else:
+            full_content = str(raw_content) if raw_content else ""
 
         if not tool_calls and full_content:
             fallback_calls = parse_tool_calls_from_content(full_content)
@@ -369,7 +394,12 @@ async def narrate(state: AgentState) -> dict[str, Any]:
 
         if full_content:
             text = full_content
-            if tool_calls and not response.tool_calls:
+            # Strip DSML / XML tool-call markup whenever the model did NOT use
+            # the structured tool_calls field.  This is safe even when the
+            # fallback parser found nothing: extract_text_without_tool_calls
+            # is a no-op on clean text and ensures rogue DSML never leaks to
+            # the player UI.
+            if not response.tool_calls:
                 text = extract_text_without_tool_calls(text)
             clean, elems = parse_interactive_markers(text)
             if clean:
@@ -399,9 +429,35 @@ async def narrate(state: AgentState) -> dict[str, Any]:
                     result = await tool_fn.ainvoke(tc["args"])
                     log_event("tool", "narrator_tool_call", session_id=session_id,
                               agent="narrator", detail=f"{tc['name']}: {str(tc['args'])[:100]}")
-                    _, elems = parse_interactive_markers(str(result))
+
+                    result_str = str(result)
+
+                    # Handle image generation sentinels
+                    if tc["name"] == "generate_scene_image":
+                        from app.tools.image_gen import is_image_url_result, is_image_confirm_result
+                        is_url, img_url = is_image_url_result(result_str)
+                        is_confirm, confirm_prompt = is_image_confirm_result(result_str)
+                        if is_url:
+                            generated_images.append(img_url)
+                            msgs.append(ToolMessage(content="图片已生成。", tool_call_id=tc["id"]))
+                            continue
+                        elif is_confirm:
+                            import uuid as _uuid
+                            confirm_ie = {
+                                "element_type": "image_confirm",
+                                "id": f"img_confirm_{_uuid.uuid4().hex[:8]}",
+                                "prompt": confirm_prompt,
+                            }
+                            interactive_elements.append(confirm_ie)
+                            msgs.append(ToolMessage(
+                                content="已发送图片生成确认请求给玩家。",
+                                tool_call_id=tc["id"],
+                            ))
+                            continue
+
+                    _, elems = parse_interactive_markers(result_str)
                     interactive_elements.extend(elems)
-                    msgs.append(ToolMessage(content=str(result), tool_call_id=tc["id"]))
+                    msgs.append(ToolMessage(content=result_str, tool_call_id=tc["id"]))
                 except Exception as e:
                     msgs.append(ToolMessage(content=f"Error: {e}", tool_call_id=tc["id"]))
             else:
@@ -449,4 +505,5 @@ async def narrate(state: AgentState) -> dict[str, Any]:
     return {
         "narrator_response": "\n\n".join(full_text_parts),
         "interactive_elements": narrator_only_elements,
+        "generated_images": generated_images,
     }

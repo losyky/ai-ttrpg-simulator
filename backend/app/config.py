@@ -22,6 +22,9 @@ class Settings(BaseSettings):
     # AI workspace — prep agent has full file access here
     workspace_dir: str = str(_PROJECT_ROOT / "data" / "workspace")
 
+    # Generated images (portraits, scenes)
+    images_dir: str = str(_PROJECT_ROOT / "data" / "images")
+
     # Default game system
     default_system_id: str = "pf2e"
 
@@ -52,6 +55,7 @@ for _d in [
     str(Path(settings.data_dir) / "custom_tools"),
     str(Path(settings.data_dir) / "saves"),
     str(Path(settings.data_dir) / "checkpoints"),
+    str(Path(settings.data_dir) / "images"),
 ] + [
     str(Path(settings.data_dir) / sub / sid)
     for sub in ("characters", "skills", "custom_tools")

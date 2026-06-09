@@ -17,7 +17,7 @@ from app.services.knowledge_base import (
 
 
 @tool
-def list_materials() -> str:
+def list_materials(hint: str = "") -> str:
     """List all uploaded reference materials available for reading.
 
     Returns a list of documents with their IDs and titles. Use the doc_id

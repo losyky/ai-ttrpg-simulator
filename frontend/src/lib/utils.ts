@@ -2,6 +2,18 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import type { ChatMessage } from "./types";
 
+const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+
+/**
+ * Convert a backend-relative image path to an absolute URL.
+ * e.g. "/api/static/images/abc/def.webp" → "http://localhost:8000/api/static/images/abc/def.webp"
+ */
+export function toImageUrl(path: string): string {
+  if (!path) return "";
+  if (path.startsWith("http://") || path.startsWith("https://")) return path;
+  return `${API_BASE}${path}`;
+}
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -56,6 +68,7 @@ export function hydrateHistory(
       content: (m.content as string) || "",
       timestamp: Date.now() - (rawHistory.length - i) * 1000,
       ...(m.dice ? { dice: m.dice } : {}),
+      ...(m.images && (m.images as string[]).length > 0 ? { images: m.images as string[] } : {}),
       ...(m.interactive
         ? {
             interactive: (

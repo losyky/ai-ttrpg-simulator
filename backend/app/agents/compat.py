@@ -39,12 +39,16 @@ import json
 import logging
 import re
 import uuid
-from typing import Any, Literal
+from typing import Any, Callable, Literal, Sequence
 
 from langchain_core.messages import AIMessage, BaseMessage
+from langchain_core.tools import BaseTool
 from langchain_openai import ChatOpenAI
 
 log = logging.getLogger(__name__)
+
+# Official DeepSeek API hostname – only this gets the auto /beta treatment.
+_DEEPSEEK_OFFICIAL_HOST = "api.deepseek.com"
 
 # Global strategy – can be changed at runtime via API.
 _reasoning_strategy: Literal["auto", "keep", "strip"] = "auto"
@@ -95,7 +99,8 @@ def _should_keep_reasoning(msg: AIMessage) -> bool:
 
 class SafeChatOpenAI(ChatOpenAI):
     """``ChatOpenAI`` subclass that transparently handles the
-    ``reasoning_content`` field used by thinking models.
+    ``reasoning_content`` field used by thinking models AND auto-enables
+    DeepSeek strict tool-call mode.
 
     * On the **response** path it captures ``reasoning_content`` from
       the raw API response and stores it in ``additional_kwargs``.
@@ -103,7 +108,110 @@ class SafeChatOpenAI(ChatOpenAI):
       ``reasoning_content`` based on the active strategy.
     * On **400 errors** mentioning ``reasoning_content``, it
       automatically retries with the opposite strategy.
+    * ``bind_tools`` is overridden to enable DeepSeek strict mode
+      automatically, which forces the model to use structured JSON
+      tool_calls instead of falling back to DSML text output.
     """
+
+    # ---- DeepSeek detection helpers ----
+
+    def _is_deepseek_official(self) -> bool:
+        """True when pointing at api.deepseek.com (the official endpoint)."""
+        return _DEEPSEEK_OFFICIAL_HOST in str(self.openai_api_base or "").lower()
+
+    def _is_deepseek(self) -> bool:
+        """True for any DeepSeek model/endpoint (official or third-party)."""
+        base = str(self.openai_api_base or "").lower()
+        model = str(self.model_name or "").lower()
+        return "deepseek" in base or model.startswith("deepseek")
+
+    def _make_beta_instance(self) -> "SafeChatOpenAI":
+        """Return a copy of self using the DeepSeek /beta endpoint.
+
+        DeepSeek's strict tool-call mode is only available at
+        https://api.deepseek.com/beta.  This method converts
+        /v1 (or bare domain) to /beta automatically.
+        """
+        base = str(self.openai_api_base or "").rstrip("/")
+        if base.endswith("/v1"):
+            base = base[:-3]
+        if not base.endswith("/beta"):
+            base = base + "/beta"
+
+        kwargs: dict[str, Any] = dict(
+            model=self.model_name,
+            api_key=self.openai_api_key.get_secret_value(),
+            base_url=base,
+            temperature=self.temperature,
+        )
+        if self.max_tokens is not None:
+            kwargs["max_tokens"] = self.max_tokens
+        if self.streaming:
+            kwargs["streaming"] = self.streaming
+        return SafeChatOpenAI(**kwargs)
+
+    # ---- bind_tools override: auto strict mode for DeepSeek ----
+
+    def bind_tools(
+        self,
+        tools: Sequence[dict[str, Any] | type | Callable | BaseTool],
+        *,
+        tool_choice: dict | str | bool | None = None,
+        strict: bool | None = None,
+        parallel_tool_calls: bool | None = None,
+        response_format: Any = None,
+        **kwargs: Any,
+    ) -> Any:
+        """Bind tools, automatically enabling strict mode for DeepSeek.
+
+        DeepSeek strict mode guarantees the model outputs structured
+        ``tool_calls`` JSON instead of falling back to DSML text.
+
+        For official api.deepseek.com endpoints the request is routed
+        through the /beta base URL which is required for strict mode.
+        For third-party DeepSeek-compatible endpoints strict=True is
+        attempted but the URL is left unchanged.
+        """
+        if strict is None and self._is_deepseek():
+            strict = True
+            log.debug(
+                "[SafeChatOpenAI] DeepSeek detected – enabling strict tool mode"
+            )
+
+            # Official API: recreate on the /beta endpoint
+            if self._is_deepseek_official():
+                try:
+                    beta = self._make_beta_instance()
+                    log.debug(
+                        "[SafeChatOpenAI] Switching to beta endpoint: %s",
+                        beta.openai_api_base,
+                    )
+                    # Call the grandparent's bind_tools directly on the beta
+                    # instance so we don't recurse back into this override.
+                    return ChatOpenAI.bind_tools(
+                        beta,
+                        tools,
+                        tool_choice=tool_choice,
+                        strict=strict,
+                        parallel_tool_calls=parallel_tool_calls,
+                        response_format=response_format,
+                        **kwargs,
+                    )
+                except Exception as exc:
+                    log.warning(
+                        "[SafeChatOpenAI] Beta endpoint switch failed (%s) – "
+                        "falling back to standard endpoint with strict=True",
+                        exc,
+                    )
+
+        return super().bind_tools(
+            tools,
+            tool_choice=tool_choice,
+            strict=strict,
+            parallel_tool_calls=parallel_tool_calls,
+            response_format=response_format,
+            **kwargs,
+        )
 
     # ---- response side: capture reasoning_content ----
 
@@ -311,8 +419,21 @@ def parse_tool_calls_from_content(
 ) -> list[dict[str, Any]]:
     """Try to extract tool calls from raw text content.
 
+    This is the **fallback** path.  Ideally the model should use the
+    structured ``tool_calls`` field (guaranteed when DeepSeek strict mode
+    is active).  If the model emits tool calls as raw text, this function
+    tries to recover them using the following strategies:
+
+      1. DeepSeek DSML v2  (<｜tool▁calls▁begin｜> ... <｜tool▁calls▁end｜>)
+      2. DeepSeek DSML v3  (<｜｜DSML｜｜invoke> ... </｜｜DSML｜｜invoke>)
+      3. XML style          (<tool_call>{...}</tool_call>)
+      4. Plain JSON         ({"name": "...", "arguments": {...}})
+
     Returns a list of dicts with keys: ``name``, ``args``, ``id``.
     Returns an empty list if no tool calls are found.
+
+    A WARNING is logged whenever this fallback fires so the operator
+    knows that strict tool calling is not working as expected.
     """
     if not content:
         return []
@@ -334,9 +455,15 @@ def parse_tool_calls_from_content(
                 "id": f"fallback_{uuid.uuid4().hex[:8]}",
             })
         if calls:
+            log.warning(
+                "[tool_fallback] DSML v2 format detected – model ignored strict "
+                "tool_calls API. Recovered %d call(s): %s. "
+                "Ensure base_url=https://api.deepseek.com/beta for strict mode.",
+                len(calls), [c["name"] for c in calls],
+            )
             return calls
 
-    # Strategy 2: DeepSeek DSML (｜｜DSML｜｜ invoke/parameter tags)
+    # Strategy 2: DeepSeek DSML v3 (｜｜DSML｜｜ invoke/parameter tags)
     # Each <invoke> block may contain multiple <parameter> tags; collect all
     # of them into a single args dict so the tool receives complete arguments.
     for m in _DSML_FULL_INVOKE_RE.finditer(content):
@@ -362,6 +489,12 @@ def parse_tool_calls_from_content(
             "id": f"fallback_{uuid.uuid4().hex[:8]}",
         })
     if calls:
+        log.warning(
+            "[tool_fallback] DSML v3 (｜｜DSML｜｜) format detected – model "
+            "ignored strict tool_calls API. Recovered %d call(s): %s. "
+            "Ensure base_url=https://api.deepseek.com/beta for strict mode.",
+            len(calls), [c["name"] for c in calls],
+        )
         return calls
 
     # Strategy 3: XML <tool_call>JSON</tool_call>
@@ -381,6 +514,11 @@ def parse_tool_calls_from_content(
         except json.JSONDecodeError:
             continue
     if calls:
+        log.warning(
+            "[tool_fallback] XML <tool_call> format detected. "
+            "Recovered %d call(s): %s",
+            len(calls), [c["name"] for c in calls],
+        )
         return calls
 
     # Strategy 4: Plain JSON with "name" and "arguments"
@@ -396,6 +534,12 @@ def parse_tool_calls_from_content(
             "id": f"fallback_{uuid.uuid4().hex[:8]}",
         })
 
+    if calls:
+        log.warning(
+            "[tool_fallback] Plain JSON tool call format detected. "
+            "Recovered %d call(s): %s",
+            len(calls), [c["name"] for c in calls],
+        )
     return calls
 
 

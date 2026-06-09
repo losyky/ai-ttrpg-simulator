@@ -233,7 +233,7 @@ def publish_to_documents(title: str, content: str, system_id: str = "") -> str:
     try:
         if not system_id:
             from app.systems.registry import get_default_system
-            system_id = get_default_system()
+            system_id = get_default_system().system_id
 
         doc_id = f"creator-{uuid.uuid4().hex[:12]}"
         chunk_count = kb.ingest_text_string(
@@ -298,7 +298,8 @@ async def run_creator_agent_stream(
         temperature=0.85,
     )
     CREATOR_TOOLS = _get_creator_tools(session_id)
-    llm_with_tools = llm.bind_tools(CREATOR_TOOLS)
+    from app.utils.tools import fix_noarg_tools
+    llm_with_tools = llm.bind_tools(fix_noarg_tools(CREATOR_TOOLS))
 
     _append(session_id, "user", user_message)
     log_event("chat", "creator_input", session_id=session_id,
@@ -348,7 +349,7 @@ async def run_creator_agent_stream(
 
         if response.content:
             text = str(response.content)
-            if tool_calls and not response.tool_calls:
+            if not response.tool_calls:
                 text = extract_text_without_tool_calls(text)
             if text:
                 yield {"type": "text", "content": text}

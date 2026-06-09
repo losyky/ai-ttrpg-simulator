@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from app.config import settings
 from app.routers import sessions, chat, documents, rules, characters, skills, tools, prep_chat, creator_chat, dice_roll, debug, saves, memories, backup, workspace, compendium, data_updater
@@ -45,6 +46,13 @@ app.include_router(backup.router)
 app.include_router(workspace.router)
 app.include_router(compendium.router)
 app.include_router(data_updater.router)
+
+# Serve generated images as static files
+app.mount(
+    "/api/static/images",
+    StaticFiles(directory=settings.images_dir, check_dir=False),
+    name="images",
+)
 
 # Mount game-system-specific routers for ALL registered systems
 for _sys in iter_systems():
@@ -94,6 +102,30 @@ async def set_system_setting(body: dict):
 async def get_reasoning_strategy():
     from app.agents.compat import get_reasoning_strategy as _get
     return {"strategy": _get()}
+
+
+@app.get("/api/settings/image-gen")
+async def get_image_gen_settings():
+    """Get image generation configuration."""
+    import json
+    from pathlib import Path as _Path
+    cfg_file = _Path(settings.data_dir) / "image_gen_settings.json"
+    if cfg_file.exists():
+        try:
+            return json.loads(cfg_file.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    return {"api_key": "", "model": "nano-banana-2", "style_prefix": "", "turns_per_image": 5, "base_url": "https://grsaiapi.com/v1/api/generate"}
+
+
+@app.put("/api/settings/image-gen")
+async def put_image_gen_settings(body: dict):
+    """Save image generation configuration."""
+    import json
+    from pathlib import Path as _Path
+    cfg_file = _Path(settings.data_dir) / "image_gen_settings.json"
+    cfg_file.write_text(json.dumps(body, ensure_ascii=False, indent=2), encoding="utf-8")
+    return body
 
 
 @app.put("/api/settings/reasoning-strategy")

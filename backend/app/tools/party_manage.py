@@ -20,7 +20,7 @@ log = logging.getLogger(__name__)
 
 
 @tool
-def list_available_characters() -> str:
+def list_available_characters(hint: str = "") -> str:
     """List all imported character cards that could serve as teammates.
 
     Returns a summary of each character including name, ancestry, class, and level.

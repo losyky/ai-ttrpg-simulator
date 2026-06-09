@@ -71,22 +71,28 @@ def _build_character_extras(sheet: Any, system_id: str) -> dict[str, Any]:
                 attrs[a] = f"d{die_data['die'].get('sides', 4)}"
             else:
                 attrs[a] = "d4"
-        toughness_data = stats.get("toughness", {})
+        toughness_data = stats.get("toughness") or {}
+        parry_data = stats.get("parry") or {}
+        speed_data = stats.get("speed") or {}
+        wounds_raw = system.get("wounds")
+        fatigue_raw = system.get("fatigue")
         extras = {
             "attributes": attrs,
             "toughness": toughness_data.get("value", 5),
             "toughness_armor": toughness_data.get("armor", 0),
-            "parry": stats.get("parry", {}).get("value", 4),
-            "pace": stats.get("speed", {}).get("value", 6),
-            "mp": resources.get("mp", {}).get("value", 0),
-            "mp_max": resources.get("mp", {}).get("max", 0),
-            "ip": resources.get("ip", {}).get("value", 6),
-            "ip_max": resources.get("ip", {}).get("max", 6),
-            "wounds": system.get("wounds", {}).get("value", 0) if isinstance(system.get("wounds"), dict) else system.get("wounds", 0),
-            "wounds_max": system.get("wounds", {}).get("max", 3) if isinstance(system.get("wounds"), dict) else 3,
-            "fatigue": system.get("fatigue", {}).get("value", 0) if isinstance(system.get("fatigue"), dict) else system.get("fatigue", 0),
-            "fatigue_max": system.get("fatigue", {}).get("max", 2) if isinstance(system.get("fatigue"), dict) else 2,
-            "advances": system.get("advances", {}).get("value", 0),
+            "parry": parry_data.get("value", 4),
+            "pace": speed_data.get("value", 6),
+            "mp": (resources.get("mp") or {}).get("value", 0),
+            "mp_max": (resources.get("mp") or {}).get("max", 0),
+            "ip": (resources.get("ip") or {}).get("value", 0),
+            "ip_max": (resources.get("ip") or {}).get("max", 0),
+            # wounds / fatigue may be None, int, or {"value": n, "max": n}
+            "wounds": (wounds_raw or {}).get("value", 0) if isinstance(wounds_raw, dict) else (wounds_raw or 0),
+            "wounds_max": (wounds_raw or {}).get("max", 3) if isinstance(wounds_raw, dict) else 3,
+            "fatigue": (fatigue_raw or {}).get("value", 0) if isinstance(fatigue_raw, dict) else (fatigue_raw or 0),
+            "fatigue_max": (fatigue_raw or {}).get("max", 2) if isinstance(fatigue_raw, dict) else 2,
+            "advances": (system.get("advances") or {}).get("value", 0),
+            "pending_levelup": bool(system.get("pending_levelup", False)),
         }
     elif system_id == "daggerheart":
         resources = system.get("resources", {})
@@ -114,6 +120,10 @@ def _build_character_extras(sheet: Any, system_id: str) -> dict[str, Any]:
             "temp_hp": getattr(sheet, "temp_hp", 0),
             "hero_points": getattr(sheet, "hero_points", 1),
         }
+    # Include portrait URL (stored at raw level, not under system)
+    portrait_url = raw.get("img", "")
+    if portrait_url:
+        extras["portrait_url"] = portrait_url
     return extras
 
 
@@ -209,6 +219,21 @@ def _build_player_context(session: Any) -> str:
             parts.append(
                 f"[玩家角色]\n{p.name} — {p.ancestry} {p.character_class} Lv.{p.level}"
                 f"  HP: {p.hp}/{p.max_hp}"
+            )
+
+    # SWADE level-up notification: triggered when character has a pending advance
+    # (GM awards advances by updating the character's `pending_levelup` flag in raw data)
+    if system_id == "swade" and session and session.player:
+        extras = session.player.extras or {}
+        advances = extras.get("advances", 0) or 0
+        pending_levelup = extras.get("pending_levelup", False)
+        if pending_levelup:
+            adv_int = int(advances) if isinstance(advances, (int, float)) else 0
+            rank_names = [(16, "传奇"), (12, "英杰"), (8, "老练"), (4, "行家")]
+            rank_name = next((r for threshold, r in rank_names if adv_int >= threshold), "入门")
+            parts.append(
+                f"[⬆ 可升级] {session.player.name} 获得了新的 advance（当前共 {adv_int} 次，位阶：{rank_name}）。"
+                f"请在适当叙事节点提醒玩家可前往角色页面更新角色卡（提升属性骰或选择专长）。"
             )
 
     other_chars = [
@@ -323,6 +348,7 @@ async def run_graph(
     session_id: str,
     user_message: str,
     llm_config: LLMConfig,
+    image_gen_config: dict[str, Any] | None = None,
 ) -> AsyncGenerator[ChatResponseChunk, None]:
     """Execute the multi-agent graph and yield SSE chunks.
 
@@ -343,6 +369,10 @@ async def run_graph(
     log_event("chat", "user_input", session_id=session_id,
               detail=user_message[:200], data={"model": llm_config.model, "phase": game_phase})
 
+    # Increment image generation turn counter for rate limiting
+    from app.tools.image_gen import init_turn_counter as _img_init
+    _img_init(session_id)
+
     initial_state: dict[str, Any] = {
         "session_id": session_id,
         "user_message": user_message,
@@ -358,6 +388,8 @@ async def run_graph(
         "dice_results": [],
         "interactive_elements": [],
         "narrator_response": "",
+        "image_gen_config": image_gen_config,
+        "generated_images": [],
     }
 
     config = {
@@ -522,11 +554,23 @@ async def run_graph(
                         except Exception:
                             pass
 
+                    # Emit generated images as SSE image chunks
+                    generated_imgs: list[str] = node_output.get("generated_images", [])
+                    for img_url in generated_imgs:
+                        yield ChatResponseChunk(type="image", image_url=img_url)
+
                     if narrator_text:
                         history_entry: dict = {"role": "narrator", "content": narrator_text}
                         if all_interactive_dicts:
                             history_entry["interactive"] = all_interactive_dicts
+                        if generated_imgs:
+                            history_entry["images"] = generated_imgs
                         append_history(session_id, history_entry)
+                    elif generated_imgs:
+                        append_history(session_id, {
+                            "role": "narrator", "content": "",
+                            "images": generated_imgs,
+                        })
 
                     if all_interactive_dicts:
                         yield ChatResponseChunk(type="thinking", thinking_step="整理中...")

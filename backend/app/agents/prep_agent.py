@@ -102,7 +102,7 @@ PREP_SYSTEM = """\
 # ── Tool definitions for the prep agent ──
 
 @tool
-def list_uploaded_docs() -> str:
+def list_uploaded_docs(hint: str = "") -> str:
     """列出所有已上传的参考资料。"""
     docs = kb.list_documents()
     if not docs:
@@ -153,7 +153,7 @@ def browse_doc(doc_id: str, start: int = 0, count: int = 3) -> str:
 
 
 @tool
-def list_all_skills() -> str:
+def list_all_skills(hint: str = "") -> str:
     """查看所有已创建的 Skill。"""
     skills = sm.list_skills()
     if not skills:
@@ -219,7 +219,7 @@ def delete_existing_skill(skill_id: str) -> str:
 
 
 @tool
-def list_all_tools_tool() -> str:
+def list_all_tools_tool(hint: str = "") -> str:
     """查看所有可用工具（内置 + 自定义）。"""
     tools = tr.list_all_tools()
     categories: dict[str, list] = {}
@@ -456,7 +456,7 @@ def publish_to_documents(title: str, content: str) -> str:
     import uuid
     try:
         from app.systems.registry import get_default_system
-        system_id = get_default_system()
+        system_id = get_default_system().system_id
         doc_id = f"prep-{uuid.uuid4().hex[:12]}"
         chunk_count = kb.ingest_text_string(
             text=content, doc_id=doc_id, title=title,
@@ -486,7 +486,7 @@ def _rules_safe_path(filename: str, system_id: str = "") -> Path | None:
 
 
 @tool
-def list_supplementary_rules() -> str:
+def list_supplementary_rules(hint: str = "") -> str:
     """列出所有补充规则文件。这些规则会作为额外上下文提供给团内智能体使用。"""
     _RULES_DIR.mkdir(parents=True, exist_ok=True)
     files = []
@@ -609,7 +609,8 @@ async def run_prep_agent_stream(
         temperature=0.7,
     )
     PREP_TOOLS = _get_prep_tools(session_id)
-    llm_with_tools = llm.bind_tools(PREP_TOOLS)
+    from app.utils.tools import fix_noarg_tools
+    llm_with_tools = llm.bind_tools(fix_noarg_tools(PREP_TOOLS))
 
     _append(session_id, "user", user_message)
     log_event("chat", "prep_input", session_id=session_id,
@@ -651,7 +652,7 @@ async def run_prep_agent_stream(
 
         if response.content:
             text = str(response.content)
-            if tool_calls and not response.tool_calls:
+            if not response.tool_calls:
                 text = extract_text_without_tool_calls(text)
             if text:
                 yield {"type": "text", "content": text}

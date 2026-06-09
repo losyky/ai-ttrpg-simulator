@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import type { SessionState } from "@/lib/types";
-import { cn } from "@/lib/utils";
+import { cn, toImageUrl } from "@/lib/utils";
 import { updateStoryPoints } from "@/lib/api";
 import {
   Swords,
@@ -369,6 +369,20 @@ export default function Sidebar({ session, systemId = "pf2e", onSendMessage, onS
       {session?.player && (
         <div className="px-4 py-3 border-b border-border space-y-1.5">
           <div className="text-xs text-muted-foreground">你的角色</div>
+
+          {/* Portrait avatar */}
+          {(session.player.extras as Record<string, unknown>)?.portrait_url && (
+            <div className="flex justify-center py-1">
+              <img
+                src={toImageUrl((session.player.extras as Record<string, unknown>).portrait_url as string)}
+                alt={session.player.name}
+                loading="lazy"
+                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                className="w-20 h-20 rounded-full object-cover border-2 border-border shadow-md"
+              />
+            </div>
+          )}
+
           <div className="text-sm font-semibold text-foreground">
             {session.player.name}
           </div>

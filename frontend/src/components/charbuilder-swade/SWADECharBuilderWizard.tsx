@@ -146,11 +146,12 @@ export default function SWADECharBuilderWizard({ onComplete, onCancel }: Props) 
     [],
   );
 
+  // Points used is shown as a reference only – no hard cap enforced.
   const pointsUsed = useMemo(
-    () => SWADE_ATTRS.reduce((sum, a) => sum + (DIE_STEPS.indexOf(build.attributes[a]) - 0), 0),
+    () => SWADE_ATTRS.reduce((sum, a) => sum + DIE_STEPS.indexOf(build.attributes[a]), 0),
     [build.attributes],
   );
-  const pointsMax = 5;
+  const POINTS_REFERENCE = 5; // standard starting allocation (informational)
 
   const adjustAttr = useCallback(
     (attr: string, delta: number) => {
@@ -164,6 +165,13 @@ export default function SWADECharBuilderWizard({ onComplete, onCancel }: Props) 
     },
     [],
   );
+
+  const setAttrDirect = useCallback((attr: string, sides: number) => {
+    const clamped = DIE_STEPS.includes(sides) ? sides : DIE_STEPS.reduce((prev, cur) =>
+      Math.abs(cur - sides) < Math.abs(prev - sides) ? cur : prev
+    );
+    setBuild((prev) => ({ ...prev, attributes: { ...prev.attributes, [attr]: clamped } }));
+  }, []);
 
   const calcToughness = () => {
     const vigorDie = build.attributes.vigor || 4;
@@ -215,7 +223,6 @@ export default function SWADECharBuilderWizard({ onComplete, onCancel }: Props) 
   const canNext = () => {
     switch (step) {
       case 0: return !!build.name && !!build.race;
-      case 1: return pointsUsed <= pointsMax;
       default: return true;
     }
   };
@@ -343,14 +350,20 @@ export default function SWADECharBuilderWizard({ onComplete, onCancel }: Props) 
       {/* Step 1: Attributes */}
       {step === 1 && (
         <div className="space-y-4">
-          <p className="text-sm text-muted-foreground">
-            每个属性从 d4 起步。你有 <b>{pointsMax}</b> 点可分配。每点将属性骰升一档 (d4→d6→d8→d10→d12)。
-          </p>
+          <div className="text-sm text-muted-foreground space-y-1">
+            <p>每个属性从 d4 起步，按骰阶升级 (d4→d6→d8→d10→d12)。</p>
+            <p className="text-xs text-muted-foreground/70">
+              标准起始 5 点分配仅供参考，可自由调整（点击骰面数字可直接输入）。
+            </p>
+          </div>
           <div className={cn(
-            "text-sm p-2 rounded-lg text-center font-medium",
-            pointsUsed <= pointsMax ? "bg-green-500/10 text-green-400" : "bg-red-500/10 text-red-400",
+            "text-xs px-3 py-1.5 rounded-lg text-center",
+            pointsUsed <= POINTS_REFERENCE
+              ? "bg-secondary text-muted-foreground"
+              : "bg-amber-500/10 text-amber-400",
           )}>
-            已使用 {pointsUsed} / {pointsMax} 点
+            已使用 {pointsUsed} 档升级 · 参考基准 {POINTS_REFERENCE} 档
+            {pointsUsed > POINTS_REFERENCE && ` · 已超出 ${pointsUsed - POINTS_REFERENCE} 档`}
           </div>
           <div className="space-y-3">
             {SWADE_ATTRS.map((a) => (
@@ -364,15 +377,33 @@ export default function SWADECharBuilderWizard({ onComplete, onCancel }: Props) 
                   >
                     <Minus className="h-4 w-4" />
                   </button>
-                  <span className={cn(
-                    "w-12 text-center font-bold text-lg",
-                    DIE_COLORS[build.attributes[a]] || "text-foreground",
-                  )}>
-                    d{build.attributes[a]}
-                  </span>
+                  <div className="relative w-14 text-center">
+                    <input
+                      type="number"
+                      min={4}
+                      max={12}
+                      step={2}
+                      value={build.attributes[a]}
+                      aria-label={`${ATTR_LABELS[a]} 骰面`}
+                      title={`${ATTR_LABELS[a]} 骰面（4/6/8/10/12）`}
+                      onChange={(e) => {
+                        const v = parseInt(e.target.value);
+                        if (!isNaN(v)) setAttrDirect(a, v);
+                      }}
+                      className={cn(
+                        "w-full text-center font-bold text-lg bg-transparent border-b border-transparent",
+                        "hover:border-border focus:border-primary focus:outline-none",
+                        DIE_COLORS[build.attributes[a]] || "text-foreground",
+                      )}
+                    />
+                    <span className={cn(
+                      "absolute -left-1 top-0 text-lg font-bold pointer-events-none",
+                      DIE_COLORS[build.attributes[a]] || "text-foreground",
+                    )}>d</span>
+                  </div>
                   <button
                     onClick={() => adjustAttr(a, 1)}
-                    disabled={build.attributes[a] >= 12 || pointsUsed >= pointsMax}
+                    disabled={build.attributes[a] >= 12}
                     className="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-foreground disabled:opacity-30"
                   >
                     <Plus className="h-4 w-4" />

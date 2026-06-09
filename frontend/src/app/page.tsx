@@ -18,10 +18,11 @@ import BackupPanel from "@/components/BackupPanel";
 import WorkspacePanel from "@/components/WorkspacePanel";
 import DataManagementPanel from "@/components/prep/DataManagementPanel";
 import { createSession, streamChat, getCurrentSystem } from "@/lib/api";
-import { loadLLMConfig, loadSessionId, saveSessionId } from "@/lib/store";
+import { loadLLMConfig, loadSessionId, saveSessionId, loadImageGenConfig } from "@/lib/store";
 import { generateId } from "@/lib/utils";
 import { cn } from "@/lib/utils";
-import type { ChatMessage, SessionState, LLMConfig, DiceResult } from "@/lib/types";
+import type { ChatMessage, SessionState, LLMConfig, DiceResult, ImageGenConfig } from "@/lib/types";
+import ImageConfirmDialog from "@/components/ImageConfirmDialog";
 import {
   Swords,
   BookOpen,
@@ -54,6 +55,7 @@ export default function Home() {
   const [llmConfig, setLlmConfig] = useState<LLMConfig | null>(null);
   const [systemId, setSystemId] = useState<string>("pf2e");
   const [saveStatus, setSaveStatus] = useState("");
+  const [imageConfirm, setImageConfirm] = useState<{ prompt: string; config: ImageGenConfig; sessionId: string } | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -137,9 +139,10 @@ export default function Home() {
       setThinkingStep("分析意图...");
 
       const seenInteractiveIds = new Set<string>();
+      const imageGenCfg = loadImageGenConfig();
 
       try {
-        for await (const chunk of streamChat(s.session_id, text, cfg)) {
+        for await (const chunk of streamChat(s.session_id, text, cfg, imageGenCfg.api_key ? imageGenCfg : undefined)) {
           if (chunk.type === "thinking") {
             setThinkingStep(chunk.thinking_step || null);
             continue;
@@ -169,17 +172,32 @@ export default function Home() {
                 return copy;
               });
             }
+          } else if (chunk.type === "image" && chunk.image_url) {
+            setMessages((prev) =>
+              prev.map((m) =>
+                m.id === assistantId
+                  ? { ...m, images: [...(m.images || []), chunk.image_url!] }
+                  : m,
+              ),
+            );
           } else if (chunk.type === "interactive" && chunk.interactive) {
             const ie = chunk.interactive;
             if (!seenInteractiveIds.has(ie.id)) {
               seenInteractiveIds.add(ie.id);
-              setMessages((prev) =>
-                prev.map((m) =>
-                  m.id === assistantId
-                    ? { ...m, interactive: [...(m.interactive || []), ie] }
-                    : m,
-                ),
-              );
+              if (ie.element_type === "image_confirm") {
+                // Trigger confirmation dialog instead of an inline widget
+                const capturedSessionId = s.session_id;
+                const capturedCfg = imageGenCfg;
+                setImageConfirm({ prompt: ie.prompt, config: capturedCfg, sessionId: capturedSessionId });
+              } else {
+                setMessages((prev) =>
+                  prev.map((m) =>
+                    m.id === assistantId
+                      ? { ...m, interactive: [...(m.interactive || []), ie] }
+                      : m,
+                  ),
+                );
+              }
             }
           } else if (chunk.type === "state_update" && chunk.state) {
             setSession(chunk.state);
@@ -281,7 +299,64 @@ export default function Home() {
     { key: "data", label: "数据", icon: Database },
   ];
 
+  async function handleImageConfirm() {
+    if (!imageConfirm) return;
+    const { prompt, config, sessionId } = imageConfirm;
+    setImageConfirm(null);
+
+    const BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+    try {
+      const res = await fetch(`${BASE}/api/chat/generate-image`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          session_id: sessionId,
+          prompt,
+          image_gen_config: config,
+        }),
+      });
+      const reader = res.body?.getReader();
+      if (!reader) return;
+      const decoder = new TextDecoder();
+      let buf = "";
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buf += decoder.decode(value, { stream: true });
+        const lines = buf.split("\n");
+        buf = lines.pop() ?? "";
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (trimmed.startsWith("data:")) {
+            try {
+              const chunk = JSON.parse(trimmed.slice(5).trim());
+              if (chunk.type === "image" && chunk.image_url) {
+                setMessages((prev) => {
+                  const lastNarrator = [...prev].reverse().find((m) => m.role === "narrator");
+                  if (!lastNarrator) return prev;
+                  return prev.map((m) =>
+                    m.id === lastNarrator.id
+                      ? { ...m, images: [...(m.images || []), chunk.image_url] }
+                      : m,
+                  );
+                });
+              }
+            } catch {}
+          }
+        }
+      }
+    } catch {}
+  }
+
   return (
+    <>
+    {imageConfirm && (
+      <ImageConfirmDialog
+        prompt={imageConfirm.prompt}
+        onConfirm={handleImageConfirm}
+        onCancel={() => setImageConfirm(null)}
+      />
+    )}
     <div className="flex h-screen overflow-hidden">
       <Sidebar
         session={session}
@@ -516,5 +591,6 @@ export default function Home() {
       </main>
 
     </div>
+    </>
   );
 }

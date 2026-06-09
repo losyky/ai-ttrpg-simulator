@@ -18,7 +18,7 @@ from app.services.skill_manager import (
 
 
 @tool
-def skill_list() -> str:
+def skill_list(hint: str = "") -> str:
     """List all available skills.
 
     Returns a list of skills with their IDs and descriptions.

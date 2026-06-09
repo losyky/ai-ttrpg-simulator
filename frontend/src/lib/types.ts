@@ -76,8 +76,16 @@ export interface ChoiceOption {
   icon?: string;
 }
 
+export interface ImageGenConfig {
+  api_key: string;
+  model: string;
+  base_url: string;
+  style_prefix: string;
+  turns_per_image: number;
+}
+
 export interface InteractiveElement {
-  element_type: "choices" | "dice_request" | "input_prompt" | "duality_dice_request" | "token_update";
+  element_type: "choices" | "dice_request" | "input_prompt" | "duality_dice_request" | "token_update" | "image_confirm";
   id: string;
   prompt: string;
   // choices
@@ -108,12 +116,13 @@ export interface InteractiveElement {
 }
 
 export interface ChatResponseChunk {
-  type: "text" | "dice" | "interactive" | "state_update" | "error" | "done" | "thinking";
+  type: "text" | "dice" | "interactive" | "state_update" | "error" | "done" | "thinking" | "image";
   content: string;
   dice: DiceResult | null;
   state: SessionState | null;
   interactive: InteractiveElement | null;
   thinking_step?: string;
+  image_url?: string;
 }
 
 export interface ChatMessage {
@@ -122,6 +131,7 @@ export interface ChatMessage {
   content: string;
   dice?: DiceResult;
   interactive?: InteractiveElement[];
+  images?: string[];
   timestamp: number;
 }
 
