@@ -264,14 +264,25 @@ def _flip_reasoning_in_messages(
 #   3) Raw JSON:      {"name": "tool_name", "arguments": {...}}
 # ====================================================================
 
-# Match the DSML invoke+parameter block. The ｜ is U+FF5C (full-width).
-_DSML_INVOKE_RE = re.compile(
+# Match the entire DSML invoke block (from <invoke> to </invoke>).
+# The ｜ is U+FF5C (full-width).
+_DSML_FULL_INVOKE_RE = re.compile(
     r'<[｜\|]+DSML[｜\|]+invoke\s+name\s*=\s*"([^"]+)"[^>]*>'
-    r'\s*<[｜\|]+DSML[｜\|]+parameter\s+name\s*=\s*"([^"]+)"[^>]*>'
     r'(.*?)'
-    r'</?[｜\|]+DSML[｜\|]+parameter>',
+    r'</[｜\|]+DSML[｜\|]+invoke[^>]*>',
     re.DOTALL,
 )
+
+# Match a single parameter tag within an invoke block.
+_DSML_PARAM_RE = re.compile(
+    r'<[｜\|]+DSML[｜\|]+parameter\s+name\s*=\s*"([^"]+)"[^>]*>'
+    r'(.*?)'
+    r'</[｜\|]+DSML[｜\|]+parameter[^>]*>',
+    re.DOTALL,
+)
+
+# Kept for backward compat but no longer used in the main parser.
+_DSML_INVOKE_RE = _DSML_FULL_INVOKE_RE
 
 _DSML_BLOCK_RE = re.compile(
     r'<\|tool▁calls▁begin\|>(.*?)<\|tool▁calls▁end\|>',
@@ -326,15 +337,25 @@ def parse_tool_calls_from_content(
             return calls
 
     # Strategy 2: DeepSeek DSML (｜｜DSML｜｜ invoke/parameter tags)
-    for m in _DSML_INVOKE_RE.finditer(content):
+    # Each <invoke> block may contain multiple <parameter> tags; collect all
+    # of them into a single args dict so the tool receives complete arguments.
+    for m in _DSML_FULL_INVOKE_RE.finditer(content):
         fn_name = m.group(1)
-        param_name = m.group(2)
-        param_value = m.group(3).strip()
-        try:
-            parsed = json.loads(param_value)
-            args = {param_name: parsed} if not isinstance(parsed, dict) or param_name != "arguments" else parsed
-        except json.JSONDecodeError:
-            args = {param_name: param_value}
+        invoke_body = m.group(2)
+        args: dict[str, Any] = {}
+        for pm in _DSML_PARAM_RE.finditer(invoke_body):
+            param_name = pm.group(1)
+            param_value = pm.group(2).strip()
+            try:
+                parsed = json.loads(param_value)
+                # If the single param is named "arguments" and is already a
+                # dict, treat it as the entire args payload.
+                if param_name == "arguments" and isinstance(parsed, dict):
+                    args = parsed
+                    break
+                args[param_name] = parsed
+            except json.JSONDecodeError:
+                args[param_name] = param_value
         calls.append({
             "name": fn_name,
             "args": args,
@@ -384,9 +405,14 @@ def extract_text_without_tool_calls(content: str) -> str:
     if not content:
         return ""
     text = content
-    # Remove DSML v2 blocks
+    # Remove DSML v2 blocks (｜tool▁calls▁begin｜ ... ｜tool▁calls▁end｜)
     text = _DSML_BLOCK_RE.sub("", text)
-    # Remove DSML v1 blocks
+    # Remove DSML v3 outer container (<｜｜DSML｜｜tool_calls>...</｜｜DSML｜｜tool_calls>)
+    text = re.sub(
+        r'<[｜\|]+DSML[｜\|]+tool_calls[^>]*>.*?</[｜\|]+DSML[｜\|]+tool_calls[^>]*>',
+        "", text, flags=re.DOTALL
+    )
+    # Remove stray DSML v1 blocks (legacy pattern without explicit close tag)
     text = re.sub(
         r'<[｜\|]+(?:DSML|tool)[｜\|]+>?\s*tool_calls.*?</[｜\|]+(?:DSML|tool)[｜\|]+>?\s*tool_calls>?',
         "", text, flags=re.DOTALL
